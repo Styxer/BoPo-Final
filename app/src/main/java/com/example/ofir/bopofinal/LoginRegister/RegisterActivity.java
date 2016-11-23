@@ -38,7 +38,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
         bBack = (Button) findViewById(R.id.bBack);
+
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
+
 
     }
 
@@ -78,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
                 break;//end Register
+
             case  R.id.bBack: //back
                 RegisterActivity.this.startActivity(intent);
                 break; //end back
