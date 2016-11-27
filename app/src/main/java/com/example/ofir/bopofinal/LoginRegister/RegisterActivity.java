@@ -17,13 +17,17 @@ import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -157,22 +161,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void afterTextChanged(final Editable editable) {
         email = etEmail.getText().toString();
-        new AsyncTask<Void, Void, Boolean>() {
-            protected Boolean doInBackground(Void... params) {
-                if (!isValidEmail(email))
-                    return false;
-                return true;
-            }
+        etEmail.setSingleLine();
+        etEmail.setMaxLines(1);
+        etEmail.setInputType(InputType.TYPE_CLASS_TEXT);
 
-            protected void onPostExecute(Boolean isEmailValid) {
-                //isEmailValid is the variable received from the doInBackground() method
-                if (!isEmailValid) {
-                    LoginActivity.alertDialog(RegisterActivity.this,"test","test");
+        etEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getAction() == KeyEvent.ACTION_DOWN &&
+                                event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    if (!event.isShiftPressed()) {
+                        if (!isValidEmail(email)) {
+                            LoginActivity.alertDialog(RegisterActivity.this,"Invalid email","Retry");
+                        }
+
+                        return true; // consume.
+                    }
                 }
-
-
+                return false; // pass on to other listeners.
             }
-        }.execute();
+        });
     }
 
 
