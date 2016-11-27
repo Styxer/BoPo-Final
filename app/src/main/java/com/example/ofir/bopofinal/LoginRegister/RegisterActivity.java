@@ -3,18 +3,22 @@ package com.example.ofir.bopofinal.LoginRegister;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 //import android.icu.text.DecimalFormat;
+import android.os.AsyncTask;
 import android.os.Build;
 
 
 //import android.icu.util.Calendar;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private String email;
 
+    private static LoginActivity m_instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
 
         etEmail.addTextChangedListener(this);
+
+        m_instance = LoginActivity.getInstance();
 
 
     }
@@ -94,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         Toast.LENGTH_LONG).show();
                                 RegisterActivity.this.startActivity(intent);
                             } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                Builder builder = new Builder(RegisterActivity.this);
                                 builder.setMessage("Register Failed")
                                         .setNegativeButton("Retry", null)
                                         .create()
@@ -147,15 +155,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
+    public void afterTextChanged(final Editable editable) {
         email = etEmail.getText().toString();
-       if( !isValidEmail(email)) {
-           LoginActivity.alertDialog(getApplicationContext(),"test","test");
+        new AsyncTask<Void, Void, Boolean>() {
+            protected Boolean doInBackground(Void... params) {
+                if (!isValidEmail(email))
+                    return false;
+                return true;
+            }
 
-       }
+            protected void onPostExecute(Boolean isEmailValid) {
+                //isEmailValid is the variable received from the doInBackground() method
+                if (!isEmailValid) {
+                    LoginActivity.alertDialog(RegisterActivity.this,"test","test");
+                }
+
+
+            }
+        }.execute();
     }
 
 
 
 
-}
+ }
+
+
+
