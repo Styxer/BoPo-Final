@@ -9,10 +9,15 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static  TextView tvWelcomeMsg;
+    private static EditText etUsername;
+    private static   EditText etAge;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         Intent intent = getIntent();
@@ -20,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         String username = intent.getStringExtra("username");
         int age = intent.getIntExtra("age", -1);
 
-        TextView tvWelcomeMsg = (TextView) findViewById(R.id.tvWelcomeMsg);
-        EditText etUsername = (EditText) findViewById(R.id.etUserName);
-        EditText etAge = (EditText) findViewById(R.id.etAge);
+         tvWelcomeMsg = (TextView) findViewById(R.id.tvWelcomeMsg);
+        etUsername = (EditText) findViewById(R.id.etUserName);
+         etAge = (EditText) findViewById(R.id.etAge);
 
         // Display user details
         String message = name + " welcome to your user area";
