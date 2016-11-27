@@ -4,7 +4,6 @@ package com.example.ofir.bopofinal;
  * Created by Alonka on 26-Nov-16.
  */
 
-
 public class LoggedInUserService
 {
     static boolean flag = false;
