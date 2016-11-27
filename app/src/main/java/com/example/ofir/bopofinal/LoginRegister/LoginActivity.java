@@ -1,12 +1,15 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,12 +20,17 @@ import com.example.ofir.bopofinal.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static EditText etUsername;
     private static EditText etPassword;
     private static Button bRegister;
     private static Button bLogin;
+
+    static private LoginActivity instance = null;
+
 
 
     @Override
@@ -36,6 +44,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bLogin = (Button) findViewById(R.id.bLogin);
     }
 
+
+    public static   void alertDialog(Context context, CharSequence message, CharSequence type){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setNegativeButton(type, null)
+                .create()
+                .show();
+    }
+
+
+    public static LoginActivity getInstance() {
+        if (instance == null)
+            instance = new LoginActivity();
+        return instance;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -43,7 +67,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 final String username = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
 
-                // Response received from the server
+                //test for empty field
+                if (username.matches("") && password.matches("")){
+                    alertDialog(LoginActivity.this,"Please fill al the filed,","Retry");
+                }
+                else if (username.matches("") || password.matches("")) {
+                    EditText[] FirstList = {etUsername, etPassword};
+                    for (EditText edit : FirstList) {
+                        if (TextUtils.isEmpty(edit.getText())) {
+                            alertDialog(LoginActivity.this,"Please enter a " + edit.getHint().toString(),"Retry");
+                        }
+                    }
+                }
+
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -61,12 +97,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 intent.putExtra("username", username);
                                 LoginActivity.this.startActivity(intent);
 
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Login Failed")
-                                        .setNegativeButton("Retry", null)
-                                        .create()
-                                        .show();
+                            } else if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(username)){
+                                alertDialog(LoginActivity.this,"Login failed", "Retry");
                             }
 
                         } catch (JSONException e) {
@@ -86,6 +118,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
               break;//end Register
         }
     }
+
+
 }
 
 

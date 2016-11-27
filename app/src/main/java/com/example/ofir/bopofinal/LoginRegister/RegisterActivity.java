@@ -1,14 +1,29 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+//import android.icu.text.DecimalFormat;
+import android.os.Build;
+
+
+//import android.icu.util.Calendar;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import  java.util.Calendar;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
@@ -17,7 +32,7 @@ import com.example.ofir.bopofinal.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener,android.text.TextWatcher {
 
     private static EditText etAge;
     private static EditText etName;
@@ -25,7 +40,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private static EditText etPassword;
     private static Button bRegister;
     private static Button bBack;
+    private static EditText etEmail;
+
     private static  Intent intent;
+    private static DatePickerDialog datePickerDialog;
+    Calendar calendar = Calendar.getInstance();
+
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +59,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
         bBack = (Button) findViewById(R.id.bBack);
+        etEmail = (EditText) findViewById(R.id.etEmail);
 
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
 
+        etEmail.addTextChangedListener(this);
 
+
+    }
+
+    public  boolean isValidEmail(CharSequence email) {
+      return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     @Override
@@ -50,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.bRegister: //Register
                 final String name = etName.getText().toString();
                 final String username = etUsername.getText().toString();
+
+
                 final int age = Integer.parseInt(etAge.getText().toString());
                 final String password = etPassword.getText().toString();
 
@@ -84,6 +114,48 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case  R.id.bBack: //back
                 RegisterActivity.this.startActivity(intent);
                 break; //end back
+
+            case R.id.etAge://select age
+                datePickerDialog = new DatePickerDialog(this, onDateSetListener, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+
+                break; //age
         }
     }
+    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+
+            DecimalFormat df = new DecimalFormat("00");
+            String show = String.valueOf(df.format(dayOfMonth) + "/" + String.valueOf(df.format(monthOfYear + 1)
+                    + "/" + String.valueOf(df.format(year))));
+            etAge.setText(show);
+
+
+        }
+    };
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        email = etEmail.getText().toString();
+       if( !isValidEmail(email)) {
+           LoginActivity.alertDialog(getApplicationContext(),"test","test");
+
+       }
+    }
+
+
+
+
 }
