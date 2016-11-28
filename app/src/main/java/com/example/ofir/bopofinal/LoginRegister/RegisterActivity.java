@@ -1,25 +1,17 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 //import android.icu.text.DecimalFormat;
-import android.os.AsyncTask;
-import android.os.Build;
 
 
 //import android.icu.util.Calendar;
-import android.provider.ContactsContract;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import  java.util.Calendar;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -42,19 +35,21 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener,android.text.TextWatcher {
 
-    private static EditText etAge;
+    private static EditText etDateOfBirth;
     private static EditText etName;
-    private static EditText etUsername;
+    private static EditText etAddress;
     private static EditText etPassword;
     private static Button bRegister;
     private static Button bBack;
     private static EditText etEmail;
+    private static EditText etPhoneNumber;
 
     private static  Intent intent;
     private static DatePickerDialog datePickerDialog;
     Calendar calendar = Calendar.getInstance();
 
     private String email;
+    private  String cuurentDate;
 
     private static LoginActivity m_instance;
 
@@ -63,20 +58,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        etAge = (EditText) findViewById(R.id.etAge);
+        etDateOfBirth = (EditText) findViewById(R.id.etDateOfBirth);
         etName = (EditText) findViewById(R.id.etName);
-        etUsername = (EditText) findViewById(R.id.etUserName);
+        etAddress = (EditText) findViewById(R.id.etAdress);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
         bBack = (Button) findViewById(R.id.bBack);
         etEmail = (EditText) findViewById(R.id.etEmail);
+        etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
 
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
 
         etEmail.addTextChangedListener(this);
 
         m_instance = LoginActivity.getInstance();
-
 
     }
 
@@ -89,10 +84,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.bRegister: //Register
                 final String name = etName.getText().toString();
-                final String username = etUsername.getText().toString();
-
-
-                final int age = Integer.parseInt(etAge.getText().toString());
+                final String email = etEmail.getText().toString();
+                final String dateOfBirth = etDateOfBirth.getText().toString();
+                final String address = etAddress.getText().toString();
+                final String phoneNumber = etPhoneNumber.getText().toString();
                 final String password = etPassword.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -118,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 };
 
-                RegisterRequest registerRequest = new RegisterRequest(name, username, age, password, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(name,email, dateOfBirth, address,phoneNumber, password ,responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
                 break;//end Register
@@ -127,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 RegisterActivity.this.startActivity(intent);
                 break; //end back
 
-            case R.id.etAge://select age
+            case R.id.etDateOfBirth://select age
                 datePickerDialog = new DatePickerDialog(this, onDateSetListener, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -142,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             DecimalFormat df = new DecimalFormat("00");
             String show = String.valueOf(df.format(dayOfMonth) + "/" + String.valueOf(df.format(monthOfYear + 1)
                     + "/" + String.valueOf(df.format(year))));
-            etAge.setText(show);
+            etDateOfBirth.setText(show);
 
 
         }
