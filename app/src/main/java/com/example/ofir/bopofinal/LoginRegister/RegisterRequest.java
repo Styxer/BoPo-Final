@@ -15,15 +15,16 @@ public class RegisterRequest extends StringRequest {
     private static final String REGISTER_REQUEST_URL = "http://cellularguide.info/cellularguide.info/offir/Register.php";
     private Map<String, String> params;
 
-    public RegisterRequest(String name,String email ,String dateOfBirth,String address,String phonenumber , String password, Response.Listener<String> listener) {
+    public RegisterRequest(String role,String name,String email ,String dateOfBirth,String password,String phonenumber , String address, Response.Listener<String> listener) {
         super(Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
+        params.put("role", role);
         params.put("name", name);
         params.put("email", email);
-        params.put("dateOfBirth", dateOfBirth);
-        params.put("address", address);
-        params.put("password", password);
-        params.put("phonenumber", phonenumber);
+        params.put("birthday", dateOfBirth);
+        params.put("password", address);
+        params.put("phone_number", password);
+        params.put("address", phonenumber);
     }
 
     @Override

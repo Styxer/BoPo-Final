@@ -89,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 final String address = etAddress.getText().toString();
                 final String phoneNumber = etPhoneNumber.getText().toString();
                 final String password = etPassword.getText().toString();
+                final String role = "regular";
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -113,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 };
 
-                RegisterRequest registerRequest = new RegisterRequest(name,email, dateOfBirth, address,phoneNumber, password ,responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(role, name,email, dateOfBirth, password, phoneNumber, address ,responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
                 break;//end Register
