@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_app_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.ofir.bopofinal.MainAppScreenActivity">
+
+    <TextView
+        android:text="My events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMyEvents"
+        android:layout_below="@+id/ibMyEvents"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="  Add event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAddEvent"
+        android:layout_marginStart="16dp"
+        android:layout_below="@+id/ibAddEvent"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text=" Search "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ibSearch"
+        android:layout_alignEnd="@+id/ibSearch"
+        android:id="@+id/tvSearch" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_profile"
+        android:layout_marginEnd="24dp"
+        android:id="@+id/ibProfile"
+        android:background="#00000000"
+        android:layout_alignTop="@+id/ibSearch"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:text=" Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvSearch"
+        android:layout_alignStart="@+id/ibProfile"
+        android:id="@+id/tvProfile" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_search"
+        android:id="@+id/ibSearch"
+        android:background="#00000000"
+        android:layout_above="@+id/tvAddEvent"
+        android:layout_alignStart="@+id/ibMyEvents"
+        android:onClick="onClick"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_add_event"
+        android:layout_marginTop="56dp"
+        android:id="@+id/ibAddEvent"
+        android:layout_marginStart="15dp"
+        android:background="#00000000"
+        android:layout_below="@+id/tvMyEvents"
+        android:layout_alignStart="@+id/tvAddEvent"
+        android:onClick="onClick"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_settings"
+        android:layout_marginTop="54dp"
+        android:id="@+id/ibSettings"
+        android:background="#00000000"
+        android:layout_below="@+id/tvAddEvent"
+        android:layout_alignStart="@+id/ibAddEvent"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ibSettings"
+        android:layout_alignStart="@+id/ibSettings"
+        android:id="@+id/tvSettings" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_suggest_category"
+        android:id="@+id/ibSuggestCategory"
+        android:background="#00000000"
+        android:layout_above="@+id/tvSettings"
+        android:layout_alignEnd="@+id/tvSearch"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:text="Suggest category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSuggestCategory"
+        android:layout_below="@+id/ibSuggestCategory"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_logout"
+        android:layout_alignTop="@+id/ibSuggestCategory"
+        android:layout_alignEnd="@+id/ibProfile"
+        android:id="@+id/ibLogout"
+        android:background="#00000000"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:text=" Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvLogout"
+        android:layout_below="@+id/ibLogout"
+        android:layout_alignStart="@+id/ibLogout" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_myevents"
+        android:layout_marginTop="51dp"
+        android:id="@+id/ibMyEvents"
+        android:background="#00000000"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"/>
+
+</RelativeLayout>
