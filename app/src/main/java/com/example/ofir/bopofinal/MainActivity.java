@@ -2,9 +2,10 @@ package com.example.ofir.bopofinal;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,20 +20,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        LoggedInUserService loggedInUserService = LoggedInUserService.getInstance();
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String username = intent.getStringExtra("username");
-        int age = intent.getIntExtra("age", -1);
+        String name = loggedInUserService.getM_name();
+        String email = loggedInUserService.getM_email();
+        String birthday = loggedInUserService.getM_birthday();
 
          tvWelcomeMsg = (TextView) findViewById(R.id.tvWelcomeMsg);
-        etUsername = (EditText) findViewById(R.id.etAdress);
+        etUsername = (EditText) findViewById(R.id.fdetEmail);
          etAge = (EditText) findViewById(R.id.etDateOfBirth);
 
         // Display user details
         String message = name + " welcome to your user area";
         tvWelcomeMsg.setText(message);
-        etUsername.setText(username);
-        etAge.setText(age + "");
+        etUsername.setText(email);
+        etAge.setText(birthday + "");
     }
 }
