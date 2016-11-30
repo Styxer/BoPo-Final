@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
         bLogin = (Button) findViewById(R.id.bLogin);
+
+        getSupportActionBar().setTitle("Login");
     }
 
 

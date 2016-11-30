@@ -73,6 +73,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         m_instance = LoginActivity.getInstance();
 
+        getSupportActionBar().setTitle("Register");
+
     }
 
     public  boolean isValidEmail(CharSequence email) {
@@ -170,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if (!event.isShiftPressed()) {
                         if (!isValidEmail(email)) {
-                            LoginActivity.alertDialog(RegisterActivity.this,"Invalid email","Retry");
+                            userValidation.alertDialog(RegisterActivity.this,"Invalid email","Retry");
                         }
 
                         return true; // consume.
