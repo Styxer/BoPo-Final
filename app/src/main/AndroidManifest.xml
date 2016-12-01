@@ -20,6 +20,8 @@
         <activity android:name=".LoginRegister.RegisterActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateNewActivity"></activity>
+        <activity android:name=".Categories.SuggestCategoryActivity" />
+        <activity android:name=".MainAppScreenActivity" />
     </application>
 
 </manifest>
