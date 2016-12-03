@@ -25,8 +25,8 @@ import org.json.JSONObject;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static ImageButton btnMyEvents;
-    private static ImageButton btnSuggestCategoty;
+    private static ImageButton ibMyEvents;
+    private static ImageButton ibSuggestCategoty;
     private static Intent intent;
 
     @Override
@@ -34,12 +34,12 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app_screen);
 
-          btnMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
+          ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
       //  btnAddEvent = (EditText) findViewById(R.id.etName);
       //  btnSearch = (EditText) findViewById(R.id.etUserName);
      //   btnProfile = (EditText) findViewById(R.id.etPassword);
      //   btnSettings = (Button) findViewById(R.id.bRegister);
-          btnSuggestCategoty = (ImageButton) findViewById(R.id.ibSuggestCategory);
+          ibSuggestCategoty = (ImageButton) findViewById(R.id.ibSuggestCategory);
      //   btnLogout = (Button) findViewById(R.id.bBack);
 
     }
