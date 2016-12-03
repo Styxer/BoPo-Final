@@ -21,22 +21,24 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etUserName"
+        android:id="@+id/etAdress"
         android:layout_below="@+id/etName"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/etName"
-        android:hint="user name" />
+        android:hint="address" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/etAge"
-        android:layout_below="@+id/etUserName"
+        android:id="@+id/etDateOfBirth"
+        android:hint="date of birth"
+        android:focusable="false"
+        android:layout_below="@+id/etEmail"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:hint="age" />
+        android:layout_alignEnd="@+id/etEmail"
+        android:onClick="onClick" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -44,20 +46,20 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/etPassword"
-        android:layout_below="@+id/etAge"
+        android:hint="password"
+        android:layout_below="@+id/etPhoneNumber"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etAge"
-        android:hint="password" />
+        android:layout_alignEnd="@+id/etPhoneNumber" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/bRegister"
+        android:onClick="onClick"
         android:layout_below="@+id/etPassword"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etPassword"
-        android:onClick="onClick" />
+        android:layout_alignEnd="@+id/etPassword" />
 
     <Button
         android:layout_width="wrap_content"
@@ -68,5 +70,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="83dp"
         android:onClick="onClick" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etEmail"
+        android:layout_below="@+id/etAdress"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/etAdress"
+        android:hint="email" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/etPhoneNumber"
+        android:layout_below="@+id/etDateOfBirth"
+        android:layout_alignEnd="@+id/etDateOfBirth"
+        android:layout_alignParentStart="true"
+        android:hint="phone number" />
 
 </RelativeLayout>
