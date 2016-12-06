@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.ofir.bopofinal.MainActivity;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
 import org.json.JSONException;
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setAddress(user_address);
 
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
                                   /*  intent.putExtra("name", name);
                                     intent.putExtra("age", age);
                                     intent.putExtra("username", username);*/

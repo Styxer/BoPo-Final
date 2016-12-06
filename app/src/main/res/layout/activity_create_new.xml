@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ofir.bopofinal.CreateNewActivity"
+    tools:context=".CreateNewEventActivity"
     android:id="@+id/rel">
 
     <EditText
@@ -35,7 +35,9 @@
         android:layout_below="@+id/etDescription"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/etDescription"
-        android:hint="Date" />
+        android:hint="Date"
+        android:focusable="false"
+        android:onClick="onClick" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -44,6 +46,8 @@
         android:layout_below="@+id/etDate"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/etDate"
+        android:focusable="false"
+        android:onClick="onClick"
         android:hint="Time" />
 
     <EditText
@@ -69,20 +73,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/bCncel"
+        android:text="back"
+        android:id="@+id/bBack"
         android:layout_marginBottom="75dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create"
         android:id="@+id/bCreate"
-        android:layout_above="@+id/bCncel"
+        android:layout_above="@+id/bBack"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etMaxParticipants" />
+        android:layout_alignEnd="@+id/etMaxParticipants"
+        android:onClick="onClick" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -93,11 +99,4 @@
         android:layout_alignEnd="@+id/bCreate"
         android:hint="category" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
 </RelativeLayout>
