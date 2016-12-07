@@ -1,33 +1,50 @@
-package com.example.ofir.bopofinal;
+package com.example.ofir.bopofinal.CreateNewEvent;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.example.ofir.bopofinal.LoginRegister.LoginActivity;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
+import com.example.ofir.bopofinal.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
-public class CreateNewEventActivity extends Activity implements View.OnClickListener {
+public class CreateNewEventActivity extends Activity implements View.OnClickListener, Spinner.OnItemSelectedListener {
 
 
-    private static EditText etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants, etCategory;
+    private static EditText etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants;
     private static Button bCreate, bBack;
     private static Intent intent;
     private static DatePickerDialog datePickerDialog;
     private static TimePickerDialog timePickerDialog;
+    private static Spinner categories_selector;
+
+
+    private ArrayList<String> categories;
+
+
     Calendar calendar = Calendar.getInstance();
 
 
@@ -42,13 +59,23 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
         etTime = (EditText) findViewById(R.id.etTime);
         etLocation = (EditText) findViewById(R.id.etLocation);
         etMaxParticipants = (EditText) findViewById(R.id.etMaxParticipants);
-        etCategory = (EditText) findViewById(R.id.etCategorey);
+      //  etCategory = (EditText) findViewById(R.id.etCategorey);
+        categories_selector = (Spinner)  findViewById(R.id.spinner);
 
         bCreate = (Button) findViewById(R.id.bCreate);
         bBack = (Button) findViewById(R.id.bBack);
 
 
+        categories = new ArrayList<>();
+
+        categories_selector.setOnItemSelectedListener(this);
+
+        fetch_categories fetch_categories = new fetch_categories();
+        fetch_categories.getData(CreateNewEventActivity.this,categories,categories_selector);
+
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -99,4 +126,17 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
             etTime.setText(show);
         }
     };
+
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        categories.remove(0);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        categories.add(0,"Choose category");
+
+    }
 }
