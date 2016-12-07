@@ -50,7 +50,6 @@ public class fetch_categories {
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
-
     }
 
     public void getCategories(JSONArray jsonArray,ArrayList<String> categories, Spinner categories_selector,Context context){

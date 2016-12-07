@@ -44,7 +44,6 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
 
     private ArrayList<String> categories;
 
-
     Calendar calendar = Calendar.getInstance();
 
 
