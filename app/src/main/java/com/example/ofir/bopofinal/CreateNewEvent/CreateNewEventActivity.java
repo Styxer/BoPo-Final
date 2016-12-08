@@ -99,8 +99,6 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                 timePickerDialog =  new TimePickerDialog(this, onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE), true);
                 timePickerDialog.show();
-
-
                 break;
 
         }
