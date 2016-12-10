@@ -101,6 +101,11 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                 timePickerDialog.show();
                 break;
 
+            case R.id.etLocation:
+                intent = new Intent(CreateNewEventActivity.this, MapsActivity.class);
+                CreateNewEventActivity.this.startActivity(intent);
+                break;
+
         }
     }
 
