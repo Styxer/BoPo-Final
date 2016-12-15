@@ -104,11 +104,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         Toast.LENGTH_LONG).show();
                                 RegisterActivity.this.startActivity(intent);
                             } else {
-                                Builder builder = new Builder(RegisterActivity.this);
+                                userValidation.alertDialog(RegisterActivity.this,"Register Failed","Retry");
+                             /*   Builder builder = new Builder(RegisterActivity.this);
                                 builder.setMessage("Register Failed")
                                         .setNegativeButton("Retry", null)
                                         .create()
-                                        .show();
+                                        .show();*/
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

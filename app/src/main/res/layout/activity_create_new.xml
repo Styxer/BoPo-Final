@@ -80,17 +80,17 @@
         android:layout_marginBottom="75dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onClick" />
+        android:onClick="onClick"
+        android:visibility="invisible" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create"
         android:id="@+id/bCreate"
-        android:layout_above="@+id/bBack"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etMaxParticipants"
-        android:onClick="onClick" />
+        android:onClick="onClick"
+        android:layout_below="@+id/sApprove"
+        android:layout_alignParentEnd="true" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -98,9 +98,26 @@
         android:id="@+id/spinner"
         android:layout_below="@+id/etMaxParticipants"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/bCreate"
         android:layout_alignEnd="@+id/bCreate"
         android:prompt="@string/spinner_title"
-       />
+        android:layout_above="@+id/sApprove" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Switch"
+        android:id="@+id/sApprove"
+        android:layout_above="@+id/bBack"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="approve new users?"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/sApprove"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
