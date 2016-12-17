@@ -2,22 +2,10 @@ package com.example.ofir.bopofinal.Categories;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-import com.example.ofir.bopofinal.MainActivity;
 import com.example.ofir.bopofinal.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class SuggestCategoryActivity extends AppCompatActivity {
 

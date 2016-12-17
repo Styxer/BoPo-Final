@@ -49,9 +49,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Calendar calendar = Calendar.getInstance();
 
     private String email;
-    private  String cuurentDate;
 
-    private static LoginActivity m_instance;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         etEmail.addTextChangedListener(this);
 
-        m_instance = LoginActivity.getInstance();
+
 
         getSupportActionBar().setTitle("Register");
 
@@ -104,11 +104,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         Toast.LENGTH_LONG).show();
                                 RegisterActivity.this.startActivity(intent);
                             } else {
-                                Builder builder = new Builder(RegisterActivity.this);
+                                userValidation.alertDialog(RegisterActivity.this,"Register Failed","Retry");
+                             /*   Builder builder = new Builder(RegisterActivity.this);
                                 builder.setMessage("Register Failed")
                                         .setNegativeButton("Retry", null)
                                         .create()
-                                        .show();
+                                        .show();*/
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

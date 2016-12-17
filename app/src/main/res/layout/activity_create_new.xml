@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ofir.bopofinal.CreateNewActivity"
+    tools:context=".CreateNewEvent.CreateNewEventActivity"
     android:id="@+id/rel">
 
     <EditText
@@ -35,7 +35,9 @@
         android:layout_below="@+id/etDescription"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/etDescription"
-        android:hint="Date" />
+        android:hint="Select Date"
+        android:focusable="false"
+        android:onClick="onClick" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -44,7 +46,9 @@
         android:layout_below="@+id/etDate"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/etDate"
-        android:hint="Time" />
+        android:focusable="false"
+        android:onClick="onClick"
+        android:hint="Select Time" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -53,7 +57,9 @@
         android:layout_below="@+id/etTime"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/etTime"
-        android:hint="Location" />
+        android:hint="Select Location"
+        android:onClick="onClick"
+        android:focusable="false"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -69,35 +75,49 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/bCncel"
+        android:text="back"
+        android:id="@+id/bBack"
         android:layout_marginBottom="75dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:visibility="invisible" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create"
         android:id="@+id/bCreate"
-        android:layout_above="@+id/bCncel"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etMaxParticipants" />
+        android:onClick="onClick"
+        android:layout_below="@+id/sApprove"
+        android:layout_alignParentEnd="true" />
 
-    <EditText
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etCategorey"
-        android:layout_above="@+id/bCreate"
+        android:id="@+id/spinner"
+        android:layout_below="@+id/etMaxParticipants"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/bCreate"
-        android:hint="category" />
+        android:prompt="@string/spinner_title"
+        android:layout_above="@+id/sApprove" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableLayout>
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Switch"
+        android:id="@+id/sApprove"
+        android:layout_above="@+id/bBack"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="approve new users?"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/sApprove"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
