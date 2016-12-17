@@ -18,7 +18,7 @@ public class CreateNewEventRequest extends StringRequest {
 
     public CreateNewEventRequest(String title, String description, String date, String time, String location,
                                  String maxParticipants, String category, String check,
-                                 int moderator_id, Response.Listener<String> listener) {
+                                 String moderator_id, Response.Listener<String> listener) {
         super(Method.POST,CREATE_NEW_EVENT__URL, listener, null);
         params = new HashMap<>();
         params.put("event_name", title);
@@ -29,7 +29,7 @@ public class CreateNewEventRequest extends StringRequest {
         params.put("ack_needed", check);
         params.put("event_location", location);
         params.put("category_name", category);
-        params.put("moderator_id",moderator_id+"");
+        params.put("moderator_id",moderator_id);
     }
 
 

@@ -131,7 +131,7 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
 
                 progressDialog.setMessage("Creating new event...");
                 progressDialog.setTitle("");
-                progressDialog.show();
+
 
                 final String title = etTitle.getText().toString().trim();
                 final String description  = etDescription.getText().toString().trim();
@@ -141,12 +141,14 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                 final String maxParticipants = etMaxParticipants.getText().toString().trim();
                 final String category = categories_selector.getSelectedItem().toString();
                 final String ack = check;
+                final String id = Integer.toString(loggedInUserService.getM_id());
 
 
 
                 if(category.equals("Choose category")){
                     userValidation.alertDialog(CreateNewEventActivity.this,"Please choose a category", "Retry");
                 }else{
+           //         progressDialog.show();
                     EditText[] FirstList = {etTitle, etDescription,etDate,etTime,etLocation,etMaxParticipants};
                     boolean bool =  userValidation.emptyFields(FirstList,"please fill in this field");
                     if (bool){
@@ -176,7 +178,7 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
 
                         };
                         CreateNewEventRequest createNewEventRequest = new CreateNewEventRequest(title, description, date, time, location, maxParticipants,
-                                                      category, ack, loggedInUserService.getM_id(),responseListener);
+                                                      category, ack, id,responseListener);
                         RequestQueue queue = Volley.newRequestQueue(CreateNewEventActivity.this);
                         queue.add(createNewEventRequest);
                     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ofir.bopofinal">
+    package="com.example.ofir.bopofinal" >
 
     <!-- google maps permission -->
     <!-- Required -->
@@ -22,15 +22,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight">
-        <activity android:name=".CreateNewEvent.CreateNewEventActivity">
+        android:theme="@style/Theme.AppCompat.DayNight" >
+        <activity android:name=".LoginRegister.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,30 +36,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginRegister.RegisterActivity" />
-        <activity android:name=".LoginRegister.LoginActivity" />
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
         <activity android:name=".Categories.SuggestCategoryActivity" />
         <activity android:name=".MainAppScreenActivity" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
+
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB9ODXT0eV0_IWtUuNvwXrFmNe_TImTJlc" />
-        <meta-data android:name="com.google.android.gms.vision"
-            android:value="@integer/google_play_services_version"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyALwGUjkHA1HE4NJJi3cjZQjbxVoX7TUe8" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".CreateNewEvent.MapsActivity"
-            android:label="@string/title_activity_maps">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity" />
-        </activity>
+            android:parentActivityName=".CreateNewEvent.CreateNewEventActivity" />
     </application>
 
 </manifest>
