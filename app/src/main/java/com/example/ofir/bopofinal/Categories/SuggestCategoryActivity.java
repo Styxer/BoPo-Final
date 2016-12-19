@@ -7,12 +7,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
@@ -36,6 +36,7 @@ public class SuggestCategoryActivity extends AppCompatActivity implements View.O
         btnBack = (Button) findViewById(R.id.btnBack);
 
         intent = new Intent(SuggestCategoryActivity.this, MainAppScreenActivity.class);
+        getSupportActionBar().setTitle("Suggest new category");
     }
 
     @Override
@@ -43,6 +44,8 @@ public class SuggestCategoryActivity extends AppCompatActivity implements View.O
         switch (view.getId()) {
             case R.id.btnSend:
                 final String category_name = etCategoryName.getText().toString();
+                final int user_id = LoggedInUserService.getInstance().getM_id();
+              //  System.out.print()
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -67,7 +70,7 @@ public class SuggestCategoryActivity extends AppCompatActivity implements View.O
                     }
                 };
 
-                SuggestCategoryRequest suggestCategoryRequest = new SuggestCategoryRequest(category_name, responseListener);
+                SuggestCategoryRequest suggestCategoryRequest = new SuggestCategoryRequest(category_name, user_id, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(SuggestCategoryActivity.this);
                 queue.add(suggestCategoryRequest);
                 break;

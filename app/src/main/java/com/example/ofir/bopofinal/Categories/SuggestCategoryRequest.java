@@ -12,10 +12,12 @@ public class SuggestCategoryRequest extends StringRequest{
     private static final String SUGGEST_CATEGORY_REQUEST_URL = "http://cellularguide.info/cellularguide.info/offir/SuggestCategory.php";
     private Map<String, String> params;
 
-    public SuggestCategoryRequest(String category_name, Response.Listener<String> listener) {
+    public SuggestCategoryRequest(String category_name, int user_id, Response.Listener<String> listener) {
         super(Method.POST, SUGGEST_CATEGORY_REQUEST_URL, listener, null);
         params = new HashMap<>();
+
         params.put("category_name", category_name);
+        params.put ("user_id", user_id +"");
 
     }
 

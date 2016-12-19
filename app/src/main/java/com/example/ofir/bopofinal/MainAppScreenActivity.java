@@ -1,27 +1,14 @@
 package com.example.ofir.bopofinal;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.Categories.SuggestCategoryActivity;
-import com.example.ofir.bopofinal.LoginRegister.LoginActivity;
-import com.example.ofir.bopofinal.LoginRegister.RegisterActivity;
-import com.example.ofir.bopofinal.LoginRegister.RegisterRequest;
-import com.example.ofir.bopofinal.MainActivity;
-import com.example.ofir.bopofinal.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
+import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,13 +29,14 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
           ibSuggestCategoty = (ImageButton) findViewById(R.id.ibSuggestCategory);
      //   btnLogout = (Button) findViewById(R.id.bBack);
 
+        getSupportActionBar().setTitle("Welcome "+ LoggedInUserService.getInstance().getM_name());
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ibMyEvents:
-                intent = new Intent(MainAppScreenActivity.this, LoginActivity.class);
+                intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
                 MainAppScreenActivity.this.startActivity(intent);
                 break;
             case R.id.ibSuggestCategory:
