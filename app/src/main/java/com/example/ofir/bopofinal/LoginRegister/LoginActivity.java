@@ -1,9 +1,9 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +19,13 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static EditText etUsername;
+    private static EditText etEmail;
     private static EditText etPassword;
     private static Button bRegister;
     private static Button bLogin;
+
+    static private LoginActivity instance = null;
+
 
 
     @Override
@@ -30,54 +33,83 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = (EditText) findViewById(R.id.etUserName);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
         bLogin = (Button) findViewById(R.id.bLogin);
+
+        getSupportActionBar().setTitle("Login");
+    }
+
+
+
+
+
+    public static LoginActivity getInstance() {
+        if (instance == null)
+            instance = new LoginActivity();
+        return instance;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bLogin: //login
-                final String username = etUsername.getText().toString();
+                final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
-                // Response received from the server
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                EditText[] FirstList = {etEmail, etPassword};
+               boolean bool =  userValidation.emptyFields(FirstList,"please fill in this field");
+                if (bool){
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
 
-                            if (success) {
-                                String name = jsonResponse.getString("name");
-                                int age = jsonResponse.getInt("age");
+                                if (success) {
+                                    //get
+                                    int user_id = jsonResponse.getInt("user_id");
+                                    String user_role = jsonResponse.getString("role");
+                                    String user_name = jsonResponse.getString("name");
+                                    String user_email = jsonResponse.getString("email");
+                                    String user_birthday = jsonResponse.getString("birthday");
+                                   // int user_rating = jsonResponse.getInt("rating");
+                                    String user_phone_number = jsonResponse.getString("phone_number");
+                                    String user_address = jsonResponse.getString("address");
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("name", name);
-                                intent.putExtra("age", age);
-                                intent.putExtra("username", username);
-                                LoginActivity.this.startActivity(intent);
+                                    //set
+                                    LoggedInUserService loggedInUserService = LoggedInUserService.getInstance();
+                                    loggedInUserService.setM_id(user_id);
+                                    loggedInUserService.setM_role(user_role);
+                                    loggedInUserService.setM_name(user_name);
+                                    loggedInUserService.setM_email(user_email);
+                                    loggedInUserService.setM_birthday(user_birthday);
+                                    loggedInUserService.setM_phone_number(user_phone_number);
+                                    loggedInUserService.setAddress(user_address);
 
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Login Failed")
-                                        .setNegativeButton("Retry", null)
-                                        .create()
-                                        .show();
+
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                  /*  intent.putExtra("name", name);
+                                    intent.putExtra("age", age);
+                                    intent.putExtra("username", username);*/
+                                    LoginActivity.this.startActivity(intent);
+
+                                } else if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email)){
+                                    userValidation.alertDialog(LoginActivity.this,"Login failed", "Retry");
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                };
+                    };
 
-                LoginRequest loginRequest = new LoginRequest(username, password, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+                    LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                    queue.add(loginRequest);
+                }
                 break;//end login
 
             case R.id.bRegister://Register
@@ -86,6 +118,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
               break;//end Register
         }
     }
+
+
 }
 
 
