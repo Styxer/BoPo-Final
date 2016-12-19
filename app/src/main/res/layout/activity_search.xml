@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.ofir.bopofinal.Search.SearchActivity">
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="85dp"
+        android:id="@+id/rgNumberTwo"
+        android:layout_below="@+id/etSearch"
+        android:layout_toEndOf="@+id/btnSearch">
+
+        <RadioButton
+            android:text="category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rbByLocation"
+            android:layout_alignEnd="@+id/rbByLocation"
+            android:id="@+id/rbByCategory" />
+
+        <RadioButton
+            android:text="location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rbByDate"
+            android:layout_alignEnd="@+id/rbByDate"
+            android:id="@+id/rbByLocation"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/rbByDate"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rbByCategory"
+            android:layout_alignStart="@+id/rbByCategory"
+            android:id="@+id/rbByName"
+            android:layout_weight="1" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rgNumberOne"
+        android:layout_marginEnd="15dp"
+        android:layout_alignTop="@+id/rgNumberTwo"
+        android:layout_toStartOf="@+id/btnSearch">
+
+        <RadioButton
+            android:text="people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbPeople"
+            android:layout_alignTop="@+id/radioGroup10"
+            android:layout_toEndOf="@+id/tvSearchBy"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbEvents"
+            android:layout_alignTop="@+id/radioGroup10"
+            android:layout_toStartOf="@+id/radioGroup11"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1" />
+
+    </RadioGroup>
+
+    <Button
+        android:text="search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSearch"
+        android:layout_below="@+id/rgNumberTwo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp" />
+
+    <TextView
+        android:text="search by:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchBy"
+        android:layout_above="@+id/rgNumberOne"
+        android:layout_alignStart="@+id/rgNumberTwo" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="15"
+        android:id="@+id/etSearch"
+        android:hint="type here what you would like to find"
+        android:layout_marginTop="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

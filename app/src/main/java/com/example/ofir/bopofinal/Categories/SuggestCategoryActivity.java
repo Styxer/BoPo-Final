@@ -33,7 +33,6 @@ public class SuggestCategoryActivity extends AppCompatActivity implements View.O
 
         etCategoryName = (EditText) findViewById(R.id.etCategoryName);
         btnSend = (Button) findViewById(R.id.btnSend);
-        btnBack = (Button) findViewById(R.id.btnBack);
 
         intent = new Intent(SuggestCategoryActivity.this, MainAppScreenActivity.class);
         getSupportActionBar().setTitle("Suggest new category");
@@ -45,7 +44,7 @@ public class SuggestCategoryActivity extends AppCompatActivity implements View.O
             case R.id.btnSend:
                 final String category_name = etCategoryName.getText().toString();
                 final int user_id = LoggedInUserService.getInstance().getM_id();
-              //  System.out.print()
+                //  System.out.print()
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -73,11 +72,6 @@ public class SuggestCategoryActivity extends AppCompatActivity implements View.O
                 SuggestCategoryRequest suggestCategoryRequest = new SuggestCategoryRequest(category_name, user_id, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(SuggestCategoryActivity.this);
                 queue.add(suggestCategoryRequest);
-                break;
-
-            case R.id.btnBack:
-                intent = new Intent(SuggestCategoryActivity.this, MainAppScreenActivity.class);
-                SuggestCategoryActivity.this.startActivity(intent);
                 break;
         }
     }

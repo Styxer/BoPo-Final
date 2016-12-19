@@ -9,9 +9,11 @@ import android.widget.ImageButton;
 import com.example.ofir.bopofinal.Categories.SuggestCategoryActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
+import com.example.ofir.bopofinal.Search.SearchActivity;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static ImageButton ibSearch;
     private static ImageButton ibMyEvents;
     private static ImageButton ibSuggestCategoty;
     private static Intent intent;
@@ -23,7 +25,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
 
           ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
       //  btnAddEvent = (EditText) findViewById(R.id.etName);
-      //  btnSearch = (EditText) findViewById(R.id.etUserName);
+          ibSearch = (ImageButton) findViewById(R.id.ibSearch);
      //   btnProfile = (EditText) findViewById(R.id.etPassword);
      //   btnSettings = (Button) findViewById(R.id.bRegister);
           ibSuggestCategoty = (ImageButton) findViewById(R.id.ibSuggestCategory);
@@ -35,6 +37,11 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.ibSearch:
+                intent = new Intent(MainAppScreenActivity.this, SearchActivity.class);
+                MainAppScreenActivity.this.startActivity(intent);
+                break;
             case R.id.ibMyEvents:
                 intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
                 MainAppScreenActivity.this.startActivity(intent);
