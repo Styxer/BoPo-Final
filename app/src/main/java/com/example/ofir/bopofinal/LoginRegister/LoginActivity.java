@@ -1,5 +1,6 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.EditText;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.ofir.bopofinal.MainActivity;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
 import org.json.JSONException;
@@ -26,6 +27,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     static private LoginActivity instance = null;
 
+    private static ProgressDialog progressDialog;
+
 
 
     @Override
@@ -39,8 +42,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bLogin = (Button) findViewById(R.id.bLogin);
 
         getSupportActionBar().setTitle("Login");
-    }
 
+        progressDialog = new ProgressDialog(this);
+
+    }
 
 
 
@@ -55,6 +60,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bLogin: //login
+
+                progressDialog.setMessage("Signing...");
+                progressDialog.setTitle("");
+                progressDialog.show();
                 final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
@@ -69,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 boolean success = jsonResponse.getBoolean("success");
 
                                 if (success) {
+                                    progressDialog.dismiss();
                                     //get
                                     int user_id = jsonResponse.getInt("user_id");
                                     String user_role = jsonResponse.getString("role");
@@ -90,14 +100,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setAddress(user_address);
 
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
                                   /*  intent.putExtra("name", name);
                                     intent.putExtra("age", age);
                                     intent.putExtra("username", username);*/
                                     LoginActivity.this.startActivity(intent);
 
                                 } else if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email)){
-                                    userValidation.alertDialog(LoginActivity.this,"Login failed", "Retry");
+                                    userValidation.alertDialog(LoginActivity.this,"Wrong user name or password", "Retry");
+                                    progressDialog.dismiss();
                                 }
 
                             } catch (JSONException e) {

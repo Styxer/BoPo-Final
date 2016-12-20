@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
 import android.widget.ImageButton;
 
 import com.example.ofir.bopofinal.Categories.SuggestCategoryActivity;
@@ -16,6 +17,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
     private static ImageButton ibSearch;
     private static ImageButton ibMyEvents;
     private static ImageButton ibSuggestCategoty;
+
     private static Intent intent;
 
     @Override
@@ -23,13 +25,20 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app_screen);
 
+
           ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
+
+       
+          ibAddEvent = (ImageButton)  findViewById(R.id.ibAddEvent);
+
       //  btnAddEvent = (EditText) findViewById(R.id.etName);
           ibSearch = (ImageButton) findViewById(R.id.ibSearch);
      //   btnProfile = (EditText) findViewById(R.id.etPassword);
      //   btnSettings = (Button) findViewById(R.id.bRegister);
           ibSuggestCategoty = (ImageButton) findViewById(R.id.ibSuggestCategory);
      //   btnLogout = (Button) findViewById(R.id.bBack);
+         
+   
 
         getSupportActionBar().setTitle("Welcome "+ LoggedInUserService.getInstance().getM_name());
     }
@@ -42,7 +51,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
                 intent = new Intent(MainAppScreenActivity.this, SearchActivity.class);
                 MainAppScreenActivity.this.startActivity(intent);
                 break;
-            case R.id.ibMyEvents:
+		case R.id.ibMyEvents:
                 intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
                 MainAppScreenActivity.this.startActivity(intent);
                 break;
@@ -50,6 +59,9 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
                 intent = new Intent(MainAppScreenActivity.this, SuggestCategoryActivity.class);
                 MainAppScreenActivity.this.startActivity(intent);
                 break;
+            case R.id.ibAddEvent:
+                intent = new Intent(MainAppScreenActivity.this, CreateNewEventActivity.class);
+                MainAppScreenActivity.this.startActivity(intent);
         }
     }
 }
