@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class CreateNewEventRequest extends StringRequest {
 
-    private static final String CREATE_NEW_EVENT__URL = "http://cellularguide.info/cellularguide.info/offir/creteNewEvent.php";
+    private static final String CREATE_NEW_EVENT__URL = "http://tower.site88.net/createNewEvent.php";
     private Map<String, String> params;
 
     public CreateNewEventRequest(String title, String description, String date, String time, String location,

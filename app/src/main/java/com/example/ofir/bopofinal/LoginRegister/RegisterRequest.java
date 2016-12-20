@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class RegisterRequest extends StringRequest {
 
-    private static final String REGISTER_REQUEST_URL = "http://cellularguide.info/cellularguide.info/offir/Register.php";
+    private static final String REGISTER_REQUEST_URL = "http://tower.site88.net/Register.php";
     private Map<String, String> params;
 
     public RegisterRequest(String role,String name,String email ,String dateOfBirth,String password,String phonenumber , String address, Response.Listener<String> listener) {

@@ -1,6 +1,7 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 //import android.icu.text.DecimalFormat;
 
@@ -50,6 +51,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private String email;
 
+    private static ProgressDialog progressDialog;
+
 
 
 
@@ -75,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         getSupportActionBar().setTitle("Register");
 
+        progressDialog = new ProgressDialog(this);
+
     }
 
     public  boolean isValidEmail(CharSequence email) {
@@ -85,6 +90,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bRegister: //Register
+
+                progressDialog.setMessage("Registering....");
+                progressDialog.setTitle("");
+                progressDialog.show();
                 final String name = etName.getText().toString();
                 final String email = etEmail.getText().toString();
                 final String dateOfBirth = etDateOfBirth.getText().toString();
@@ -100,10 +109,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {
+                                progressDialog.dismiss();
                                 Toast.makeText(RegisterActivity.this, "Thank you "+name+" for registering",
                                         Toast.LENGTH_LONG).show();
                                 RegisterActivity.this.startActivity(intent);
                             } else {
+                                progressDialog.dismiss();
                                 userValidation.alertDialog(RegisterActivity.this,"Register Failed","Retry");
                              /*   Builder builder = new Builder(RegisterActivity.this);
                                 builder.setMessage("Register Failed")

@@ -37,18 +37,17 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
+
 
 public class CreateNewEventActivity extends Activity implements View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
@@ -101,9 +100,6 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
         progressDialog = new ProgressDialog(this);
 
 
-
-
-
     }
 
     @Override
@@ -116,7 +112,7 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
     @Override
     protected void onStop() {
         super.onStop();
-        progressDialog.dismiss();
+
     }
 
     @Override
@@ -148,24 +144,27 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                 if(category.equals("Choose category")){
                     userValidation.alertDialog(CreateNewEventActivity.this,"Please choose a category", "Retry");
                 }else{
-           //         progressDialog.show();
+                   progressDialog.show();
                     EditText[] FirstList = {etTitle, etDescription,etDate,etTime,etLocation,etMaxParticipants};
                     boolean bool =  userValidation.emptyFields(FirstList,"please fill in this field");
                     if (bool){
                         Response.Listener<String> responseListener = new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                Log.i("JSONLog",response);
                                 try {
                                     JSONObject jsonResponse = new JSONObject(response);
                                     boolean success = jsonResponse.getBoolean("success");
 
                                     if (success) {
+                                        progressDialog.dismiss();
                                         Toast.makeText(CreateNewEventActivity.this,title + " created successfully",
                                                 Toast.LENGTH_LONG).show();
                                         backToMainIntent = new Intent(CreateNewEventActivity.this, MainAppScreenActivity.class);
                                         CreateNewEventActivity.this.startActivity(backToMainIntent);
 
                                     }  else {
+                                        progressDialog.dismiss();
                                         userValidation.alertDialog(CreateNewEventActivity.this,"Creating new event failed", "Retry");
                                     }
 
@@ -177,15 +176,14 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                             }
 
                         };
-                        CreateNewEventRequest createNewEventRequest = new CreateNewEventRequest(title, description, date, time, location, maxParticipants,
-                                                      category, ack, id,responseListener);
+                        CreateNewEventRequest createNewEventRequest = new CreateNewEventRequest(title, description,
+                                date, time, location, maxParticipants,
+                                 category, ack, id,responseListener);
                         RequestQueue queue = Volley.newRequestQueue(CreateNewEventActivity.this);
+
                         queue.add(createNewEventRequest);
                     }
                 }
-
-
-
                 break;
 
             case R.id.etDate:

@@ -23,7 +23,7 @@ import java.util.Collections;
  */
 public class fetch_categories {
 
-    private static final String categories_URL = "http://cellularguide.info/cellularguide.info/offir/fetch_categories.php";
+    private static final String categories_URL = "http://tower.site88.net/fetch_categories.php";
     private static final String JSON_ARRAY = "result";
     private JSONArray result;
 
