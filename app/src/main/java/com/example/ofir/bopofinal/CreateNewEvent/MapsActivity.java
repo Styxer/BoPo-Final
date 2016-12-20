@@ -169,10 +169,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            case R.id.action_search:
 
-
-                break;
 
         }
 
@@ -180,12 +177,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
 
-        return super.onCreateOptionsMenu(menu);
-    }
 
 
    /* public void geoLocate(View view) throws IOException {

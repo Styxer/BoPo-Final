@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="location"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvLocation"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvName" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="name"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvName"
+        android:layout_marginStart="2dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="time"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvTime"
+        android:layout_toEndOf="@+id/tvDate" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:text="date"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvDate"
+        android:layout_toEndOf="@+id/tvLocation" />
+
+</RelativeLayout>
