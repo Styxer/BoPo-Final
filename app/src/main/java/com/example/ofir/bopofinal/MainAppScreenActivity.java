@@ -8,17 +8,19 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.ofir.bopofinal.Categories.SuggestCategoryActivity;
+import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.Search.SearchActivity;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static ImageButton ibSearch;
-    private static ImageButton ibMyEvents;
-    private static ImageButton ibSuggestCategoty;
+    private static ImageButton m_ibSearch;
+    private static ImageButton m_ibMyEvents;
+    private static ImageButton m_ibSuggestCategory;
+    private static ImageButton m_ibAddEvent;
 
-    private static Intent intent;
+    private static Intent m_intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +28,16 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_main_app_screen);
 
 
-          ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
+          m_ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
 
        
-          ibAddEvent = (ImageButton)  findViewById(R.id.ibAddEvent);
+          m_ibAddEvent = (ImageButton)  findViewById(R.id.ibAddEvent);
 
       //  btnAddEvent = (EditText) findViewById(R.id.etName);
-          ibSearch = (ImageButton) findViewById(R.id.ibSearch);
+          m_ibSearch = (ImageButton) findViewById(R.id.ibSearch);
      //   btnProfile = (EditText) findViewById(R.id.etPassword);
      //   btnSettings = (Button) findViewById(R.id.bRegister);
-          ibSuggestCategoty = (ImageButton) findViewById(R.id.ibSuggestCategory);
+          m_ibSuggestCategory = (ImageButton) findViewById(R.id.ibSuggestCategory);
      //   btnLogout = (Button) findViewById(R.id.bBack);
          
    
@@ -48,20 +50,20 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
         switch (view.getId()) {
 
             case R.id.ibSearch:
-                intent = new Intent(MainAppScreenActivity.this, SearchActivity.class);
-                MainAppScreenActivity.this.startActivity(intent);
+                m_intent = new Intent(MainAppScreenActivity.this, SearchActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
                 break;
 		case R.id.ibMyEvents:
-                intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
-                MainAppScreenActivity.this.startActivity(intent);
+                m_intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
                 break;
             case R.id.ibSuggestCategory:
-                intent = new Intent(MainAppScreenActivity.this, SuggestCategoryActivity.class);
-                MainAppScreenActivity.this.startActivity(intent);
+                m_intent = new Intent(MainAppScreenActivity.this, SuggestCategoryActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
                 break;
             case R.id.ibAddEvent:
-                intent = new Intent(MainAppScreenActivity.this, CreateNewEventActivity.class);
-                MainAppScreenActivity.this.startActivity(intent);
+                m_intent = new Intent(MainAppScreenActivity.this, CreateNewEventActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
         }
     }
 }
