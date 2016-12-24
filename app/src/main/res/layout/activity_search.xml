@@ -10,13 +10,52 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ofir.bopofinal.Search.SearchActivity">
 
+    <Button
+        android:text="search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSearch"
+        android:layout_below="@+id/rgNumberTwo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:id="@+id/etSearch"
+        android:hint="type here what you would like to find"
+        android:layout_marginTop="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchFor"
+        android:text="search for:"
+        android:textSize="16dp"
+        android:layout_alignBaseline="@+id/tvSearchBy"
+        android:layout_alignBottom="@+id/tvSearchBy"
+        android:layout_alignParentStart="true" />
+
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="84dp"
         android:id="@+id/rgNumberTwo"
         android:layout_below="@+id/etSearch"
-        android:layout_toEndOf="@+id/btnSearch">
+        android:layout_alignEnd="@+id/etSearch"
+        android:layout_marginEnd="10dp">
+
+        <RadioButton
+            android:text="name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rbByCategory"
+            android:layout_alignStart="@+id/rbByCategory"
+            android:id="@+id/rbByName"
+            android:layout_weight="1" />
 
         <RadioButton
             android:text="category"
@@ -44,32 +83,26 @@
             android:id="@+id/rbByDate"
             android:layout_weight="1" />
 
-        <RadioButton
-            android:text="name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rbByCategory"
-            android:layout_alignStart="@+id/rbByCategory"
-            android:id="@+id/rbByName"
-            android:layout_weight="1" />
     </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchBy"
+        android:text="by:"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignTop="@+id/rgNumberOne"
+        android:layout_alignEnd="@+id/btnSearch" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rgNumberOne"
-        android:layout_marginEnd="15dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginStart="15dp"
         android:layout_alignTop="@+id/rgNumberTwo"
-        android:layout_toStartOf="@+id/btnSearch">
-
-        <RadioButton
-            android:text="people"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rbPeople"
-            android:layout_alignTop="@+id/radioGroup10"
-            android:layout_toEndOf="@+id/tvSearchBy"
-            android:layout_weight="1" />
+        android:layout_toEndOf="@+id/tvSearchFor">
 
         <RadioButton
             android:text="events"
@@ -81,35 +114,16 @@
             android:layout_marginEnd="10dp"
             android:layout_weight="1" />
 
+        <RadioButton
+            android:text="people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbPeople"
+            android:layout_alignTop="@+id/radioGroup10"
+            android:layout_toEndOf="@+id/tvSearchBy"
+            android:layout_weight="1" />
+
     </RadioGroup>
-
-    <Button
-        android:text="search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSearch"
-        android:layout_below="@+id/rgNumberTwo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp" />
-
-    <TextView
-        android:text="search by:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvSearchBy"
-        android:layout_above="@+id/rgNumberOne"
-        android:layout_alignStart="@+id/rgNumberTwo" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="15"
-        android:id="@+id/etSearch"
-        android:hint="type here what you would like to find"
-        android:layout_marginTop="34dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

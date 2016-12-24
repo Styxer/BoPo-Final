@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 public class SuggestCategoryRequest extends StringRequest{
-    private static final String SUGGEST_CATEGORY_REQUEST_URL = "http://cellularguide.info/cellularguide.info/offir/SuggestCategory.php";
+    private static final String SUGGEST_CATEGORY_REQUEST_URL = "http://tower.site88.net/SuggestCategory.php";
     private Map<String, String> params;
 
     public SuggestCategoryRequest(String category_name, int user_id, Response.Listener<String> listener) {

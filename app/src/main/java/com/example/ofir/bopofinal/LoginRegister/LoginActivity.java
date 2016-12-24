@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.Administrator.AdministratorMainScreenActivity;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     String user_name = jsonResponse.getString("name");
                                     String user_email = jsonResponse.getString("email");
                                     String user_birthday = jsonResponse.getString("birthday");
-                                   // int user_rating = jsonResponse.getInt("rating");
+                                    // int user_rating = jsonResponse.getInt("rating");
                                     String user_phone_number = jsonResponse.getString("phone_number");
                                     String user_address = jsonResponse.getString("address");
 
@@ -98,14 +99,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setM_birthday(user_birthday);
                                     loggedInUserService.setM_phone_number(user_phone_number);
                                     loggedInUserService.setAddress(user_address);
-
-
-                                    Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
-                                  /*  intent.putExtra("name", name);
-                                    intent.putExtra("age", age);
-                                    intent.putExtra("username", username);*/
-                                    LoginActivity.this.startActivity(intent);
-
+//start changes by alona 24.12.16
+                                    if (user_role.equals ("regular"))
+                                        {
+                                        Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                        }
+                                    else if (user_role.equals("admin"))
+                                       {
+                                        Intent intent = new Intent(LoginActivity.this, AdministratorMainScreenActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                       }
+//end changes by alona 24.12.16
                                 } else if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email)){
                                     userValidation.alertDialog(LoginActivity.this,"Wrong user name or password", "Retry");
                                     progressDialog.dismiss();

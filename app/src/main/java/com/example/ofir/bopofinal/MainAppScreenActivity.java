@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.ofir.bopofinal.Categories.SuggestCategoryActivity;
 import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
+import com.example.ofir.bopofinal.LoginRegister.LoginActivity;
 import com.example.ofir.bopofinal.Search.SearchActivity;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,8 +21,11 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
     private static ImageButton m_ibMyEvents;
     private static ImageButton m_ibSuggestCategory;
     private static ImageButton m_ibAddEvent;
-
+    private static ImageButton m_ibLogout;
+    public static boolean MyEventsFlag = false;
+    public static boolean SearchEventsFlag = false;
     private static Intent m_intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +34,13 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
 
 
           m_ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
-
-       
           m_ibAddEvent = (ImageButton)  findViewById(R.id.ibAddEvent);
-
-      //  btnAddEvent = (EditText) findViewById(R.id.etName);
           m_ibSearch = (ImageButton) findViewById(R.id.ibSearch);
-     //   btnProfile = (EditText) findViewById(R.id.etPassword);
-     //   btnSettings = (Button) findViewById(R.id.bRegister);
           m_ibSuggestCategory = (ImageButton) findViewById(R.id.ibSuggestCategory);
-     //   btnLogout = (Button) findViewById(R.id.bBack);
-         
-   
+          m_ibLogout = (ImageButton) findViewById(R.id.ibLogout);
 
         getSupportActionBar().setTitle("Welcome "+ LoggedInUserService.getInstance().getM_name());
+
     }
 
     @Override
@@ -51,10 +49,14 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
 
             case R.id.ibSearch:
                 m_intent = new Intent(MainAppScreenActivity.this, SearchActivity.class);
+                MyEventsFlag = false;
+                SearchEventsFlag = true;
                 MainAppScreenActivity.this.startActivity(m_intent);
                 break;
 		case R.id.ibMyEvents:
                 m_intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
+                MyEventsFlag = true;
+                SearchEventsFlag = false;
                 MainAppScreenActivity.this.startActivity(m_intent);
                 break;
             case R.id.ibSuggestCategory:
@@ -64,6 +66,19 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
             case R.id.ibAddEvent:
                 m_intent = new Intent(MainAppScreenActivity.this, CreateNewEventActivity.class);
                 MainAppScreenActivity.this.startActivity(m_intent);
+                break;
+            case R.id.ibLogout:
+                Toast.makeText(MainAppScreenActivity.this, "bye bye" +" "+ LoggedInUserService.getInstance().getM_name(),
+                        Toast.LENGTH_SHORT).show();
+                LogOutUser();
+                m_intent = new Intent(MainAppScreenActivity.this, LoginActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
+                break;
         }
+    }
+
+    public void LogOutUser()
+    {
+        LoggedInUserService.getInstance().reset();
     }
 }

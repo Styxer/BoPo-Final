@@ -35,7 +35,7 @@ public class ShowMyEventsActivity extends AppCompatActivity implements View.OnCl
 
     Context context;
     ArrayList<EventDetails> arrayList = new ArrayList<>();
-    String json_url = "http://cellularguide.info/cellularguide.info/offir/MyEvents.php";
+    String json_url = "http://tower.site88.net/MyEvents.php";
 
 
     @Override

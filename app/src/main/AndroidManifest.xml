@@ -36,19 +36,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginRegister.RegisterActivity" />
-
         <activity android:name=".MainActivity" />
-        
         <activity android:name=".Categories.SuggestCategoryActivity" />
         <activity android:name=".MainAppScreenActivity" />
         <activity android:name=".Events.ShowMyEventsActivity" />
         <activity android:name=".Events.DisplayEventsActivity" />
-	<activity android:name=".Search.SearchActivity"/>
-
-		<activity android:name=".CreateNewEvent.CreateNewEventActivity" >
-	</activity>
-        
-       
+        <activity android:name=".Search.SearchActivity" />
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -57,9 +51,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        
-            
-    <activity android:name=".Event.EventActivity"></activity>
+        <activity android:name=".Event.EventActivity" />
+        <activity android:name=".Search.DisplaySearchResultsActivity" />
+        <activity android:name=".Administrator.AdministratorMainScreenActivity" />
+        <activity android:name=".Administrator.ManageCategoriesActivity"></activity>
     </application>
 
 </manifest>
