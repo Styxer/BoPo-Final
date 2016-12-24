@@ -101,5 +101,10 @@ public class LoggedInUserService {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public void reset()
+    {
+        m_instance = null;
+    }
 }
 
