@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_manage_categories"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.ofir.bopofinal.Administrator.ManageCategoriesActivity">
+
+    <TextView
+        android:text="No pending categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:id="@+id/tvNoCategories"
+        android:layout_alignTop="@+id/recyclerView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="188dp" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:id="@+id/tvCategoryName"
+        android:text="Category name"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvUserID" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:id="@+id/tvCategoryStatus"
+        android:text="Category status"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvCategoryName"
+        android:layout_marginStart="15dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:id="@+id/tvUserID"
+        android:text="suggestig user ID"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CategoryRecyclerView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvCategoryStatus"></android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>
