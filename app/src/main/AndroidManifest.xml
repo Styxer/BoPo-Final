@@ -36,7 +36,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginRegister.RegisterActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".Categories.SuggestCategoryActivity" />
         <activity android:name=".MainAppScreenActivity" />
         <activity android:name=".Events.ShowMyEventsActivity" />
@@ -54,7 +53,8 @@
         <activity android:name=".Event.EventActivity" />
         <activity android:name=".Search.DisplaySearchResultsActivity" />
         <activity android:name=".Administrator.AdministratorMainScreenActivity" />
-        <activity android:name=".Administrator.ManageCategoriesActivity"></activity>
+        <activity android:name=".Administrator.ManageCategoriesActivity" />
+        <activity android:name=".PeopleInEvent.UsersInEventActivity" />
     </application>
 
 </manifest>

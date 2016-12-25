@@ -1,19 +1,33 @@
 package com.example.ofir.bopofinal.Event;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static TextView tvEventName, tvEventDescription, tvTime, tvDate, tvLocation, tvCategory,
                           tvACK, tvRole, tvMaxPeople, tvCurrentUsers, tvViewPeople;
+
+    private String title ,description, time, date, location, category, ACK, role, maxPeople, currentPeople;
+
+
+
+    public EventActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +46,10 @@ public class EventActivity extends AppCompatActivity {
         tvCurrentUsers = (TextView) findViewById(R.id.tvCurrentUsers);
         tvViewPeople = (TextView) findViewById(R.id.tvViewPeople);
 
+        tvViewPeople.setOnClickListener(this);
+
+
+
     }
 
     @Override
@@ -43,11 +61,30 @@ public class EventActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
-
-                    final String title ,description, time, date, location, category, ACK, role, maxPeople, currentPeople;
-
-
+                    Log.i("kaki",response.toString());
                     if (success) {
+
+                        title  = "<b>" + jsonResponse.getString("event_name") + "</b>";
+                        description = "<b>" + jsonResponse.getString("event_description") + "</b>" ;
+                        time = "<b>" + jsonResponse.getString("event_time") + "</b>";
+                        date = "<b>" +jsonResponse.getString("event_date") + "</b>";
+                        location = "<b>" + jsonResponse.getString("event_location") + "</b>";
+                        category = "<b>" + jsonResponse.getString("category_name") + "</b>";
+                        ACK = "<b>" + jsonResponse.getString("ack_needed") + "</b>";
+                        role = "<b>" + jsonResponse.getString("role") + "</b>";
+                        maxPeople = "<b>" + jsonResponse.getString("max_members") + "</b>";
+                        currentPeople  = "<b>" + jsonResponse.getString("currentPeople") + "</b>";
+
+                        tvEventName.setText(Html.fromHtml("event name: "+title));
+                        tvEventDescription.setText(Html.fromHtml("event description: "+description));
+                        tvTime.setText(Html.fromHtml("event start time: "+time));
+                        tvDate.setText(Html.fromHtml("event date: "+date));
+                        tvLocation.setText(Html.fromHtml("event location: "+location));
+                        tvCategory.setText(Html.fromHtml("event category: "+category));
+                        tvACK.setText(Html.fromHtml("new user need the aprovel: "+ACK));
+                        tvRole.setText(Html.fromHtml("you are the "+role+" in the event"));
+                        tvMaxPeople.setText(Html.fromHtml("event user cap: "+ maxPeople));
+                        tvCurrentUsers.setText(Html.fromHtml("current users in the event: "+currentPeople));
 
                     }
                 } catch (JSONException e) {
@@ -55,5 +92,19 @@ public class EventActivity extends AppCompatActivity {
                 }
             }
         };
+
+        EventRequest eventRequest = new EventRequest("2", "9", responseListener);
+        RequestQueue queue = Volley.newRequestQueue(EventActivity.this);
+        queue.add(eventRequest);
+
+
+
+    }
+
+
+
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(EventActivity.this, UsersInEventActivity.class));
     }
 }
