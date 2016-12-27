@@ -169,7 +169,7 @@ public class SearchActivity extends AppCompatActivity {
                         {
                             JSONObject jsonObject = response.getJSONObject(count);
 
-                            EventDetails eventDetails =  new EventDetails(jsonObject.getString("event_name"), jsonObject.getString("event_location"), jsonObject.getString("event_date"), jsonObject.getString("event_time"));
+                            EventDetails eventDetails =  new EventDetails(jsonObject.getString("event_name"), jsonObject.getString("event_location"), jsonObject.getString("event_date"), jsonObject.getString("event_time"),jsonObject.getString("event_id"));
                             arrayListEvents.add(eventDetails);
                             count++;
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
 
@@ -23,7 +24,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                           tvACK, tvRole, tvMaxPeople, tvCurrentUsers, tvViewPeople;
 
     private String title ,description, time, date, location, category, ACK, role, maxPeople, currentPeople;
-
+    Bundle bundle;
+    String eventId;
+    int userId;
 
 
     public EventActivity() {
@@ -33,6 +36,11 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+        bundle = getIntent().getExtras();
+        eventId = bundle.getString("str");
+        userId = LoggedInUserService.getInstance().getM_id();
+        getSupportActionBar().setTitle("Event details");
 
         tvEventName = (TextView) findViewById(R.id.tvEventName);
         tvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
@@ -61,7 +69,6 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
-                    Log.i("kaki",response.toString());
                     if (success) {
 
                         title  = "<b>" + jsonResponse.getString("event_name") + "</b>";
@@ -93,7 +100,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             }
         };
 
-        EventRequest eventRequest = new EventRequest("2", "9", responseListener);
+        EventRequest eventRequest = new EventRequest(userId, eventId, responseListener);
         RequestQueue queue = Volley.newRequestQueue(EventActivity.this);
         queue.add(eventRequest);
 
