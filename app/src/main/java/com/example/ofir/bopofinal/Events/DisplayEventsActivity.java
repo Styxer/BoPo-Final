@@ -15,7 +15,7 @@ import com.example.ofir.bopofinal.Search.SearchActivity;
 
 public class DisplayEventsActivity extends AppCompatActivity {
 
-    TextView name, location, date, time, NoEvents;
+    TextView name, location, date, time, event_id, NoEvents;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
@@ -36,6 +36,7 @@ public class DisplayEventsActivity extends AppCompatActivity {
             location = (TextView) findViewById(R.id.tvLocation);
             date = (TextView) findViewById(R.id.tvDate);
             time = (TextView) findViewById(R.id.tvTime);
+            event_id = (TextView) findViewById(R.id.tvEventId);
             NoEvents = (TextView) findViewById(R.id.tvNoEvents);
 
             if (SearchActivity.noResultsFlag == true) {
@@ -57,7 +58,7 @@ public class DisplayEventsActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
 
-                adapter = new RecyclerAdapter(EventResultService.getInstance().getArray());
+                adapter = new RecyclerAdapter(EventResultService.getInstance().getArray(), this);
                 EventResultService.getInstance().reset();
                 recyclerView.setAdapter(adapter);
             }
@@ -73,6 +74,7 @@ public class DisplayEventsActivity extends AppCompatActivity {
                 location = (TextView) findViewById(R.id.tvLocation);
                 date = (TextView) findViewById(R.id.tvDate);
                 time = (TextView) findViewById(R.id.tvTime);
+                event_id = (TextView) findViewById(R.id.tvEventId);
                 NoEvents = (TextView) findViewById(R.id.tvNoEvents);
 
                 if (ShowMyEventsActivity.noEventsFlag == true) {
@@ -94,7 +96,7 @@ public class DisplayEventsActivity extends AppCompatActivity {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setHasFixedSize(true);
 
-                    adapter = new RecyclerAdapter(EventResultService.getInstance().getArray());
+                    adapter = new RecyclerAdapter(EventResultService.getInstance().getArray(),this);
                     EventResultService.getInstance().reset();
                     recyclerView.setAdapter(adapter);
                 }

@@ -6,14 +6,15 @@ package com.example.ofir.bopofinal.Events;
  */
 
 public class EventDetails {
-    private String event_name, event_location, event_date,event_time;
+    private String event_name, event_location, event_date,event_time, event_id;
 
-    public EventDetails(String event_name, String event_location, String event_date, String event_time)
+    public EventDetails(String event_name, String event_location, String event_date, String event_time, String event_id)
     {
         this.event_name = event_name;
         this.event_location = event_location;
         this.event_date = event_date;
         this.event_time = event_time;
+        this.event_id = event_id;
     }
 
     public String getEventName(){
@@ -50,5 +51,14 @@ public class EventDetails {
     public void setEventTime(String time)
     {
         event_time = time;
+    }
+
+    public String getEventId(){
+        return event_id;
+    }
+
+    public void setEventId(String time)
+    {
+        event_id = event_id;
     }
 }
