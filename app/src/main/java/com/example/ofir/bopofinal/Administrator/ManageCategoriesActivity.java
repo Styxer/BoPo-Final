@@ -1,20 +1,32 @@
 package com.example.ofir.bopofinal.Administrator;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.ofir.bopofinal.Events.EventResultService;
-import com.example.ofir.bopofinal.Events.RecyclerAdapter;
-import com.example.ofir.bopofinal.MainAppScreenActivity;
+import android.view.View.OnClickListener;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.R;
-import com.example.ofir.bopofinal.Search.SearchActivity;
+import android.widget.Toast;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+
 
 public class ManageCategoriesActivity extends AppCompatActivity {
+
+    TextView category_name, category_status, user_id, request_id, NoRequests, choose;
+    Button btnAcceptRequests;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,37 +34,106 @@ public class ManageCategoriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_categories);
         getSupportActionBar().setTitle("Pending categories list");
 
-//
-//            CategoriesRecyclerView = (RecyclerView) findViewById(R.id.categoriesRecyclerView);
-//            name = (TextView) findViewById(R.id.tvEventName);
-//            location = (TextView) findViewById(R.id.tvLocation);
-//            date = (TextView) findViewById(R.id.tvDate);
-//            time = (TextView) findViewById(R.id.tvTime);
-//            NoEvents = (TextView) findViewById(R.id.tvNoEvents);
-//
-//            if (SearchActivity.noResultsFlag == true) {
-//                recyclerView.setVisibility(View.INVISIBLE);
-//                name.setVisibility(View.INVISIBLE);
-//                location.setVisibility(View.INVISIBLE);
-//                date.setVisibility(View.INVISIBLE);
-//                time.setVisibility(View.INVISIBLE);
-//                NoEvents.setVisibility(View.VISIBLE);
-//            } else if (SearchActivity.noResultsFlag == false) {
-//                recyclerView.setVisibility(View.VISIBLE);
-//                name.setVisibility(View.VISIBLE);
-//                location.setVisibility(View.VISIBLE);
-//                date.setVisibility(View.VISIBLE);
-//                time.setVisibility(View.VISIBLE);
-//                NoEvents.setVisibility(View.INVISIBLE);
-//
-//                layoutManager = new LinearLayoutManager(this);
-//                recyclerView.setLayoutManager(layoutManager);
-//                recyclerView.setHasFixedSize(true);
-//
-//                adapter = new RecyclerAdapter(EventResultService.getInstance().getArray());
-//                EventResultService.getInstance().reset();
-//                recyclerView.setAdapter(adapter);
-//            }
+        recyclerView = (RecyclerView) findViewById(R.id.CategoryRecyclerView);
+        category_name = (TextView) findViewById(R.id.tvCategoryName);
+        category_status = (TextView) findViewById(R.id.tvCategoryStatus);
+        user_id = (TextView) findViewById(R.id.tvUserID);
+        request_id = (TextView) findViewById(R.id.tvRequestID);
+        NoRequests = (TextView) findViewById(R.id.tvNoCategories);
+        btnAcceptRequests = (Button) findViewById(R.id.btnAcceptRequests);
+        choose = (TextView)findViewById(R.id.tvChoose);
 
+        if (AdministratorMainScreenActivity.noPendingRequests == true) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            category_name.setVisibility(View.INVISIBLE);
+            category_status.setVisibility(View.INVISIBLE);
+            btnAcceptRequests.setVisibility(View.INVISIBLE);
+            choose.setVisibility(View.INVISIBLE);
+            NoRequests.setVisibility(View.VISIBLE);
+        } else if (AdministratorMainScreenActivity.noPendingRequests == false) {
+            recyclerView.setVisibility(View.VISIBLE);
+            category_name.setVisibility(View.VISIBLE);
+            category_status.setVisibility(View.VISIBLE);
+            btnAcceptRequests.setVisibility(View.VISIBLE);
+            choose.setVisibility(View.VISIBLE);
+            NoRequests.setVisibility(View.INVISIBLE);
+
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
+
+            adapter = new ManageCategoriesRecyclerAdapter(ManageCategoriesResultService.getInstance().getArray(), this);
+            ManageCategoriesResultService.getInstance().reset();
+            recyclerView.setAdapter(adapter);
+        }
+
+        btnAcceptRequests.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ArrayList<CategoryDetails> catList = ((ManageCategoriesRecyclerAdapter) adapter)
+                        .arrayList;
+
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            String category_name = jsonResponse.getString("category_name");
+                            if (success) {
+                                Toast.makeText(ManageCategoriesActivity.this, "Category " +category_name+ " was approved",
+                                        Toast.LENGTH_SHORT).show();
+                               ManageCategoriesActivity.this.startActivity(new Intent(ManageCategoriesActivity.this, AdministratorMainScreenActivity.class));
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ManageCategoriesActivity.this);
+                                builder.setMessage("Category approval failed")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                Response.Listener<String> responseListener2 = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if (success) {
+                               // Toast.makeText(ManageCategoriesActivity.this, "deleted from pending list",
+                                     //   Toast.LENGTH_SHORT).show();
+                             //   ManageCategoriesActivity.this.startActivity(new Intent(ManageCategoriesActivity.this, AdministratorMainScreenActivity.class));
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ManageCategoriesActivity.this);
+                                builder.setMessage("delete from pending list failed")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                for (int i = 0; i < catList.size(); i++) {
+                    CategoryDetails singleCategory = catList.get(i);
+                    if (singleCategory.isSelected() == true) {
+                        ApproveCategoriesRequest approveCategoriesRequest = new ApproveCategoriesRequest(catList.get(i).getCategoryName(),/*catList.get(i).getRequestId(),*/ responseListener);
+                        RequestQueue queue = Volley.newRequestQueue(ManageCategoriesActivity.this);
+                        queue.add(approveCategoriesRequest);
+                        DeleteCategoriesRequest deleteCategoriesRequest = new DeleteCategoriesRequest(catList.get(i).getRequestId()/*,catList.get(i).getRequestId()*/, responseListener2);
+                        RequestQueue queue1 = Volley.newRequestQueue(ManageCategoriesActivity.this);
+                        queue1.add(deleteCategoriesRequest);
+                    }
+                }
+            }
+
+        });
     }
 }

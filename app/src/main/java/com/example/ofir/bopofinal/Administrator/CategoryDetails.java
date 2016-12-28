@@ -6,49 +6,60 @@ package com.example.ofir.bopofinal.Administrator;
  */
 
 public class CategoryDetails {
-    private String event_name, event_location, event_date,event_time;
+    private String category_name, category_status, user_id, request_id;
+    private boolean isSelected;
 
-    public CategoryDetails(String event_name, String event_location, String event_date, String event_time)
+    public CategoryDetails(String category_name, String category_status, String user_id, String request_id, boolean isSelected)
     {
-        this.event_name = event_name;
-        this.event_location = event_location;
-        this.event_date = event_date;
-        this.event_time = event_time;
+        this.category_name = category_name;
+        this.category_status = category_status;
+        this.user_id = user_id;
+        this.request_id = request_id;
+        this.isSelected = isSelected;
     }
 
-    public String getEventName(){
-        return event_name;
+    public String getCategoryName(){
+        return category_name;
     }
 
-    public void setEventName(String name)
+    public void setCategoryName(String name)
     {
-        event_name = name;
+        category_name = name;
     }
 
-    public String getEventLocation(){
-        return event_location;
+    public String getCategoryStatus(){
+        return category_status;
     }
 
-    public void setEventLocation(String location)
+    public void setCategoryStatus(String location)
     {
-        event_location = location;
+        category_status = location;
     }
 
-    public String getEventDate(){
-        return event_date;
+    public String getUserId(){
+        return user_id;
     }
 
-    public void setEventDate(String date)
+    public void setUserId(String userId)
     {
-        event_date = date;
+        user_id = userId;
     }
 
-    public String getEventTime(){
-        return event_time;
+    public String getRequestId(){
+        return request_id;
     }
 
-    public void setEventTime(String time)
+    public void setRequestId(String requestId)
     {
-        event_time = time;
+        request_id = requestId;
     }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
 }
