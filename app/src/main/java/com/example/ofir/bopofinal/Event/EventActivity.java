@@ -69,6 +69,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
+
                     if (success) {
 
                         title  = "<b>" + jsonResponse.getString("event_name") + "</b>";
