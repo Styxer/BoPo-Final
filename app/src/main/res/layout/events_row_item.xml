@@ -48,4 +48,15 @@
         android:id="@+id/tvDate"
         android:layout_toEndOf="@+id/tvLocation" />
 
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:text="event id"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvEventId"
+        android:visibility="invisible"/>
+
 </RelativeLayout>
