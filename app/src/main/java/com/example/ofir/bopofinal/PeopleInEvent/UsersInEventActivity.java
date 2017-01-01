@@ -1,19 +1,23 @@
 package com.example.ofir.bopofinal.PeopleInEvent;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
+
+import okhttp3.OkHttpClient;
+
+import okhttp3.Request;
+import okhttp3.Response;
 import com.example.ofir.bopofinal.R;
 import com.example.ofir.bopofinal.User.UserActivity;
 
@@ -26,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class UsersInEventActivity extends AppCompatActivity {
@@ -38,6 +41,7 @@ public class UsersInEventActivity extends AppCompatActivity {
     private CardView mCardView;
     private MyData mData;
     public static final String EXTRA_TITLE = "title";
+    private static ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +51,16 @@ public class UsersInEventActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mCardView = (CardView) findViewById(R.id.card_view);
         m_data_list = new ArrayList<>();
-        load_data_from_server(0);
+
 
         mGridLayoutManager = new GridLayoutManager(this,2);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mAdapter = new CustomAdapter(this,m_data_list,mCardView);
+
+        mAdapter = new CustomAdapter(this,m_data_list);
         mRecyclerView.setAdapter(mAdapter);
 
-
+        mProgressDialog = new ProgressDialog(this);
 
 
         mRecyclerView.addOnItemTouchListener(
@@ -63,7 +68,7 @@ public class UsersInEventActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         Intent i = new Intent(view.getContext(), UserActivity.class);
                        MyData data =   m_data_list.get(position);
-                        String desc = data.getmDescription();
+                        String desc = data.getmName();
                         i.putExtra(EXTRA_TITLE,desc);
                         startActivity(i);
 
@@ -81,7 +86,7 @@ public class UsersInEventActivity extends AppCompatActivity {
 
 
 
-     /*  mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+       mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
@@ -90,10 +95,16 @@ public class UsersInEventActivity extends AppCompatActivity {
                 }
 
             }
-        });*/
+        });
+
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        load_data_from_server(0);
+    }
 
     private void load_data_from_server(int id) {
 
@@ -114,11 +125,13 @@ public class UsersInEventActivity extends AppCompatActivity {
 
                         JSONObject object = array.getJSONObject(i);
 
-                        mData = new MyData(object.getInt("user_id"),object.getString("name"),
-                                object.getString("image"));
+                        MyData data = new MyData(object.getInt("user_id"),object.getString("name"),
+                               object.getString("role"), object.getString("image"));
 
-                        m_data_list.add(mData);
+                        m_data_list.add(data);
                     }
+
+
 
                 } catch (IOException e) {
                     e.printStackTrace();

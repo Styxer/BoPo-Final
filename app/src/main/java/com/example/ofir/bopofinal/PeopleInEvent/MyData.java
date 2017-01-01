@@ -6,7 +6,7 @@ package com.example.ofir.bopofinal.PeopleInEvent;
 public class MyData {
 
     private int  mId;
-    private String mDescription, mImage_link;
+    private String mName,mRole, mImage_link;
 
     public int getmId() {
         return mId;
@@ -16,13 +16,7 @@ public class MyData {
         this.mId = mId;
     }
 
-    public String getmDescription() {
-        return mDescription;
-    }
 
-    public void setmDescription(String mDescription) {
-        this.mDescription = mDescription;
-    }
 
     public String getmImage_link() {
         return mImage_link;
@@ -32,13 +26,29 @@ public class MyData {
         this.mImage_link = mImage_link;
     }
 
-    public MyData(int mId, String mDescription, String mImage_link) {
-
-        this.mId = mId;
-        this.mDescription = mDescription;
-        this.mImage_link = mImage_link;
+    public void setmName(String mName) {
+        this.mName = mName;
     }
+
+    public void setmRole(String mRole) {
+        this.mRole = mRole;
+    }
+
+    public String getmName() {
+
+        return mName;
+    }
+
+    public String getmRole() {
+        return mRole;
+    }
+
     public MyData(){}
 
-
+    public MyData(int mId, String mName, String mRole, String mImage_link) {
+        this.mId = mId;
+        this.mName = mName;
+        this.mRole = mRole;
+        this.mImage_link = mImage_link;
+    }
 }

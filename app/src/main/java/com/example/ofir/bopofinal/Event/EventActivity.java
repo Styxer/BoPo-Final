@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,6 +38,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
         bundle = getIntent().getExtras();
         eventId = bundle.getString("str");
+
+
         userId = LoggedInUserService.getInstance().getM_id();
         getSupportActionBar().setTitle("Event details");
 
