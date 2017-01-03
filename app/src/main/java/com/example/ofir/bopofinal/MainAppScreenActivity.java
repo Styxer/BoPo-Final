@@ -13,12 +13,14 @@ import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.LoginRegister.LoginActivity;
+import com.example.ofir.bopofinal.Profile.ProfileActivity;
 import com.example.ofir.bopofinal.Search.SearchActivity;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static ImageButton m_ibSearch;
     private static ImageButton m_ibMyEvents;
+    private static ImageButton m_ibProfile;
     private static ImageButton m_ibSuggestCategory;
     private static ImageButton m_ibAddEvent;
     private static ImageButton m_ibLogout;
@@ -34,6 +36,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
 
 
           m_ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
+          m_ibProfile = (ImageButton) findViewById(R.id.ibProfile);
           m_ibAddEvent = (ImageButton)  findViewById(R.id.ibAddEvent);
           m_ibSearch = (ImageButton) findViewById(R.id.ibSearch);
           m_ibSuggestCategory = (ImageButton) findViewById(R.id.ibSuggestCategory);
@@ -53,7 +56,11 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
                 SearchEventsFlag = true;
                 MainAppScreenActivity.this.startActivity(m_intent);
                 break;
-		case R.id.ibMyEvents:
+            case R.id.ibProfile:
+                m_intent = new Intent(MainAppScreenActivity.this, ProfileActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
+                break;
+	    	case R.id.ibMyEvents:
                 m_intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
                 MyEventsFlag = true;
                 SearchEventsFlag = false;

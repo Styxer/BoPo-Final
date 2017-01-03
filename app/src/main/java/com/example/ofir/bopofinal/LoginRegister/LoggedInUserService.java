@@ -16,9 +16,10 @@ public class LoggedInUserService {
     private String m_birthday;
     private String m_rating;
     private String m_gender;
-
+    private String m_password;
     private String m_phone_number;
-    private String address;
+    private String m_address;
+    private String m_image;
 
     private LoggedInUserService(){}
 
@@ -84,7 +85,13 @@ public class LoggedInUserService {
         this.m_gender = m_gender;
     }
 
+    public String getM_password() {
+        return m_password;
+    }
 
+    public void setM_password(String m_password) {
+        this.m_password = m_password;
+    }
 
     public String getM_phone_number() {
         return m_phone_number;
@@ -94,12 +101,20 @@ public class LoggedInUserService {
         this.m_phone_number = m_phone_number;
     }
 
-    public String getAddress() {
-        return address;
+    public String getM_address() {
+        return m_address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setM_address(String m_address) {
+        this.m_address = m_address;
+    }
+
+    public String getM_image() {
+        return m_image;
+    }
+
+    public void setM_image(String m_image) {
+        this.m_image = m_image;
     }
 
     public void reset()
