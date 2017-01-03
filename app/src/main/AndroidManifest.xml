@@ -55,6 +55,7 @@
         <activity android:name=".Administrator.AdministratorMainScreenActivity" />
         <activity android:name=".Administrator.ManageCategoriesActivity" />
         <activity android:name=".PeopleInEvent.UsersInEventActivity" />
+        <activity android:name=".Profile.ProfileActivity" />
     </application>
 
 </manifest>
