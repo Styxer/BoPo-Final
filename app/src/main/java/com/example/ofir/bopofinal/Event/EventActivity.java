@@ -13,11 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
+import com.example.ofir.bopofinal.LoginRegister.userValidation;
 import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
 
@@ -38,6 +41,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     private ProgressDialog mProgressDialog;
     RelativeLayout mRelativeLayout;
+
+    private final int FETCH_EVENT_DETAILS  = 1;
+    private final int DELETE_EVENT  = 2;
 
 
     public EventActivity() {
@@ -92,7 +98,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         mProgressDialog.show();
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+        Response.Listener<String> getEventReStringListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -140,9 +146,11 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             }
         };
 
-        EventRequest eventRequest = new EventRequest(userId, eventId, responseListener);
+        createRequest(userId,eventId,FETCH_EVENT_DETAILS,getEventReStringListener);
+
+        /*EventRequest eventRequest = new EventRequest(userId, eventId,FETCH_EVENT_DETAILS, getEventReStringListener);
         RequestQueue queue = Volley.newRequestQueue(EventActivity.this);
-        queue.add(eventRequest);
+        queue.add(eventRequest);*/
     }
 
     void setButton(int state, Button... buttons){
@@ -187,13 +195,34 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void openDialog(String text) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want "  +text)
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+                        Response.Listener<String> DeleteEventReStringListener = new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    boolean success = jsonResponse.getBoolean("success");
+
+                                    if (success) {
+                                        Toast.makeText(EventActivity.this, "event deleted successfully",
+                                                Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(EventActivity.this, ShowMyEventsActivity.class));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+
+                        createRequest(userId,eventId,DELETE_EVENT,DeleteEventReStringListener);
+
                     }
+
                 })
                 .setNegativeButton("no", new DialogInterface.OnClickListener() {
                     @Override
@@ -202,5 +231,11 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                     }
                 })
                 .show();
+    }
+
+    private void createRequest(int userId, String eventId,int state, Response.Listener<String> litsner) {
+        EventRequest eventRequest = new EventRequest(userId, eventId, state, litsner);
+        RequestQueue queue = Volley.newRequestQueue(EventActivity.this);
+        queue.add(eventRequest);
     }
 }
