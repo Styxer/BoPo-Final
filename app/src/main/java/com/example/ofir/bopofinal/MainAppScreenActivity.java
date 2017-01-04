@@ -15,6 +15,7 @@ import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.LoginRegister.LoginActivity;
 import com.example.ofir.bopofinal.Profile.ProfileActivity;
 import com.example.ofir.bopofinal.Search.SearchActivity;
+import com.example.ofir.bopofinal.Settings.SettingsActivity;
 
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +24,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
     private static ImageButton m_ibProfile;
     private static ImageButton m_ibSuggestCategory;
     private static ImageButton m_ibAddEvent;
+    private static ImageButton m_ibSettings;
     private static ImageButton m_ibLogout;
     public static boolean MyEventsFlag = false;
     public static boolean SearchEventsFlag = false;
@@ -38,6 +40,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
           m_ibMyEvents = (ImageButton) findViewById(R.id.ibMyEvents);
           m_ibProfile = (ImageButton) findViewById(R.id.ibProfile);
           m_ibAddEvent = (ImageButton)  findViewById(R.id.ibAddEvent);
+          m_ibSettings = (ImageButton) findViewById(R.id.ibSettings);
           m_ibSearch = (ImageButton) findViewById(R.id.ibSearch);
           m_ibSuggestCategory = (ImageButton) findViewById(R.id.ibSuggestCategory);
           m_ibLogout = (ImageButton) findViewById(R.id.ibLogout);
@@ -64,6 +67,10 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
                 m_intent = new Intent(MainAppScreenActivity.this, ShowMyEventsActivity.class);
                 MyEventsFlag = true;
                 SearchEventsFlag = false;
+                MainAppScreenActivity.this.startActivity(m_intent);
+                break;
+            case R.id.ibSettings:
+                m_intent = new Intent(MainAppScreenActivity.this, SettingsActivity.class);
                 MainAppScreenActivity.this.startActivity(m_intent);
                 break;
             case R.id.ibSuggestCategory:
