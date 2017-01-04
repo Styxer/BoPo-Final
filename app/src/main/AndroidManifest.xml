@@ -54,9 +54,11 @@
         <activity android:name=".Search.DisplaySearchResultsActivity" />
         <activity android:name=".Administrator.AdministratorMainScreenActivity" />
         <activity android:name=".Administrator.ManageCategoriesActivity" />
+
         <activity android:name=".Event.EventActivity" />
-        <activity android:name=".User.UserActivity" >
-        </activity>
+        <activity android:name=".User.UserActivity" >   
+        <activity android:name=".Profile.ProfileActivity" />
+     </activity>
     </application>
 
 </manifest>

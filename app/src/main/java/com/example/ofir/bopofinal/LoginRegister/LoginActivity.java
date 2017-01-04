@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setM_email(user_email);
                                     loggedInUserService.setM_birthday(user_birthday);
                                     loggedInUserService.setM_phone_number(user_phone_number);
-                                    loggedInUserService.setAddress(user_address);
+                                    loggedInUserService.setM_address(user_address);
 //start changes by alona 24.12.16
                                     if (user_role.equals ("regular"))
                                         {
