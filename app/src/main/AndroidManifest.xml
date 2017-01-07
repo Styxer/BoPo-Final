@@ -50,14 +50,17 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Event.EventActivity" />
+        <activity android:name=".PeopleInEvent.UsersInEventActivity" />
         <activity android:name=".Search.DisplaySearchResultsActivity" />
         <activity android:name=".Administrator.AdministratorMainScreenActivity" />
         <activity android:name=".Administrator.ManageCategoriesActivity" />
-        <activity android:name=".PeopleInEvent.UsersInEventActivity" />
+
+        <activity android:name=".Event.EventActivity" />
+        <activity android:name=".User.UserActivity" >   
         <activity android:name=".Profile.ProfileActivity" />
         <activity android:name=".Settings.SettingsActivity" />
-        <activity android:name=".Settings.ChangePasswordActivity"></activity>
+        <activity android:name=".Settings.ChangePasswordActivity" />
+     </activity>
     </application>
 
 </manifest>
