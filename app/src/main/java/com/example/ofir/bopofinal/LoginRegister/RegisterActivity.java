@@ -1,6 +1,7 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 //import android.icu.text.DecimalFormat;
 
@@ -49,9 +50,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Calendar calendar = Calendar.getInstance();
 
     private String email;
-    private  String cuurentDate;
 
-    private static LoginActivity m_instance;
+    private static ProgressDialog progressDialog;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +74,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         etEmail.addTextChangedListener(this);
 
-        m_instance = LoginActivity.getInstance();
+
 
         getSupportActionBar().setTitle("Register");
+
+        progressDialog = new ProgressDialog(this);
 
     }
 
@@ -85,6 +90,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bRegister: //Register
+
+                progressDialog.setMessage("Registering....");
+                progressDialog.setTitle("");
+                progressDialog.show();
                 final String name = etName.getText().toString();
                 final String email = etEmail.getText().toString();
                 final String dateOfBirth = etDateOfBirth.getText().toString();
@@ -100,15 +109,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {
+                                progressDialog.dismiss();
                                 Toast.makeText(RegisterActivity.this, "Thank you "+name+" for registering",
                                         Toast.LENGTH_LONG).show();
                                 RegisterActivity.this.startActivity(intent);
                             } else {
-                                Builder builder = new Builder(RegisterActivity.this);
+                                progressDialog.dismiss();
+                                userValidation.alertDialog(RegisterActivity.this,"Register Failed","Retry");
+                             /*   Builder builder = new Builder(RegisterActivity.this);
                                 builder.setMessage("Register Failed")
                                         .setNegativeButton("Retry", null)
                                         .create()
-                                        .show();
+                                        .show();*/
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

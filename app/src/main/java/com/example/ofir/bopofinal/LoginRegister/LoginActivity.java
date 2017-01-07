@@ -1,5 +1,6 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,8 @@ import android.widget.EditText;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.ofir.bopofinal.MainActivity;
+import com.example.ofir.bopofinal.Administrator.AdministratorMainScreenActivity;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
 import org.json.JSONException;
@@ -26,6 +28,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     static private LoginActivity instance = null;
 
+    private static ProgressDialog progressDialog;
+
 
 
     @Override
@@ -39,8 +43,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bLogin = (Button) findViewById(R.id.bLogin);
 
         getSupportActionBar().setTitle("Login");
-    }
 
+        progressDialog = new ProgressDialog(this);
+
+    }
 
 
 
@@ -55,6 +61,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bLogin: //login
+
+                progressDialog.setMessage("Signing...");
+                progressDialog.setTitle("");
+                progressDialog.show();
                 final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
@@ -69,13 +79,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 boolean success = jsonResponse.getBoolean("success");
 
                                 if (success) {
+                                    progressDialog.dismiss();
                                     //get
                                     int user_id = jsonResponse.getInt("user_id");
                                     String user_role = jsonResponse.getString("role");
                                     String user_name = jsonResponse.getString("name");
                                     String user_email = jsonResponse.getString("email");
+                                    String user_password = jsonResponse.getString("password");
                                     String user_birthday = jsonResponse.getString("birthday");
-                                   // int user_rating = jsonResponse.getInt("rating");
+                                    // int user_rating = jsonResponse.getInt("rating");
                                     String user_phone_number = jsonResponse.getString("phone_number");
                                     String user_address = jsonResponse.getString("address");
 
@@ -85,19 +97,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setM_role(user_role);
                                     loggedInUserService.setM_name(user_name);
                                     loggedInUserService.setM_email(user_email);
+                                    loggedInUserService.setM_password(user_password);
                                     loggedInUserService.setM_birthday(user_birthday);
                                     loggedInUserService.setM_phone_number(user_phone_number);
-                                    loggedInUserService.setAddress(user_address);
-
-
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                  /*  intent.putExtra("name", name);
-                                    intent.putExtra("age", age);
-                                    intent.putExtra("username", username);*/
-                                    LoginActivity.this.startActivity(intent);
-
+                                    loggedInUserService.setM_address(user_address);
+//start changes by alona 24.12.16
+                                    if (user_role.equals ("regular"))
+                                        {
+                                        Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                        }
+                                    else if (user_role.equals("admin"))
+                                       {
+                                        Intent intent = new Intent(LoginActivity.this, AdministratorMainScreenActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                       }
+//end changes by alona 24.12.16
                                 } else if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email)){
-                                    userValidation.alertDialog(LoginActivity.this,"Login failed", "Retry");
+                                    userValidation.alertDialog(LoginActivity.this,"Wrong user name or password", "Retry");
+                                    progressDialog.dismiss();
                                 }
 
                             } catch (JSONException e) {

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"
+        android:id="@+id/viewSeparatorLine"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvName" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="SuggestingUserId"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:visibility="invisible"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvSuggestingUserId"
+        android:layout_marginStart="2dp" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:text="Request id"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvCategoryRequestId"
+        android:visibility="invisible"
+        android:layout_above="@+id/cbChoose"
+        android:layout_alignStart="@+id/tvCategoryStatus" />
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="match_parent"
+        android:text="Category name"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/tvCategoryName"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tvCategoryRequestId" />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:text="Status"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/tvCategoryStatus"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbChoose"
+        android:layout_marginStart="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/tvSuggestingUserId" />
+
+</RelativeLayout>

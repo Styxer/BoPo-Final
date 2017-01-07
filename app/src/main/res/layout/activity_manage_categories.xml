@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_manage_categories"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.ofir.bopofinal.Administrator.ManageCategoriesActivity">
+
+    <TextView
+        android:text="No pending categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:id="@+id/tvNoCategories"
+        android:layout_alignTop="@+id/recyclerView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="188dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:id="@+id/tvRequestID"
+        android:text="request ID"
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tvCategoryName" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:id="@+id/tvUserID"
+        android:visibility="invisible"
+        android:text="suggestig user ID"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvRequestID" />
+
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:id="@+id/tvChoose"
+        android:text="Choose"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:text="accept selected requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAcceptRequests"
+        android:layout_marginBottom="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CategoryRecyclerView"
+        android:layout_below="@+id/tvChoose"
+        android:layout_above="@+id/btnAcceptRequests"
+        android:layout_alignParentStart="true"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:id="@+id/tvCategoryStatus"
+        android:text="Status"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btnAcceptRequests" />
+
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:id="@+id/tvCategoryName"
+        android:text="Category name"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/btnAcceptRequests"
+        android:layout_toEndOf="@+id/tvChoose" />
+
+
+</RelativeLayout>

@@ -35,7 +35,7 @@ public class ShowMyEventsActivity extends AppCompatActivity implements View.OnCl
 
     Context context;
     ArrayList<EventDetails> arrayList = new ArrayList<>();
-    String json_url = "http://cellularguide.info/cellularguide.info/offir/MyEvents.php";
+    String json_url = "http://tower.site88.net/MyEvents.php";
 
 
     @Override
@@ -89,7 +89,7 @@ public class ShowMyEventsActivity extends AppCompatActivity implements View.OnCl
                             try
                             {
                                 JSONObject jsonObject = response.getJSONObject(count);
-                                EventDetails eventDetails = new EventDetails(jsonObject.getString("event_name"), jsonObject.getString("event_location"), jsonObject.getString("event_date"), jsonObject.getString("event_time"));
+                                EventDetails eventDetails = new EventDetails(jsonObject.getString("event_name"), jsonObject.getString("event_location"), jsonObject.getString("event_date"), jsonObject.getString("event_time"),jsonObject.getString("event_id"));
                                 arrayList.add(eventDetails);
                                 count++;
 
