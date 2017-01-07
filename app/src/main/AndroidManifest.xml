@@ -41,7 +41,6 @@
         <activity android:name=".Events.ShowMyEventsActivity" />
         <activity android:name=".Events.DisplayEventsActivity" />
         <activity android:name=".Search.SearchActivity" />
-        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -56,8 +55,10 @@
         <activity android:name=".Administrator.ManageCategoriesActivity" />
 
         <activity android:name=".Event.EventActivity" />
-        <activity android:name=".User.UserActivity" >   
+        <activity android:name=".User.UserActivity" />
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" >
         <activity android:name=".Profile.ProfileActivity" />
+
      </activity>
     </application>
 
