@@ -7,17 +7,22 @@ import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -55,7 +60,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class CreateNewEventActivity extends AppCompatActivity implements View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+public class CreateNewEventActivity extends AppCompatActivity implements
+        View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener ,TextWatcher {
 
 
     private static EditText etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants;
@@ -94,6 +100,7 @@ public class CreateNewEventActivity extends AppCompatActivity implements View.On
         etTime = (EditText) findViewById(R.id.etTime);
         etLocation = (EditText) findViewById(R.id.etLocation);
         etMaxParticipants = (EditText) findViewById(R.id.etMaxParticipants);
+
       //  etCategory = (EditText) findViewById(R.id.etCategorey);
         categories_selector = (Spinner)  findViewById(R.id.spinner);
 
@@ -155,6 +162,8 @@ public class CreateNewEventActivity extends AppCompatActivity implements View.On
         //get edit text values
         String title =intent.getStringExtra("title");
 
+        setButtonState(View.INVISIBLE);
+
         etTitle.setText(title);
         etDescription.setText(intent.getStringExtra("description"));
         etDate.setText(intent.getStringExtra("time"));
@@ -163,6 +172,11 @@ public class CreateNewEventActivity extends AppCompatActivity implements View.On
         etMaxParticipants.setText(Html.fromHtml("maximum people: "+intent.getStringExtra("maxPeople")));
 
         getSupportActionBar().setTitle("Edit event" + title);
+
+        EditText[] editTexts = {etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants};
+
+        for (EditText editText: editTexts)//set text watcher to all edit text
+            editText.addTextChangedListener(this);
 
         //set role
 
@@ -406,5 +420,24 @@ public class CreateNewEventActivity extends AppCompatActivity implements View.On
         }
 
 
+    }
+
+    @Override
+    public void beforeTextChanged( CharSequence charSequence, int i, int i1, int i2 ) {
+       // setButtonState(View.INVISIBLE);
+    }
+
+    @Override
+    public void onTextChanged( CharSequence charSequence, int i, int i1, int i2 ) {
+        setButtonState(View.VISIBLE);
+    }
+
+    @Override
+    public void afterTextChanged( Editable editable ) {
+        setButtonState(View.VISIBLE);
+
+    }
+    private void setButtonState(int state) {
+        bCreate.setVisibility(state);
     }
 }

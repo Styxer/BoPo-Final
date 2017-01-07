@@ -62,7 +62,7 @@
         android:focusable="false"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
