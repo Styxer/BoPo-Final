@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.LoginRegister.userValidation;
@@ -44,6 +45,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     private final int FETCH_EVENT_DETAILS  = 1;
     private final int DELETE_EVENT  = 2;
+    private final int EDIT_EVENT  = 3;
+
+
 
 
     public EventActivity() {
@@ -53,6 +57,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+
 
         bundle = getIntent().getExtras();
         eventId = bundle.getString("str");
@@ -94,8 +100,16 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
     @Override
     protected void onStart() {
+
         super.onStart();
         mProgressDialog.show();
         Response.Listener<String> getEventReStringListener = new Response.Listener<String>() {
@@ -118,7 +132,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                         maxPeople = "<b>" + jsonResponse.getString("max_members") + "</b>";
                         currentPeople  = "<b>" + jsonResponse.getString("currentPeople") + "</b>";
 
-                        Log.i("role",role);
+
 
 
                         setButton(View.INVISIBLE, mBedeleteEvent, mBeditEvent);
@@ -184,42 +198,63 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case  R.id.bMdeleteEvent:
-                openDialog("to delete this event?");
+                openDialog("to delete this event?",DELETE_EVENT);
                 break;
 
             case R.id.bMeditEvent:
-                openDialog("to edit this event?");
+                openDialog("to edit this event?",EDIT_EVENT);
                 break;
         }
 
     }
 
-    private void openDialog(String text) {
+    private void openDialog(String text,final int choice) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want "  +text)
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        if (choice == DELETE_EVENT){
+                            Response.Listener<String> DeleteEventReStringListener = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject jsonResponse = new JSONObject(response);
+                                        boolean success = jsonResponse.getBoolean("success");
 
-                        Response.Listener<String> DeleteEventReStringListener = new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject jsonResponse = new JSONObject(response);
-                                    boolean success = jsonResponse.getBoolean("success");
-
-                                    if (success) {
-                                        Toast.makeText(EventActivity.this, "event deleted successfully",
-                                                Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(EventActivity.this, ShowMyEventsActivity.class));
+                                        if (success) {
+                                            Toast.makeText(EventActivity.this, "event deleted successfully",
+                                                    Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(EventActivity.this, ShowMyEventsActivity.class));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        };
+                            };
 
-                        createRequest(userId,eventId,DELETE_EVENT,DeleteEventReStringListener);
+                            createRequest(userId,eventId,DELETE_EVENT,DeleteEventReStringListener);
+                        }
+
+                        else if(choice == EDIT_EVENT){
+                           Intent intent = new Intent(EventActivity.this,CreateNewEventActivity.class);
+
+
+
+                             intent.putExtra("title",title.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("description",description.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("time",time.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("date",date.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("location",location.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("category",category.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("ACK",ACK.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("role",role);
+                            intent.putExtra("maxPeople",maxPeople.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("currentPeople",currentPeople);
+                            startActivityForResult(intent,20);
+
+                        }
+
 
                     }
 

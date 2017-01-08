@@ -62,15 +62,15 @@
         android:focusable="false"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/etMaxParticipants"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etLocation"
-        android:hint="maximum participants" />
+        android:hint="maximum participants"
+        android:textSize="18dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -89,8 +89,8 @@
         android:text="Create"
         android:id="@+id/bCreate"
         android:onClick="onClick"
-        android:layout_below="@+id/sApprove"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -117,7 +117,29 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="approve new users?"
         android:id="@+id/textView"
-        android:layout_alignTop="@+id/sApprove"
+        android:layout_below="@+id/spinner"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="you are the .... of the event"
+        android:id="@+id/tvCreateRole"
+        android:layout_alignBottom="@+id/bBack"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Current people"
+        android:id="@+id/tvCurrentPeople"
+        android:layout_below="@+id/etLocation"
+        android:layout_alignBottom="@+id/etMaxParticipants"
+        android:layout_alignEnd="@+id/etLocation"
+        android:visibility="invisible"
+        android:textSize="18dp" />
 
 </RelativeLayout>

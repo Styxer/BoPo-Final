@@ -1,6 +1,8 @@
 package com.example.ofir.bopofinal.CreateNewEvent;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -26,9 +28,10 @@ public class fetch_categories {
     private static final String categories_URL = "http://tower.site88.net/fetch_categories.php";
     private static final String JSON_ARRAY = "result";
     private JSONArray result;
+    ArrayList<String> categoriesList  = new ArrayList<>();
 
 
-    public void  getData(final Context context, final ArrayList<String> categories, final Spinner categories_selector) {
+    public void  getData( final Context context, final ArrayList<String> categories, final Spinner categories_selector, final String spinnerItem) {
         StringRequest stringRequest = new StringRequest(categories_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -37,7 +40,7 @@ public class fetch_categories {
                         try {
                             jsonObject = new JSONObject(response);
                             result = jsonObject.getJSONArray(JSON_ARRAY);
-                            getCategories(result,categories, categories_selector,context);
+                            getCategories(result,categories, categories_selector,context,spinnerItem);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -52,8 +55,11 @@ public class fetch_categories {
         requestQueue.add(stringRequest);
     }
 
-    public void getCategories(JSONArray jsonArray,ArrayList<String> categories, Spinner categories_selector,Context context){
-        for(int i=0;i<jsonArray.length();i++){
+
+
+
+    public void getCategories( JSONArray jsonArray, ArrayList<String> categories, Spinner categories_selector, Context context, final String spinnerItem) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 categories.add(jsonObject.getString("category_name"));
@@ -66,5 +72,20 @@ public class fetch_categories {
         Collections.reverse(categories);
         categories_selector.setAdapter(new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, categories));
 
+
+            for (int i = 0 ; i < categories_selector.getCount(); i++)
+                if(categories_selector.getItemAtPosition(i).toString().equals(spinnerItem)){
+                    categories_selector.setSelection(i);
+                    break;
+                }
+
+
+
+
+
     }
 }
+
+
+
+
