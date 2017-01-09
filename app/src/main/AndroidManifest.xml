@@ -56,10 +56,10 @@
         <activity android:name=".Administrator.ManageCategoriesActivity" />
 
         <activity android:name=".Event.EventActivity" />
-        <activity android:name=".User.UserActivity" >   
+        <activity android:name=".User.UserActivity" />
         <activity android:name=".Profile.ProfileActivity" />
         <activity android:name=".Settings.SettingsActivity" />
-        <activity android:name=".Settings.ChangePasswordActivity" />
+        <activity android:name=".Settings.ChangePasswordActivity" >
      </activity>
     </application>
 
