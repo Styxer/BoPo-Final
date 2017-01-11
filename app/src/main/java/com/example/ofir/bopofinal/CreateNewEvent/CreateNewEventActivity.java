@@ -4,19 +4,29 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -27,6 +37,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.Event.EventActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.LoginRegister.LoginRequest;
 import com.example.ofir.bopofinal.LoginRegister.userValidation;
@@ -49,10 +60,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class CreateNewEventActivity extends Activity implements View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+public class CreateNewEventActivity extends AppCompatActivity implements
+        View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener ,TextWatcher {
 
 
     private static EditText etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants;
+    private static TextView mTvCreateRole, mTvCreateCurrentPeople;
     private static Button bCreate;
     private static Switch approveSwitch;
     private static Intent backToMainIntent;
@@ -65,8 +78,15 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
     private ArrayList<String> categories;
     private static ProgressDialog progressDialog;
     private static LoggedInUserService loggedInUserService;
+    private static RelativeLayout relativeLayout;
+
 
     Calendar calendar = Calendar.getInstance();
+
+    ComponentName mComponentName;
+
+    private final int CREATE_EVENT  = 1;
+    private final int EDIT_EVENT  = 2;
 
 
     @Override
@@ -80,8 +100,12 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
         etTime = (EditText) findViewById(R.id.etTime);
         etLocation = (EditText) findViewById(R.id.etLocation);
         etMaxParticipants = (EditText) findViewById(R.id.etMaxParticipants);
+
       //  etCategory = (EditText) findViewById(R.id.etCategorey);
         categories_selector = (Spinner)  findViewById(R.id.spinner);
+
+        mTvCreateRole = (TextView) findViewById(R.id.tvCreateRole);
+        mTvCreateCurrentPeople = (TextView) findViewById(R.id.tvCurrentPeople);
 
         approveSwitch = (Switch) findViewById(R.id.sApprove);
         approveSwitch.setText("no");
@@ -99,14 +123,86 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
 
         progressDialog = new ProgressDialog(this);
 
+        mComponentName =  this.getCallingActivity();
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.rel);
+
+
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        fetch_categories fetch_categories = new fetch_categories();
-        fetch_categories.getData(CreateNewEventActivity.this,categories,categories_selector);
+        fetch_categories fetch = new fetch_categories();
+        fetch.getData(CreateNewEventActivity.this,categories,categories_selector,"");
+        getSupportActionBar().setTitle("Create new event");
+
+        if(mComponentName != null){//edit event
+
+            //get spinner value
+            Intent intent = getIntent();
+            String spinnerItem  = intent.getStringExtra("category");
+            fetch.getData(CreateNewEventActivity.this,categories,categories_selector,spinnerItem );
+
+            retrieveData();
+
+
+        }
+
+
+    }
+
+    private void retrieveData(  ) {
+        relativeLayout.setAlpha(0);
+        setProgressDialogText("Fetching data...","");
+        //String title = null, description = null, time = null, date = null, location = null, role = null, maxPeople = null,currentPeople = null;
+        Intent intent = getIntent();
+
+        //get edit text values
+        String title =intent.getStringExtra("title");
+
+        setButtonState(View.INVISIBLE);
+
+        etTitle.setText(title);
+        etDescription.setText(intent.getStringExtra("description"));
+        etDate.setText(intent.getStringExtra("time"));
+        etTime.setText(intent.getStringExtra("date"));
+        etLocation.setText(intent.getStringExtra("location"));
+        etMaxParticipants.setText(Html.fromHtml("maximum people: "+intent.getStringExtra("maxPeople")));
+
+        getSupportActionBar().setTitle("Edit event" + title);
+
+        EditText[] editTexts = {etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants};
+
+        for (EditText editText: editTexts)//set text watcher to all edit text
+            editText.addTextChangedListener(this);
+
+        //set role
+
+        mTvCreateRole.setVisibility(View.VISIBLE);
+        mTvCreateRole.setText(Html.fromHtml("you are the "+intent.getStringExtra("role")+  " of the event"));
+
+        //set current people
+
+        mTvCreateCurrentPeople.setVisibility(View.VISIBLE);
+        mTvCreateCurrentPeople.setText(Html.fromHtml("current people: "+ intent.getStringExtra("currentPeople")));
+
+        //get ACK value
+        String ACK   = intent.getStringExtra("ACK");
+        if (ACK.equals("true")) {
+            approveSwitch.setText("yes");
+            approveSwitch.setChecked(true);
+        }else{
+            approveSwitch.setText("no");
+            approveSwitch.setChecked(false);
+        }
+
+        //set button text
+        bCreate.setText("Edit event");
+
+        progressDialog.hide();
+        relativeLayout.setAlpha(1);
     }
 
     @Override
@@ -125,8 +221,7 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
 
             case R.id.bCreate:
 
-                progressDialog.setMessage("Creating new event...");
-                progressDialog.setTitle("");
+                setProgressDialogText("Creating new event...","");
 
 
                 final String title = etTitle.getText().toString().trim();
@@ -148,40 +243,17 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                     EditText[] FirstList = {etTitle, etDescription,etDate,etTime,etLocation,etMaxParticipants};
                     boolean bool =  userValidation.emptyFields(FirstList,"please fill in this field");
                     if (bool){
-                        Response.Listener<String> responseListener = new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.i("JSONLog",response);
-                                try {
-                                    JSONObject jsonResponse = new JSONObject(response);
-                                    boolean success = jsonResponse.getBoolean("success");
+                        if(mComponentName != null) {// we came from to edit
+                            event( EDIT_EVENT,  title, description,  date,  time,
+                                     location,  maxParticipants,  category, ack,  id,
+                                    " edited successfully","editing the event failed");
+                        }
+                        else{
+                            event(CREATE_EVENT,  title, description,  date,  time,
+                                    location,  maxParticipants,  category, ack,  id,
+                                    " created successfully","Creating new event failed");
+                        }
 
-                                    if (success) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(CreateNewEventActivity.this,title + " created successfully",
-                                                Toast.LENGTH_LONG).show();
-                                        backToMainIntent = new Intent(CreateNewEventActivity.this, MainAppScreenActivity.class);
-                                        CreateNewEventActivity.this.startActivity(backToMainIntent);
-
-                                    }  else {
-                                        progressDialog.dismiss();
-                                        userValidation.alertDialog(CreateNewEventActivity.this,"Creating new event failed", "Retry");
-                                    }
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        };
-                        CreateNewEventRequest createNewEventRequest = new CreateNewEventRequest(title, description,
-                                date, time, location, maxParticipants,
-                                 category, ack, id,responseListener);
-                        RequestQueue queue = Volley.newRequestQueue(CreateNewEventActivity.this);
-
-                        queue.add(createNewEventRequest);
                     }
                 }
                 break;
@@ -229,6 +301,68 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
                 break;
 
         }
+    }
+
+    private void setProgressDialogText( String text , String title ) {
+        progressDialog.setMessage(text);
+        progressDialog.setTitle(title);
+    }
+
+    private void event(final int choice, String title, String description, String date, String time,
+                       String location, String maxParticipants, String category, String ack,
+                       final String id, final CharSequence textOkay, final CharSequence textFail ) {
+
+        final String finalTitle = title;
+
+        if(choice == EDIT_EVENT){
+
+        }
+
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("JSONLog",response);
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+
+                    if (success) {
+                        progressDialog.dismiss();
+
+
+                        Toast.makeText(CreateNewEventActivity.this, finalTitle + textOkay,
+                                Toast.LENGTH_LONG).show();
+                        backToMainIntent = new Intent(CreateNewEventActivity.this, MainAppScreenActivity.class);
+                        CreateNewEventActivity.this.startActivity(backToMainIntent);
+
+                    }  else {
+                        progressDialog.dismiss();
+                        userValidation.alertDialog(CreateNewEventActivity.this,textFail, "Retry");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        };
+        sendToServer( choice,   title,  description,  date,  time,
+                 location,  maxParticipants,  category,  ack,id,responseListener );
+    }
+
+    private void sendToServer(final int choice, final String title, String description, String date, String time,
+                              String location, String maxParticipants, String category, String ack,
+                              final String id, Response.Listener<String> responseListener) {
+
+        CreateNewEventRequest createNewEventRequest = new CreateNewEventRequest(choice ,title, description,
+                date, time, location, maxParticipants,
+                category, ack, id,responseListener);
+        RequestQueue queue = Volley.newRequestQueue(CreateNewEventActivity.this);
+
+        queue.add(createNewEventRequest);
     }
 
     protected void onActivityResult(int requestCode,int resultCode, Intent data){
@@ -286,5 +420,24 @@ public class CreateNewEventActivity extends Activity implements View.OnClickList
         }
 
 
+    }
+
+    @Override
+    public void beforeTextChanged( CharSequence charSequence, int i, int i1, int i2 ) {
+       // setButtonState(View.INVISIBLE);
+    }
+
+    @Override
+    public void onTextChanged( CharSequence charSequence, int i, int i1, int i2 ) {
+        setButtonState(View.VISIBLE);
+    }
+
+    @Override
+    public void afterTextChanged( Editable editable ) {
+        setButtonState(View.VISIBLE);
+
+    }
+    private void setButtonState(int state) {
+        bCreate.setVisibility(state);
     }
 }

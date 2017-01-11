@@ -41,7 +41,6 @@
         <activity android:name=".Events.ShowMyEventsActivity" />
         <activity android:name=".Events.DisplayEventsActivity" />
         <activity android:name=".Search.SearchActivity" />
-        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -60,7 +59,9 @@
         <activity android:name=".Settings.SettingsActivity" />
         <activity android:name=".Settings.ChangePasswordActivity" />
         <activity android:name=".Messages.MessagesHandlerActivity" />
-        <activity android:name=".Messages.SingleMessageActivity"></activity>
+	<activity android:name=".Messages.SingleMessageActivity"/>
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" >
+     </activity>
     </application>
 
 </manifest>
