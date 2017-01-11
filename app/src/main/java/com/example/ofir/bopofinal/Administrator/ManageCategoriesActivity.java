@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.Messages.AddMessageToDB;
 import com.example.ofir.bopofinal.R;
 import android.widget.Toast;
 import org.json.JSONException;
@@ -28,6 +29,7 @@ public class ManageCategoriesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    boolean RejectFlag, AcceptFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class ManageCategoriesActivity extends AppCompatActivity {
         btnAcceptRequests = (Button) findViewById(R.id.btnAcceptRequests);
         btnRejectRequests = (Button) findViewById(R.id.btnRejectRequests);
         choose = (TextView)findViewById(R.id.tvChoose);
+        RejectFlag = false;
+        AcceptFlag = false;
 
         if (AdministratorMainScreenActivity.noPendingRequests == true) {
             recyclerView.setVisibility(View.INVISIBLE);
@@ -72,12 +76,13 @@ public class ManageCategoriesActivity extends AppCompatActivity {
         }
 
         btnAcceptRequests.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 ArrayList<CategoryDetails> catList = ((ManageCategoriesRecyclerAdapter) adapter)
                         .arrayList;
 
+                AcceptFlag = true;
+                RejectFlag = false;
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -86,10 +91,15 @@ public class ManageCategoriesActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             String category_name = jsonResponse.getString("category_name");
+                            String user_id = jsonResponse.getString("user_id");
                             if (success) {
-                                Toast.makeText(ManageCategoriesActivity.this, "Category " +category_name+ " was approved",
+                                Toast.makeText(ManageCategoriesActivity.this, "Category " + category_name + " was approved",
                                         Toast.LENGTH_SHORT).show();
-                               ManageCategoriesActivity.this.startActivity(new Intent(ManageCategoriesActivity.this, AdministratorMainScreenActivity.class));
+                                if (AcceptFlag)
+                                {
+                                    new AddMessageToDB(ManageCategoriesActivity.this, "ResponseToCategoryRequest", user_id, "", "", category_name, "accepted");
+                                }
+                                ManageCategoriesActivity.this.startActivity(new Intent(ManageCategoriesActivity.this, AdministratorMainScreenActivity.class));
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageCategoriesActivity.this);
                                 builder.setMessage("Category approval failed")
@@ -128,10 +138,10 @@ public class ManageCategoriesActivity extends AppCompatActivity {
                 for (int i = 0; i < catList.size(); i++) {
                     CategoryDetails singleCategory = catList.get(i);
                     if (singleCategory.isSelected() == true) {
-                        ApproveCategoriesRequest approveCategoriesRequest = new ApproveCategoriesRequest(catList.get(i).getCategoryName(),/*catList.get(i).getRequestId(),*/ responseListener);
+                        ApproveCategoriesRequest approveCategoriesRequest = new ApproveCategoriesRequest(catList.get(i).getCategoryName(),catList.get(i).getUserId(),/*catList.get(i).getRequestId(),*/ responseListener);
                         RequestQueue queue = Volley.newRequestQueue(ManageCategoriesActivity.this);
                         queue.add(approveCategoriesRequest);
-                        DeleteCategoriesRequest deleteCategoriesRequest = new DeleteCategoriesRequest(catList.get(i).getRequestId()/*,catList.get(i).getRequestId()*/, responseListener2);
+                        DeleteCategoriesRequest deleteCategoriesRequest = new DeleteCategoriesRequest(catList.get(i).getRequestId(),catList.get(i).getCategoryName(),catList.get(i).getUserId()/*,catList.get(i).getRequestId()*/, responseListener2);
                         RequestQueue queue1 = Volley.newRequestQueue(ManageCategoriesActivity.this);
                         queue1.add(deleteCategoriesRequest);
                     }
@@ -148,16 +158,25 @@ public class ManageCategoriesActivity extends AppCompatActivity {
                 ArrayList<CategoryDetails> catList = ((ManageCategoriesRecyclerAdapter) adapter)
                         .arrayList;
 
+                RejectFlag = true;
+                AcceptFlag = false;
+
                 Response.Listener<String> responseListener3 = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
+                            String category_name = jsonResponse.getString("category_name");
+                            String user_id = jsonResponse.getString("user_id");
                             if (success) {
                                 Toast.makeText(ManageCategoriesActivity.this, "Category was rejected",
                                         Toast.LENGTH_SHORT).show();
-                                ManageCategoriesActivity.this.startActivity(new Intent(ManageCategoriesActivity.this, AdministratorMainScreenActivity.class));
+                                if (RejectFlag)
+                                {
+                                    new AddMessageToDB(ManageCategoriesActivity.this, "ResponseToCategoryRequest", user_id, "", "", category_name, "rejected");
+                                }
+                                    ManageCategoriesActivity.this.startActivity(new Intent(ManageCategoriesActivity.this, AdministratorMainScreenActivity.class));
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageCategoriesActivity.this);
                                 builder.setMessage("delete from pending list failed")
@@ -173,7 +192,7 @@ public class ManageCategoriesActivity extends AppCompatActivity {
                 for (int i = 0; i < catList.size(); i++) {
                     CategoryDetails singleCategory = catList.get(i);
                     if (singleCategory.isSelected() == true) {
-                        DeleteCategoriesRequest deleteCategoriesRequest = new DeleteCategoriesRequest(catList.get(i).getRequestId()/*,catList.get(i).getRequestId()*/, responseListener3);
+                        DeleteCategoriesRequest deleteCategoriesRequest = new DeleteCategoriesRequest(catList.get(i).getRequestId(), catList.get(i).getCategoryName(),catList.get(i).getUserId()/*,catList.get(i).getRequestId()*/, responseListener3);
                         RequestQueue queue3 = Volley.newRequestQueue(ManageCategoriesActivity.this);
                         queue3.add(deleteCategoriesRequest);
                     }
