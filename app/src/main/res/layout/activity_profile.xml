@@ -138,15 +138,31 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:srcCompat="@drawable/default_picture"-->
-        <!--android:layout_marginBottom="36dp"-->
-        <!--android:id="@+id/ivProfilePic"-->
-        <!--android:layout_above="@+id/etProfileName"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:onClick="onClick"/>-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:id="@+id/ivProfilePic"
+        android:layout_above="@+id/etProfileName"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClick"/>
 
+    <ImageView
+        android:id="@+id/ivProfilePhoto"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/tvTapPicture"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="tap profile picture to change it  "
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTapPicture"
+        android:textSize="10dp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/ivProfilePhoto" />
 
 </RelativeLayout>

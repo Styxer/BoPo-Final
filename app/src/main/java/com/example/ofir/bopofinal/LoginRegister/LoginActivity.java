@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     // int user_rating = jsonResponse.getInt("rating");
                                     String user_phone_number = jsonResponse.getString("phone_number");
                                     String user_address = jsonResponse.getString("address");
+                                    String user_image = jsonResponse.getString("image");
 
                                     //set
                                     LoggedInUserService loggedInUserService = LoggedInUserService.getInstance();
@@ -105,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setM_birthday(user_birthday);
                                     loggedInUserService.setM_phone_number(user_phone_number);
                                     loggedInUserService.setM_address(user_address);
+                                    loggedInUserService.setM_image(user_image);
 //start changes by alona 24.12.16
 //                                    if (user_role.equals ("regular"))
 //                                        {
