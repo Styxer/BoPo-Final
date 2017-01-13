@@ -14,7 +14,8 @@
         android:textSize="18dp"
         android:id="@+id/tvPName"
         android:layout_marginStart="2dp"
-        android:text="Name" />
+        android:text="Name"
+        android:visibility="invisible"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

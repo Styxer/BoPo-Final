@@ -11,7 +11,7 @@ import com.example.ofir.bopofinal.R;
 
 public class DisplaySearchResultsActivity extends AppCompatActivity {
 
-    TextView nameTitle, NoResults;
+    TextView NoResults;
     RecyclerView PersonRecyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
@@ -25,7 +25,6 @@ public class DisplaySearchResultsActivity extends AppCompatActivity {
         SearchStr = Pref.getString("str", "");
 
         PersonRecyclerView = (RecyclerView) findViewById(R.id.PersonRecyclerView);
-        nameTitle =(TextView)findViewById(R.id.tvPName);
         NoResults = (TextView)findViewById(R.id.tvNoResults);
 
         getSupportActionBar().setTitle("results for " + SearchStr);
@@ -33,13 +32,11 @@ public class DisplaySearchResultsActivity extends AppCompatActivity {
         if (SearchActivity.noResultsFlag == true)
         {
             PersonRecyclerView.setVisibility(View.INVISIBLE);
-            nameTitle.setVisibility(View.INVISIBLE);
             NoResults.setVisibility(View.VISIBLE);
         }
         else if (SearchActivity.noResultsFlag == false)
         {
             PersonRecyclerView.setVisibility(View.VISIBLE);
-            nameTitle.setVisibility(View.VISIBLE);
             NoResults.setVisibility(View.INVISIBLE);
 
             layoutManager = new LinearLayoutManager(this);
