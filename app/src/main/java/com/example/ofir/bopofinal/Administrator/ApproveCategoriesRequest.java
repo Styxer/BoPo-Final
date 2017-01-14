@@ -14,10 +14,11 @@ public class ApproveCategoriesRequest extends StringRequest {
     private static final String SUGGEST_CATEGORY_REQUEST_URL = "http://tower.site88.net/ApproveCategoryRequest.php";
     private Map<String, String> params;
 
-    public ApproveCategoriesRequest(String category_name,Response.Listener<String> listener) {
+    public ApproveCategoriesRequest(String category_name,String user_id, Response.Listener<String> listener) {
         super(Method.POST, SUGGEST_CATEGORY_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put ("category_name", category_name);
+        params.put ("user_id", user_id);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.ofir.bopofinal.LoginRegister;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.Administrator.AdministratorMainScreenActivity;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
+import com.example.ofir.bopofinal.Messages.CalculateUnreadMessagesRequest;
+import com.example.ofir.bopofinal.Messages.CountUnreadMessagesService;
 import com.example.ofir.bopofinal.R;
 
 import org.json.JSONException;
@@ -25,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static EditText etPassword;
     private static Button bRegister;
     private static Button bLogin;
-
+    public static boolean LoginFlag = true;
     static private LoginActivity instance = null;
 
     private static ProgressDialog progressDialog;
@@ -36,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        LoginFlag = true;
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
@@ -82,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     progressDialog.dismiss();
                                     //get
                                     int user_id = jsonResponse.getInt("user_id");
+                                    CalculateUnreadMessagesNumber(getBaseContext(), user_id +"");
                                     String user_role = jsonResponse.getString("role");
                                     String user_name = jsonResponse.getString("name");
                                     String user_email = jsonResponse.getString("email");
@@ -90,6 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     // int user_rating = jsonResponse.getInt("rating");
                                     String user_phone_number = jsonResponse.getString("phone_number");
                                     String user_address = jsonResponse.getString("address");
+                                    String user_image = jsonResponse.getString("image");
 
                                     //set
                                     LoggedInUserService loggedInUserService = LoggedInUserService.getInstance();
@@ -101,17 +106,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     loggedInUserService.setM_birthday(user_birthday);
                                     loggedInUserService.setM_phone_number(user_phone_number);
                                     loggedInUserService.setM_address(user_address);
+                                    loggedInUserService.setM_image(user_image);
 //start changes by alona 24.12.16
-                                    if (user_role.equals ("regular"))
-                                        {
-                                        Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
-                                        LoginActivity.this.startActivity(intent);
-                                        }
-                                    else if (user_role.equals("admin"))
-                                       {
-                                        Intent intent = new Intent(LoginActivity.this, AdministratorMainScreenActivity.class);
-                                        LoginActivity.this.startActivity(intent);
-                                       }
+//                                    if (user_role.equals ("regular"))
+//                                        {
+//                                        Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
+//                                        LoginActivity.this.startActivity(intent);
+//                                        }
+//                                    else if (user_role.equals("admin"))
+//                                       {
+//                                        Intent intent = new Intent(LoginActivity.this, AdministratorMainScreenActivity.class);
+//                                        LoginActivity.this.startActivity(intent);
+//                                       }
 //end changes by alona 24.12.16
                                 } else if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email)){
                                     userValidation.alertDialog(LoginActivity.this,"Wrong user name or password", "Retry");
@@ -137,6 +143,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public void CalculateUnreadMessagesNumber(Context ctx, String user_id) {
+
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    int unread_messages_number = jsonResponse.getInt("unread_messages_number");
+                    if (success) {
+                        CountUnreadMessagesService countUnreadMessagesService = CountUnreadMessagesService.getInstance();
+                        countUnreadMessagesService.setM_messages_number(unread_messages_number);
+                        if (LoggedInUserService.getInstance().getM_role().equals ("regular"))
+                                        {
+                                        Intent intent = new Intent(LoginActivity.this, MainAppScreenActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                        }
+                                    else if (LoggedInUserService.getInstance().getM_role().equals("admin"))
+                                       {
+                                        Intent intent = new Intent(LoginActivity.this, AdministratorMainScreenActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                       }
+                    } else {
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        CalculateUnreadMessagesRequest calculateUnreadMessagesRequest = new CalculateUnreadMessagesRequest(user_id, responseListener);
+        RequestQueue queue = Volley.newRequestQueue(ctx);
+        queue.add(calculateUnreadMessagesRequest);
+    }
 
 }
 

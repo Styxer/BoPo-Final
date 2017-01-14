@@ -14,7 +14,7 @@ public class ProfileRequest extends StringRequest {
     private static final String SHOW_PROFILE_REQUEST_URL = "http://tower.site88.net/ChangeProfile.php";
     private Map<String, String> params;
 
-    public ProfileRequest(String user_id,String name, String email, String birthday, String phone, String address, Response.Listener<String> listener) {
+    public ProfileRequest(String user_id,String name, String email, String birthday, String phone, String address,String image, Response.Listener<String> listener) {
         super(Method.POST, SHOW_PROFILE_REQUEST_URL, listener, null);
         params = new HashMap<>();
 
@@ -24,7 +24,7 @@ public class ProfileRequest extends StringRequest {
         params.put ("birthday", birthday);
         params.put ("phone_number", phone);
         params.put ("address", address);
-
+        params.put ("image", image);
     }
 
     @Override

@@ -10,31 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ofir.bopofinal.Settings.SettingsActivity">
 
-    <Switch
-        android:text="notifications   "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sNotifications"
-        android:layout_marginTop="24dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Switch
-        android:text="sounds            "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sSounds"
-        android:layout_below="@+id/sNotifications"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp" />
-
     <Button
         android:text="change password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnChangePassword"
         android:layout_marginTop="40dp"
-        android:layout_below="@+id/sSounds"
         android:layout_centerHorizontal="true"
         android:onClick="onClick"/>
 

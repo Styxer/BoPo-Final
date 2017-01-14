@@ -40,20 +40,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@mipmap/ic_profile"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         android:id="@+id/ibProfile"
         android:background="#00000000"
-        android:layout_alignTop="@+id/ibSearch"
-        android:layout_alignParentEnd="true"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:layout_above="@+id/tvSuggestCategory"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:text=" Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvSearch"
-        android:layout_alignStart="@+id/ibProfile"
-        android:id="@+id/tvProfile" />
+        android:id="@+id/tvProfile"
+        android:layout_below="@+id/ibProfile"
+        android:layout_alignStart="@+id/ibProfile" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -118,11 +118,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@mipmap/ic_logout"
-        android:layout_alignTop="@+id/ibSuggestCategory"
-        android:layout_alignEnd="@+id/ibProfile"
         android:id="@+id/ibLogout"
         android:background="#00000000"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:layout_below="@+id/tvSuggestCategory"
+        android:layout_alignStart="@+id/tvSearch"
+        android:layout_marginTop="54dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_myevents"
+        android:layout_marginTop="11dp"
+        android:id="@+id/ibMyEvents"
+        android:background="#00000000"
+        android:onClick="onClick"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:text=" Logout"
@@ -135,12 +147,20 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_myevents"
-        android:layout_marginTop="51dp"
-        android:id="@+id/ibMyEvents"
+        app:srcCompat="@mipmap/ic_messages"
+        android:id="@+id/ibMessages"
         android:background="#00000000"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/tvMessages"
+        android:layout_alignStart="@+id/ibProfile"
         android:onClick="onClick"/>
+
+    <TextView
+        android:text="Messages"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMessages"
+        android:layout_alignBaseline="@+id/tvSearch"
+        android:layout_alignBottom="@+id/tvSearch"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

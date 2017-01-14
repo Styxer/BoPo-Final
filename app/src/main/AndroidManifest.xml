@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <permission
         android:name="com.example.ofir.bopofinal.permission.MAPS_RECEIVE"
@@ -57,11 +58,15 @@
         <activity android:name=".Search.DisplaySearchResultsActivity" />
         <activity android:name=".Administrator.AdministratorMainScreenActivity" />
         <activity android:name=".Administrator.ManageCategoriesActivity" />
-
         <activity android:name=".Event.EventActivity" />
         <activity android:name=".User.UserActivity" />
-        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
-        <activity android:name=".Profile.ProfileActivity" >
+
+        <activity android:name=".Profile.ProfileActivity" />
+        <activity android:name=".Settings.SettingsActivity" />
+        <activity android:name=".Settings.ChangePasswordActivity" />
+        <activity android:name=".Messages.MessagesHandlerActivity" />
+       	<activity android:name=".Messages.SingleMessageActivity"/>
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" >
 
      </activity>
     </application>
