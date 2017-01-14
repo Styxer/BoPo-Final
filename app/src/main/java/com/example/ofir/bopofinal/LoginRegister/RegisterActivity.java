@@ -26,10 +26,17 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import  java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.R;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,13 +52,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private static EditText etEmail;
     private static EditText etPhoneNumber;
 
-    private static  Intent intent;
+    private static  Intent intent,   searchIntent;
     private static DatePickerDialog datePickerDialog;
     Calendar calendar = Calendar.getInstance();
 
     private String email;
 
     private static ProgressDialog progressDialog;
+
+    final int PLACE_PICKER_REQUEST = 1;
 
 
 
@@ -143,8 +152,45 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 datePickerDialog.show();
 
                 break; //age
+
+            case R.id.etAdress://select address
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                progressDialog.setMessage("Loading map...");
+                progressDialog.setTitle("");
+                progressDialog.show();
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                },3000);
+
+
+                try {
+                    searchIntent = builder.build(this);
+
+                    startActivityForResult(searchIntent,PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+
+                break;//address
         }
     }
+
+    protected void onActivityResult(int requestCode,int resultCode, Intent data){
+        if(requestCode ==  PLACE_PICKER_REQUEST){
+            if(requestCode == 1){
+                Place place = PlacePicker.getPlace(this,data);
+                String address = String.format("%s",place.getAddress());
+                etAddress.setText(address);
+            }
+        }
+    }
+
     DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {

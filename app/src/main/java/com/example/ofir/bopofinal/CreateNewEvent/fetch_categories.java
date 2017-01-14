@@ -75,7 +75,7 @@ public class fetch_categories {
 
             for (int i = 0 ; i < categories_selector.getCount(); i++)
                 if(categories_selector.getItemAtPosition(i).toString().equals(spinnerItem)){
-                    categories_selector.setSelection(i);
+                    categories_selector.setSelection(i-1);
                     break;
                 }
 

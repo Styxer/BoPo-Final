@@ -45,13 +45,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.name.setText(arrayList.get(position).getEventName());
-        holder.location.setText(arrayList.get(position).getEventLocation());
-        holder.date.setText(arrayList.get(position).getEventDate());
-        holder.time.setText(arrayList.get(position).getEventTime());
-        holder.event_id.setText(arrayList.get(position).getEventId());
+        if(holder != null) {
+            holder.name.setText(arrayList.get(position).getEventName());
+            holder.location.setText(arrayList.get(position).getEventLocation());
+            holder.date.setText(arrayList.get(position).getEventDate());
+            holder.time.setText(arrayList.get(position).getEventTime());
+            holder.event_id.setText(arrayList.get(position).getEventId());
 //        EventID = holder.event_id.getText().toString();
 //        holder.event_id.setTag(EventID);
+        }
 
     }
 

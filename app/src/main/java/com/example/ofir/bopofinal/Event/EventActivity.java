@@ -21,7 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
-import com.example.ofir.bopofinal.LoginRegister.userValidation;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
 
@@ -33,7 +33,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private static TextView tvEventName, tvEventDescription, tvTime, tvDate, tvLocation, tvCategory,
                           tvACK, tvRole, tvMaxPeople, tvCurrentUsers, tvViewPeople;
 
-    private static Button mBedeleteEvent,mBeditEvent;
+    private static Button mBedeleteEvent,mBeditEvent, mbJoinEvent;
+    Button[] mButtons;
 
     private String title ,description, time, date, location, category, ACK, role, maxPeople, currentPeople;
     Bundle bundle;
@@ -46,6 +47,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private final int FETCH_EVENT_DETAILS  = 1;
     private final int DELETE_EVENT  = 2;
     private final int EDIT_EVENT  = 3;
+    private final int JOIN_EVENT  = 4;
 
 
 
@@ -59,12 +61,11 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_event);
 
 
-
         bundle = getIntent().getExtras();
         eventId = bundle.getString("str");
 
 
-        userId = LoggedInUserService.getInstance().getM_id();
+
         getSupportActionBar().setTitle("Event details");
 
         tvEventName = (TextView) findViewById(R.id.tvEventName);
@@ -81,22 +82,17 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
         mBedeleteEvent = (Button) findViewById(R.id.bMdeleteEvent);
         mBeditEvent = (Button) findViewById(R.id.bMeditEvent);
-
-        mRelativeLayout = (RelativeLayout)  findViewById(R.id.RelativeLayout);
+        mbJoinEvent = (Button) findViewById(R.id.bJoinEvent);
 
         tvViewPeople.setOnClickListener(this);
-        mBedeleteEvent.setOnClickListener(this);
-        mBeditEvent.setOnClickListener(this);
 
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Loading data...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setInverseBackgroundForced(false);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.RelativeLayout);
 
-        mRelativeLayout.setAlpha(0);
+        mButtons = new Button[]{mBedeleteEvent, mBeditEvent, mbJoinEvent};
 
-
-
+        for (Button buttons : mButtons) {
+            buttons.setOnClickListener(this);
+        }
 
     }
 
@@ -109,8 +105,14 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onStart() {
-
         super.onStart();
+        userId = LoggedInUserService.getInstance().getM_id();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Loading data...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setInverseBackgroundForced(false);
+
+        mRelativeLayout.setAlpha(0);
         mProgressDialog.show();
         Response.Listener<String> getEventReStringListener = new Response.Listener<String>() {
             @Override
@@ -118,6 +120,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
+                    Log.i("response",response.toString());
 
                     if (success) {
                         mProgressDialog.hide();
@@ -132,12 +135,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                         maxPeople = "<b>" + jsonResponse.getString("max_members") + "</b>";
                         currentPeople  = "<b>" + jsonResponse.getString("currentPeople") + "</b>";
 
-
-
-
-                        setButton(View.INVISIBLE, mBedeleteEvent, mBeditEvent);
-
-
+                        setButton(View.INVISIBLE, mButtons);
 
                         tvEventName.setText(Html.fromHtml("event name: "+title));
                         tvEventDescription.setText(Html.fromHtml("event description: "+description));
@@ -168,6 +166,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     }
 
     void setButton(int state, Button... buttons){
+        Log.i("role",role);
        if(role.equals("<b>participant</b>")) {
             for (Button button : buttons) {
                 button.setVisibility(state);
@@ -178,13 +177,17 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
            buttons[0].setTextColor(Color.RED);
            buttons[0].setClickable(false);
            buttons[1].setVisibility(state);
+           buttons[2].setVisibility(state);
         }
         else if (role.equals("<b>moderator</b>")){
            buttons[0].setTextColor(Color.RED);
+           buttons[2].setVisibility(state);
        }
         else {
-           buttons[0].setText("join this event");
+           buttons[0].setVisibility(state);
            buttons[1].setVisibility(state);
+           buttons[2].setVisibility(View.VISIBLE);
+           buttons[2].setText("join this event");
        }
     }
 
@@ -204,6 +207,10 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             case R.id.bMeditEvent:
                 openDialog("to edit this event?",EDIT_EVENT);
                 break;
+
+            case R.id.bJoinEvent:
+                openDialog("to join this event?",JOIN_EVENT);
+                break;
         }
 
     }
@@ -215,33 +222,13 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (choice == DELETE_EVENT){
-                            Response.Listener<String> DeleteEventReStringListener = new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject jsonResponse = new JSONObject(response);
-                                        boolean success = jsonResponse.getBoolean("success");
-
-                                        if (success) {
-                                            Toast.makeText(EventActivity.this, "event deleted successfully",
-                                                    Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(EventActivity.this, ShowMyEventsActivity.class));
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            };
-
-                            createRequest(userId,eventId,DELETE_EVENT,DeleteEventReStringListener);
+                          getOnResponse(DELETE_EVENT,"event deleted", ShowMyEventsActivity.class);
                         }
 
                         else if(choice == EDIT_EVENT){
                            Intent intent = new Intent(EventActivity.this,CreateNewEventActivity.class);
 
-
-
-                             intent.putExtra("title",title.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("title",title.replace("<b>","").replace("</b>","").trim());
                             intent.putExtra("description",description.replace("<b>","").replace("</b>","").trim());
                             intent.putExtra("time",time.replace("<b>","").replace("</b>","").trim());
                             intent.putExtra("date",date.replace("<b>","").replace("</b>","").trim());
@@ -253,6 +240,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                             intent.putExtra("currentPeople",currentPeople);
                             startActivityForResult(intent,20);
 
+                        }
+                        if(choice == JOIN_EVENT){
+                            getOnResponse(JOIN_EVENT, title + "joined the event", MainAppScreenActivity.class);
                         }
 
 
@@ -266,6 +256,29 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                     }
                 })
                 .show();
+    }
+
+    private void getOnResponse(int state, final CharSequence successText, final Class className) {
+        Response.Listener<String> DeleteEventReStringListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+
+                    if (success) {
+                        //String role = jsonResponse.getString("role");
+                        Toast.makeText(EventActivity.this, successText +" successfully",
+                                Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(EventActivity.this, className));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Log.i("userId", String.valueOf(userId));
+        createRequest(userId,eventId, state,DeleteEventReStringListener);
     }
 
     private void createRequest(int userId, String eventId,int state, Response.Listener<String> litsner) {
