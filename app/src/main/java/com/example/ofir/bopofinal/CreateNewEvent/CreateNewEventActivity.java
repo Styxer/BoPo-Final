@@ -1,45 +1,36 @@
 package com.example.ofir.bopofinal.CreateNewEvent;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
-import android.text.TextUtils;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-import android.widget.Toolbar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ofir.bopofinal.Event.EventActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
-import com.example.ofir.bopofinal.LoginRegister.LoginRequest;
 import com.example.ofir.bopofinal.LoginRegister.userValidation;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
@@ -61,7 +52,7 @@ import java.util.TimerTask;
 
 
 public class CreateNewEventActivity extends AppCompatActivity implements
-        View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener ,TextWatcher {
+        View.OnClickListener, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener ,TextWatcher, TextView.OnEditorActionListener {
 
 
     private static EditText etTitle, etDescription, etDate, etTime, etLocation, etMaxParticipants;
@@ -79,6 +70,14 @@ public class CreateNewEventActivity extends AppCompatActivity implements
     private static ProgressDialog progressDialog;
     private static LoggedInUserService loggedInUserService;
     private static RelativeLayout relativeLayout;
+
+
+    String title,description, date, time, location, maxParticipants,currentarticipants, category,ack, uerId;
+    String afterTitle,afterDescription, afterDate, afterTime, afterLocation ,afterMaxParticipants, afterCurrentarticipants,
+    afterCategory,afterAck;
+
+    EditText[] mEditTexts = new EditText[]{};
+
 
 
     Calendar calendar = Calendar.getInstance();
@@ -101,7 +100,7 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         etLocation = (EditText) findViewById(R.id.etLocation);
         etMaxParticipants = (EditText) findViewById(R.id.etMaxParticipants);
 
-      //  etCategory = (EditText) findViewById(R.id.etCategorey);
+      //  etCategory = (EditText) findViewById(R.uerId.etCategorey);
         categories_selector = (Spinner)  findViewById(R.id.spinner);
 
         mTvCreateRole = (TextView) findViewById(R.id.tvCreateRole);
@@ -111,7 +110,7 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         approveSwitch.setText("no");
 
         bCreate = (Button) findViewById(R.id.bCreate);
-       // bBack = (Button) findViewById(R.id.bBack);
+       // bBack = (Button) findViewById(R.uerId.bBack);
 
         loggedInUserService = LoggedInUserService.getInstance();
 
@@ -129,6 +128,8 @@ public class CreateNewEventActivity extends AppCompatActivity implements
 
 
 
+
+
     }
 
     @Override
@@ -136,18 +137,28 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         super.onStart();
         fetch_categories fetch = new fetch_categories();
         fetch.getData(CreateNewEventActivity.this,categories,categories_selector,"");
-        getSupportActionBar().setTitle("Create new event");
+
+
+
 
         if(mComponentName != null){//edit event
 
             //get spinner value
             Intent intent = getIntent();
-            String spinnerItem  = intent.getStringExtra("category");
-            fetch.getData(CreateNewEventActivity.this,categories,categories_selector,spinnerItem );
+            afterCategory  = intent.getStringExtra("category");
+            fetch.getData(CreateNewEventActivity.this,categories,categories_selector,afterCategory );
+
+            mEditTexts = new EditText[]{etTitle, etDescription, etDate, etTime, etLocation};
+
+            for(EditText editText: mEditTexts){
+                editText.addTextChangedListener(this);
+            }
 
             retrieveData();
 
 
+        }else{
+            getSupportActionBar().setTitle("Create new event");
         }
 
 
@@ -160,7 +171,7 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         Intent intent = getIntent();
 
         //get edit text values
-        String title =intent.getStringExtra("title");
+        String title = intent.getStringExtra("title");
 
         setButtonState(View.INVISIBLE);
 
@@ -169,7 +180,10 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         etDate.setText(intent.getStringExtra("time"));
         etTime.setText(intent.getStringExtra("date"));
         etLocation.setText(intent.getStringExtra("location"));
-        etMaxParticipants.setText(Html.fromHtml("maximum people: "+intent.getStringExtra("maxPeople")));
+        etMaxParticipants.setText(Html.fromHtml("maximum people "+intent.getStringExtra("maxPeople").replaceAll("[^0-9,<b>,</b>]", "")));
+
+
+
 
         getSupportActionBar().setTitle("Edit event" + title);
 
@@ -187,6 +201,9 @@ public class CreateNewEventActivity extends AppCompatActivity implements
 
         mTvCreateCurrentPeople.setVisibility(View.VISIBLE);
         mTvCreateCurrentPeople.setText(Html.fromHtml("current people: "+ intent.getStringExtra("currentPeople")));
+
+        //
+
 
         //get ACK value
         String ACK   = intent.getStringExtra("ACK");
@@ -208,31 +225,30 @@ public class CreateNewEventActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-          /*  case R.id.bBack:
+          /*  case R.uerId.bBack:
 
                 CreateNewEventActivity.this.startActivity(backToMainIntent);
                 break;*/
 
             case R.id.bCreate:
 
-                setProgressDialogText("Creating new event...","");
 
 
-                final String title = etTitle.getText().toString().trim();
-                final String description  = etDescription.getText().toString().trim();
-                final String date = etDate.getText().toString().trim();
-                final String time = etTime.getText().toString().trim();
-                final String location = etLocation.getText().toString().trim();
-                final String maxParticipants = etMaxParticipants.getText().toString().trim();
-                final String category = categories_selector.getSelectedItem().toString();
-                final String ack = check;
-                final String id = Integer.toString(loggedInUserService.getM_id());
+
+                  title = etTitle.getText().toString().trim();
+                  description  = etDescription.getText().toString().trim();
+                  date = etDate.getText().toString().trim();
+                  time = etTime.getText().toString().trim();
+                  location = etLocation.getText().toString().trim();
+                  maxParticipants = etMaxParticipants.getText().toString().trim();
+                  category = categories_selector.getSelectedItem().toString();
+                  ack = check;
+                  uerId = Integer.toString(loggedInUserService.getM_id());
 
 
 
@@ -243,14 +259,18 @@ public class CreateNewEventActivity extends AppCompatActivity implements
                     EditText[] FirstList = {etTitle, etDescription,etDate,etTime,etLocation,etMaxParticipants};
                     boolean bool =  userValidation.emptyFields(FirstList,"please fill in this field");
                     if (bool){
-                        if(mComponentName != null) {// we came from to edit
-                            event( EDIT_EVENT,  title, description,  date,  time,
-                                     location,  maxParticipants,  category, ack,  id,
+                        if(mComponentName != null ) {// we came from to edit
+                            setProgressDialogText("Editing event details...","");
+                            event( EDIT_EVENT,  afterTitle, afterDescription,  afterDate,  afterTime,
+                                    afterLocation,  maxParticipants,  afterCategory, ack, uerId,
                                     " edited successfully","editing the event failed");
+
+
                         }
                         else{
+                            setProgressDialogText("Creating new event...","");
                             event(CREATE_EVENT,  title, description,  date,  time,
-                                    location,  maxParticipants,  category, ack,  id,
+                                    location,  maxParticipants,  category, ack, uerId,
                                     " created successfully","Creating new event failed");
                         }
 
@@ -274,11 +294,10 @@ public class CreateNewEventActivity extends AppCompatActivity implements
             case R.id.etLocation:
                // intent = new Intent(CreateNewEventActivity.this, MapsActivity.class);
                // CreateNewEventActivity.this.startActivity(intent);
-               // Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
+               // Toolbar toolbar =  (Toolbar) findViewById(R.uerId.toolbar);
 
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                progressDialog.setMessage("Loading map...");
-                progressDialog.setTitle("");
+                setProgressDialogText("Loading map...","");
                 progressDialog.show();
                 new Timer().schedule(new TimerTask() {
                     @Override
@@ -308,18 +327,11 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         progressDialog.setTitle(title);
     }
 
-    private void event(final int choice, String title, String description, String date, String time,
+    private void event(final int choice, final String title, String description, String date, String time,
                        String location, String maxParticipants, String category, String ack,
-                       final String id, final CharSequence textOkay, final CharSequence textFail ) {
+                       final String userID, final CharSequence textOkay, final CharSequence textFail ) {
 
-        final String finalTitle = title;
-
-        if(choice == EDIT_EVENT){
-
-        }
-
-
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+          Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("JSONLog",response);
@@ -331,7 +343,7 @@ public class CreateNewEventActivity extends AppCompatActivity implements
                         progressDialog.dismiss();
 
 
-                        Toast.makeText(CreateNewEventActivity.this, finalTitle + textOkay,
+                        Toast.makeText(CreateNewEventActivity.this, title + textOkay,
                                 Toast.LENGTH_LONG).show();
                         backToMainIntent = new Intent(CreateNewEventActivity.this, MainAppScreenActivity.class);
                         CreateNewEventActivity.this.startActivity(backToMainIntent);
@@ -350,12 +362,15 @@ public class CreateNewEventActivity extends AppCompatActivity implements
 
         };
         sendToServer( choice,   title,  description,  date,  time,
-                 location,  maxParticipants,  category,  ack,id,responseListener );
+                location,  maxParticipants,  category,  ack,userID,responseListener );
+
+
     }
 
-    private void sendToServer(final int choice, final String title, String description, String date, String time,
+
+    private void sendToServer( int choice,  String title, String description, String date, String time,
                               String location, String maxParticipants, String category, String ack,
-                              final String id, Response.Listener<String> responseListener) {
+                               String id, Response.Listener<String> responseListener) {
 
         CreateNewEventRequest createNewEventRequest = new CreateNewEventRequest(choice ,title, description,
                 date, time, location, maxParticipants,
@@ -436,8 +451,52 @@ public class CreateNewEventActivity extends AppCompatActivity implements
     public void afterTextChanged( Editable editable ) {
         setButtonState(View.VISIBLE);
 
+        afterTitle = etTitle.getText().toString();
+        afterDescription = etDescription.getText().toString();
+        afterDate = etDate.getText().toString();
+        afterTime = etTime.getText().toString();
+        afterLocation = etLocation.getText().toString();
+        afterMaxParticipants  = etMaxParticipants.getText().toString();
+
+
+
+     /*   if (Integer.parseInt(afterMaxParticipants) > Integer.parseInt(maxParticipants) ){
+            userValidation.alertDialog(this,"maximum number of peoples cannot be more then current amount","retry");
+        }*/
+
+
+
+
+        for(EditText editText: mEditTexts){
+            editText.setSingleLine();
+            editText.setMaxLines(1);
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
+            editText.setOnEditorActionListener(this);
+
+
+        }
+
+
+
     }
     private void setButtonState(int state) {
         bCreate.setVisibility(state);
     }
-}
+
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                actionId == EditorInfo.IME_ACTION_DONE ||
+                event.getAction() == KeyEvent.ACTION_DOWN &&
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            if (!event.isShiftPressed()) {
+              Log.i("textView",textView.getText().toString());
+
+                return true; // consume.
+            }
+        }
+        return false; // pass on to other listeners.
+    }
+
+ }
+

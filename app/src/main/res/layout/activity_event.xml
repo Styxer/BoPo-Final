@@ -127,4 +127,13 @@
         android:layout_alignTop="@+id/bMdeleteEvent"
         android:layout_toEndOf="@+id/bMdeleteEvent" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="join event"
+        android:id="@+id/bJoinEvent"
+        android:layout_alignTop="@+id/bMdeleteEvent"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/bMdeleteEvent" />
+
 </RelativeLayout>

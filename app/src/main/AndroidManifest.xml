@@ -4,6 +4,7 @@
 
     <!-- google maps permission -->
     <!-- Required -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,6 +15,9 @@
 
     <uses-permission android:name="com.example.ofir.bopofinal.permission.MAPS_RECEIVE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <!-- calling permmission -->
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -56,8 +60,8 @@
 
         <activity android:name=".Event.EventActivity" />
         <activity android:name=".User.UserActivity" />
-        <activity android:name=".CreateNewEvent.CreateNewEventActivity" >
-        <activity android:name=".Profile.ProfileActivity" />
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
+        <activity android:name=".Profile.ProfileActivity" >
 
      </activity>
     </application>
