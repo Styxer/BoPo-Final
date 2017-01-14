@@ -34,12 +34,12 @@ public class MessagesHandlerActivity extends AppCompatActivity implements View.O
         noMessages = (TextView)findViewById(R.id.tvNoMessages);
         ExitMessages = (Button) findViewById(R.id.btnExitMessages);
 
-        if (MainAppScreenActivity.noMessagesFlag == true)
+        if (ShowMessages.noMessagesFlag == true)
         {
             MessagesRecyclerView.setVisibility(View.INVISIBLE);
             noMessages.setVisibility(View.VISIBLE);
         }
-        else if (MainAppScreenActivity.noMessagesFlag == false)
+        else if (ShowMessages.noMessagesFlag == false)
         {
             MessagesRecyclerView.setVisibility(View.VISIBLE);
             noMessages.setVisibility(View.INVISIBLE);
