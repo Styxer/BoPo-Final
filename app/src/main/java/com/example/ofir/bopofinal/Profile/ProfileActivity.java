@@ -1,6 +1,7 @@
 package com.example.ofir.bopofinal.Profile;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private static DatePickerDialog datePickerDialog;
     Calendar calendar = Calendar.getInstance();
     private String m_userID, m_name, m_email, m_birthday, m_phone, m_address, m_image;
-    ;
+    private static ProgressDialog progressDialog;
     private static Intent intent;
     Button btnSavechanges;
     String AfterChangeName, AfterChangeEmail, AfterChangeBirthday, AfterChangePhone, AfterChangeAddress, AfterChangeImage;
@@ -52,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setTitle("My profile");
-
+        progressDialog = new ProgressDialog(this);
         m_userID = LoggedInUserService.getInstance().getM_id() + "";
         m_name = LoggedInUserService.getInstance().getM_name();
         m_email = LoggedInUserService.getInstance().getM_email();
@@ -98,6 +99,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSaveChanges:
+                progressDialog.setMessage("Saving changes...");
+                progressDialog.setTitle("");
+                progressDialog.show();
                 AfterChangeName = etName.getText().toString();
                 AfterChangeEmail = etEmail.getText().toString();
                 AfterChangeBirthday = etBirthday.getText().toString();
@@ -121,8 +125,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 LoggedInUserService.getInstance().setM_address(AfterChangeAddress);
                                 LoggedInUserService.getInstance().setM_image(AfterChangeImage);
 
-                                intent = new Intent(ProfileActivity.this, MainAppScreenActivity.class);
-                                ProfileActivity.this.startActivity(intent);
+
 
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
@@ -215,11 +218,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         JSONObject jsonResponse = new JSONObject(response);
                         boolean success = jsonResponse.getBoolean("success");
                         if (success) {
-                            Toast.makeText(ProfileActivity.this, "Profile picture was updated",
+                            Toast.makeText(ProfileActivity.this, "Profile was updated",
                                     Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                            intent = new Intent(ProfileActivity.this, MainAppScreenActivity.class);
+                            ProfileActivity.this.startActivity(intent);
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-                            builder.setMessage("profile picture updating failed")
+                            builder.setMessage("profile updating failed")
                                     .setNegativeButton("Retry", null)
                                     .create()
                                     .show();
