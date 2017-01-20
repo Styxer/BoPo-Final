@@ -7,13 +7,32 @@ import java.util.Comparator;
  */
 public class MyData  {
 
-    private int  mId;
+    private int  mId,mEventID;
     private String mName,mRole,mBirthday,mPhone_number,mAddress  ,mImage_link ;
 
-    public MyData(int mId, String mName, String mRole, String mBirthday, String mPhone_number, String mAddress, String mImage_link) {
+    public MyData(int mId,int mEventID, String mName, String mRole, String mBirthday, String mPhone_number, String mAddress, String mImage_link) {
         this.mId = mId;
         this.mName = mName;
         this.mRole = mRole;
+        this.mBirthday = mBirthday;
+        this.mPhone_number = mPhone_number;
+        this.mAddress = mAddress;
+        this.mImage_link = mImage_link;
+        this.mEventID = mEventID;
+    }
+
+    public void setmEventID(int mEventID) {
+        this.mEventID = mEventID;
+    }
+
+    public int getmEventID() {
+
+        return mEventID;
+    }
+
+    public MyData(int mId, String mName, String mBirthday, String mPhone_number, String mAddress, String mImage_link) {
+        this.mId = mId;
+        this.mName = mName;
         this.mBirthday = mBirthday;
         this.mPhone_number = mPhone_number;
         this.mAddress = mAddress;
