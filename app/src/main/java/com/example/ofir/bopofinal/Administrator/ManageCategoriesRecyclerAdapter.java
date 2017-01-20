@@ -83,8 +83,8 @@ public class ManageCategoriesRecyclerAdapter  extends RecyclerView.Adapter<Manag
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent (this.ctx, ManageCategoriesActivity.class);;
-            this.ctx.startActivity(intent);
+            //Intent intent = new Intent (this.ctx, ManageCategoriesActivity.class);;
+            //this.ctx.startActivity(intent);
         }
     }
 }
