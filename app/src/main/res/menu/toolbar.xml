@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".Event.EventActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/action_get_ride"
+        android:orderInCategory="200"
+        android:icon="@drawable/taxi_passanger"
+        android:title="join a ride"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_give_ride"
+        android:orderInCategory="201"
+        android:icon="@drawable/driver"
+        android:title="give a ride"
+        app:showAsAction="always"/>
+
+</menu>
