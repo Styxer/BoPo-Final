@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_show_usre_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.ofir.bopofinal.Search.ShowUserProfileActivity">
+
+
+    <TextView
+        android:text="Name:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchedUserName"
+        android:layout_marginTop="182dp"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:text="Email:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchedUserEmail"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:text="call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnCallUser"
+        android:onClick="onClick"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+
+    <ImageView
+        android:id="@+id/ivSearchedUserPhoto"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Birthday:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchedUserBirthday"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/tvSearchedUserEmail"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Phone:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchedUserPhone"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/tvSearchedUserBirthday"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Address:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchedUserAddress"
+        android:layout_below="@+id/tvSearchedUserPhone"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etSearchedUserName"
+        android:onClick="onClick"
+        android:layout_alignBaseline="@+id/tvSearchedUserName"
+        android:layout_alignBottom="@+id/tvSearchedUserName"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etSearchedUserAddress"
+        android:layout_alignBaseline="@+id/tvSearchedUserAddress"
+        android:layout_alignBottom="@+id/tvSearchedUserAddress"
+        android:layout_alignStart="@+id/etSearchedUserPhone" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etSearchedUserPhone"
+        android:layout_alignBaseline="@+id/tvSearchedUserPhone"
+        android:layout_alignBottom="@+id/tvSearchedUserPhone"
+        android:layout_alignStart="@+id/etSearchedUserBirthday" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etSearchedUserBirthday"
+        android:focusable="false"
+        android:layout_alignBaseline="@+id/tvSearchedUserBirthday"
+        android:layout_alignBottom="@+id/tvSearchedUserBirthday"
+        android:layout_alignStart="@+id/etSearchedUserEmail" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etSearchedUserEmail"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/etSearchedUserName" />
+
+</RelativeLayout>
