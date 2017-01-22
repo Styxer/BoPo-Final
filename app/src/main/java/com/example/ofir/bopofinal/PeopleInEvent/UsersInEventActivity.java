@@ -1,14 +1,18 @@
 package com.example.ofir.bopofinal.PeopleInEvent;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -19,7 +23,19 @@ import okhttp3.OkHttpClient;
 
 import okhttp3.Request;
 import okhttp3.Response;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.Events.DisplayEventsActivity;
+import com.example.ofir.bopofinal.Events.EventDetails;
+import com.example.ofir.bopofinal.Events.EventResultService;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
+import com.example.ofir.bopofinal.Search.DisplaySearchResultsActivity;
+import com.example.ofir.bopofinal.Search.SearchPersonDetails;
+import com.example.ofir.bopofinal.Search.SearchRequest;
+import com.example.ofir.bopofinal.Search.SearchResultService;
 import com.example.ofir.bopofinal.User.UserActivity;
 
 import org.json.JSONArray;
@@ -31,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class UsersInEventActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,13 +58,18 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
     private List<MyData> m_data_list;
     private CardView mCardView;
     private MyData mData;
-    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_NAME = "name";
     public static final String EXTRRA_ROLE = "role";
     public static final String EXTRA_BIRTHDAY = "birthday";
     public static final String EXTRRA_PHONE_NUMBER = "phone_number";
     public static final String EXTRA_ADDRESS = "address";
     public static final String EXTRRA_IMAGE = "image";
+    public static final String EXTRRA_ID = "id";
 
+    private FloatingActionButton mActionButton;
+
+
+    String EventID;
 
 
 
@@ -74,35 +97,6 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
 
 
 
-
-
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickLitsner(UsersInEventActivity.this, mRecyclerView ,new RecyclerItemClickLitsner.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent i = new Intent(UsersInEventActivity.this, UserActivity.class);
-                        mData =   m_data_list.get(position);
-                        i.putExtra(EXTRA_TITLE,mData.getmName());
-                        i.putExtra(EXTRRA_ROLE,mData.getmRole());
-                        i.putExtra(EXTRA_BIRTHDAY,mData.getmBirthday());
-                        i.putExtra(EXTRRA_PHONE_NUMBER,mData.getmPhone_number());
-                        i.putExtra(EXTRA_ADDRESS,mData.getmAddress());
-                        i.putExtra(EXTRRA_IMAGE,mData.getmImage_link());
-                        startActivity(i);
-
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                        Toast.makeText(UsersInEventActivity.this, "this is my Toast message2!!! =)",
-                                Toast.LENGTH_LONG).show();
-                    }
-                })
-        );
-
-
-        load_data_from_server(0);
-
-
        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -114,12 +108,34 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
+        mActionButton  = (FloatingActionButton) findViewById(R.id.fab);
+        mActionButton.setOnClickListener(this);
+
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        EventID = intent.getStringExtra("eventId");
+        String.valueOf(Integer.parseInt(EventID));
+        load_data_from_server(Integer.parseInt(EventID));
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setAlpha(0);
+        progressDialog.setMessage("Loading users info ...");
+        progressDialog.show();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                recyclerView.setAlpha(1);
+            }
+        },4500);
+    }
 
-
-    private void load_data_from_server(int id) {
+    private void load_data_from_server(final int event_id) {
 
         AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
@@ -127,18 +143,18 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
                 MyData data  = null;
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://tower.site88.net/UsersInEvent.php?id="+integers[0])
+                        .url("http://tower.site88.net/UsersInEvent.php?event_id="+integers[0])
                         .build();
                 try {
                     Response response = client.newCall(request).execute();
-
+                    Log.i("are you okay?", String.valueOf(response));
                     JSONArray array = new JSONArray(response.body().string());
 
                     for (int i=0; i<array.length(); i++){
 
                         JSONObject object = array.getJSONObject(i);
 
-                         data = new MyData(object.getInt("user_id"),object.getString("name"),
+                         data = new MyData(object.getInt("user_id"),event_id,object.getString("name"),
                                object.getString("role"),object.getString("birthday"),object.getString("phone_number"),
                                 object.getString("address") ,object.getString("image"));
 
@@ -170,15 +186,12 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
             }
         };
 
-        task.execute(id);
+        task.execute(event_id);
     }
-
-
 
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(this, "This is my Toast message!",
-                Toast.LENGTH_LONG).show();
+        startActivity(new Intent(UsersInEventActivity.this, MainAppScreenActivity.class));
     }
 }

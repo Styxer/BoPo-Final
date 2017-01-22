@@ -2,6 +2,7 @@ package com.example.ofir.bopofinal.CreateNewEvent;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -144,6 +145,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
             mGoogleMap.setMyLocationEnabled(true);
         }
+        // Add a marker in Sydney, Australia, and move the camera.
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -266,8 +269,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void geoLocate(View v) {
-        // EditText searchLocation  = (EditText) findViewById(R.id.etAdress);
-        // Button search = (Button) findViewById(R.id.bMapSearch);
+        // EditText searchLocation  = (EditText) findViewById(R.uerId.etAdress);
+        // Button search = (Button) findViewById(R.uerId.bMapSearch);
         List<Address> addressList = null;
         boolean didItWork = true;
         String location = etSearch.getText().toString();

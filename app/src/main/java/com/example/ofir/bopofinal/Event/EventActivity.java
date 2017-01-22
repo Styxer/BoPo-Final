@@ -4,26 +4,33 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
+import com.example.ofir.bopofinal.Events.DisplayEventsActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
+import com.example.ofir.bopofinal.Rides.InputRideDetailsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +48,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     String eventId;
     int userId;
 
+    Intent mIntent;
+
     private ProgressDialog mProgressDialog;
     RelativeLayout mRelativeLayout;
 
@@ -49,11 +58,14 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private final int EDIT_EVENT  = 3;
     private final int JOIN_EVENT  = 4;
 
+    private FloatingActionButton mActionButton;
+
+    private LoggedInUserService mLoggedInUserService;
 
 
 
-    public EventActivity() {
-    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +76,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         bundle = getIntent().getExtras();
         eventId = bundle.getString("str");
 
-
+        mIntent= new Intent(EventActivity.this,UsersInEventActivity.class);
+        mIntent.putExtra("eventId",eventId);
+       // startActivity(intent);
 
         getSupportActionBar().setTitle("Event details");
 
@@ -90,12 +104,49 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
         mButtons = new Button[]{mBedeleteEvent, mBeditEvent, mbJoinEvent};
 
+        mActionButton  = (FloatingActionButton) findViewById(R.id.fabEvent);
+
+        mActionButton.setOnClickListener(this);
+
         for (Button buttons : mButtons) {
             buttons.setOnClickListener(this);
         }
 
+        mLoggedInUserService = LoggedInUserService.getInstance();
+
+
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_give_ride:
+               String userId = String.valueOf(LoggedInUserService.getInstance().getM_id());
+                Intent intent = new Intent(EventActivity.this, InputRideDetailsActivity.class);
+                intent.putExtra("userID",userId);
+                intent.putExtra("eventID",eventId);
+                intent.putExtra("eventName",title);
+                intent.putExtra("eventLocation",location);
+                startActivity(intent);
+            //    Toast.makeText(this,"dgsdgsdgsd",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.action_get_ride:
+
+             //   Toast.makeText(this,"dgsdgsdgsd",Toast.LENGTH_LONG).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onDestroy() {
@@ -160,9 +211,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
         createRequest(userId,eventId,FETCH_EVENT_DETAILS,getEventReStringListener);
 
-        /*EventRequest eventRequest = new EventRequest(userId, eventId,FETCH_EVENT_DETAILS, getEventReStringListener);
+        EventRequest eventRequest = new EventRequest(userId, eventId,FETCH_EVENT_DETAILS, getEventReStringListener);
         RequestQueue queue = Volley.newRequestQueue(EventActivity.this);
-        queue.add(eventRequest);*/
+        queue.add(eventRequest);
     }
 
     void setButton(int state, Button... buttons){
@@ -197,7 +248,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tvViewPeople:
-                startActivity(new Intent(EventActivity.this, UsersInEventActivity.class));
+                startActivity(mIntent);
                 break;
 
             case  R.id.bMdeleteEvent:
@@ -210,6 +261,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.bJoinEvent:
                 openDialog("to join this event?",JOIN_EVENT);
+                break;
+            case  R.id.fabEvent:
+                startActivity(new Intent(EventActivity.this, DisplayEventsActivity.class));
                 break;
         }
 
