@@ -43,7 +43,7 @@ public class DisplaySearchResultsActivity extends AppCompatActivity {
             PersonRecyclerView.setLayoutManager(layoutManager);
             PersonRecyclerView.setHasFixedSize(true);
 
-            adapter = new PersonRecyclerAdapter(SearchResultService.getInstance().getArray());
+            adapter = new PersonRecyclerAdapter(SearchResultService.getInstance().getArray(),this);
             SearchResultService.getInstance().reset();
             PersonRecyclerView.setAdapter(adapter);
         }

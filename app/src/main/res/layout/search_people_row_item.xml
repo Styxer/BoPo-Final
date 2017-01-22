@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="80dp">
     <View
@@ -21,6 +20,38 @@
         android:visibility="invisible"/>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:id="@+id/tvSearchedPersonEmail"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:id="@+id/tvSearchedPersonBirthday"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:id="@+id/tvSearchedPersonPhone"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:id="@+id/tvSearchedPersonAddress"
+        android:visibility="invisible"/>
+
+    <TextView
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:text="name"
@@ -32,6 +63,14 @@
         android:layout_marginStart="19dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ivSearchPeopleImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:id="@+id/tvSearchedPersonImageName"
+        android:visibility="invisible"/>
 
     <ImageView
         android:layout_width="79dp"
