@@ -146,7 +146,7 @@ public class SearchActivity extends AppCompatActivity {
                         {
                             JSONObject jsonObject = response.getJSONObject(count);
 
-                                SearchPersonDetails searchPersonDetails = new SearchPersonDetails(jsonObject.getString("name"),jsonObject.getString("user_id"), jsonObject.getString("image"));
+                                SearchPersonDetails searchPersonDetails = new SearchPersonDetails(jsonObject.getString("name"),jsonObject.getString("user_id"), jsonObject.getString("image"), jsonObject.getString("email"), jsonObject.getString("birthday"), jsonObject.getString("phone_number"),jsonObject.getString("address"));
                                 arrayList.add(searchPersonDetails);
                                 count++;
 

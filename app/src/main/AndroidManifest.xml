@@ -42,7 +42,8 @@
         </activity>
         <activity android:name=".LoginRegister.RegisterActivity" />
         <activity android:name=".Categories.SuggestCategoryActivity" />
-        <activity android:name=".MainAppScreenActivity" />        <activity android:name=".Events.ShowMyEventsActivity" />
+        <activity android:name=".MainAppScreenActivity" />
+        <activity android:name=".Events.ShowMyEventsActivity" />
         <activity android:name=".Events.DisplayEventsActivity" />
         <activity android:name=".Search.SearchActivity" />
 
@@ -64,8 +65,9 @@
         <activity android:name=".Settings.ChangePasswordActivity" />
         <activity android:name=".Messages.MessagesHandlerActivity" />
         <activity android:name=".Messages.SingleMessageActivity" />
-        <activity android:name=".CreateNewEvent.CreateNewEventActivity"></activity>
-        <activity android:name=".Rides.InputRideDetailsActivity"></activity>
+        <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
+        <activity android:name=".Rides.InputRideDetailsActivity" />
+        <activity android:name=".Search.ShowUserProfileActivity" />
     </application>
 
 </manifest>

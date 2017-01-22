@@ -32,6 +32,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
     private static ImageButton m_ibSuggestCategory;
     private static ImageButton m_ibAddEvent;
     private static ImageButton m_ibSettings;
+    private static ImageButton m_ibMyRides;
     private static ImageButton m_ibLogout;
     public static boolean MyEventsFlag = false;
     public static boolean SearchEventsFlag = false;
@@ -73,6 +74,7 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
           m_ibSettings = (ImageButton) findViewById(R.id.ibSettings);
           m_ibSearch = (ImageButton) findViewById(R.id.ibSearch);
           m_ibSuggestCategory = (ImageButton) findViewById(R.id.ibSuggestCategory);
+          m_ibMyRides = (ImageButton) findViewById(R.id.ibMyRides);
           m_ibLogout = (ImageButton) findViewById(R.id.ibLogout);
 
         getSupportActionBar().setTitle("Welcome "+ LoggedInUserService.getInstance().getM_name());
@@ -113,6 +115,8 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
             case R.id.ibAddEvent:
                 m_intent = new Intent(MainAppScreenActivity.this, CreateNewEventActivity.class);
                 MainAppScreenActivity.this.startActivity(m_intent);
+                break;
+            case R.id.ibMyRides:
                 break;
             case R.id.ibLogout:
                 Toast.makeText(MainAppScreenActivity.this, "bye bye" +" "+ LoggedInUserService.getInstance().getM_name(),
