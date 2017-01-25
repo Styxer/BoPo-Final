@@ -18,20 +18,17 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.CreateNewEvent.CreateNewEventActivity;
-import com.example.ofir.bopofinal.Events.DisplayEventsActivity;
 import com.example.ofir.bopofinal.Events.ShowMyEventsActivity;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
 import com.example.ofir.bopofinal.Rides.InputRideDetailsActivity;
-import com.example.ofir.bopofinal.Rides.getRideActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
