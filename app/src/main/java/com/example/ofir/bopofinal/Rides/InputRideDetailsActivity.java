@@ -1,14 +1,20 @@
 package com.example.ofir.bopofinal.Rides;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.support.v4.app.FragmentActivity;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
-import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +29,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.ofir.bopofinal.Event.EventActivity;
 import com.example.ofir.bopofinal.LoginRegister.userValidation;
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
@@ -30,24 +37,33 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.turkialkhateeb.materialcolorpicker.ColorChooserDialog;
 import com.turkialkhateeb.materialcolorpicker.ColorListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class InputRideDetailsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener ,TextWatcher {
+public class InputRideDetailsActivity extends FragmentActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener ,TextWatcher, OnMapReadyCallback {
 
-    private EditText mEtStartLocation, mEtMaxPeople, etMCarName, etMCarColor;
+    private EditText mEtStartLocation, mEtMaxPeople, etMCarName, etMCarColor, mEtPickUpLocation;
     private Button bMcreateRide, mBchangeStartLocation;
     private TextView mTvEventName;
     private Spinner mRideSpinner;
+    private TextView mTvStartLocation;
 
     private  Intent searchIntent;
     private  ProgressDialog progressDialog;
@@ -56,24 +72,31 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
     EditText[] fields;
 
 
-    String mAfterStartLocation,mAfterMaxPeople,mAfterCarModel, mAfetrCarColor, mAfterCarSize;
+    String mAfterStartLocation,mAfterMaxPeople,mAfterCarModel, mAfetrCarColor, mAfterCarSize , mafterUserLocation;
+    String startingEventLocation, mUserLocatinon;
+    String mRole;
     int mUserID, mEventID;
     final int PLACE_PICKER_REQUEST = 1;
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_ride_details);
 
-        getSupportActionBar().setTitle("Give a ride");
+       // getSupportFragmentManager().set("Give a ride");
 
         mEtStartLocation = (EditText) findViewById(R.id.etRideStartLocation);
+        mEtPickUpLocation = (EditText) findViewById(R.id.etEventPickUpLocation);
         mEtMaxPeople = (EditText) findViewById(R.id.etRideMaxMember);
         etMCarName = (EditText) findViewById(R.id.etRideCadModel);
         etMCarColor = (EditText) findViewById(R.id.etRideCarColor);
 
         bMcreateRide = (Button) findViewById(R.id.bRideCreateRide);
         mBchangeStartLocation = (Button) findViewById(R.id.bChangeStartLocation);
+
+        mTvStartLocation = (TextView) findViewById(R.id.tvRideStartLocation) ;
 
         mRideSpinner = (Spinner) findViewById(R.id.rideSpinner);
         mRideSpinner.setOnItemSelectedListener(this);
@@ -90,22 +113,38 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
 
         mTvEventName = (TextView) findViewById(R.id.tvRideName);
         Intent intent = getIntent();
-        mTvEventName.setText(Html.fromHtml(intent.getStringExtra("eventName")));
-        mEtStartLocation.setText(Html.fromHtml(intent.getStringExtra("eventLocation")));
+
+        mRole = intent.getStringExtra("type");
+        if(mRole.equals("get")){
+            bMcreateRide.setText("Ask for a ride");
+            mBchangeStartLocation.setText("Change pickup location");
+            mRideSpinner.setVisibility(View.INVISIBLE);
+            mEtMaxPeople.setVisibility(View.INVISIBLE);
+            etMCarName.setVisibility(View.INVISIBLE);
+            etMCarColor.setVisibility(View.INVISIBLE);
+          //  mTvStartLocation.setVisibility(View.VISIBLE);
+        }
+      //  if(mRole.equals("give")){
+            mTvEventName.setText(Html.fromHtml(intent.getStringExtra("eventName")));
+      //  }
+
+        startingEventLocation = intent.getStringExtra("eventLocation");
+        mEtStartLocation.setText(Html.fromHtml(startingEventLocation));
         mUserID = Integer.parseInt(intent.getStringExtra("userID"));
         mEventID = Integer.parseInt(intent.getStringExtra("eventID"));
+        mUserLocatinon  = intent.getStringExtra("user_address");
+        mEtPickUpLocation.setText(mUserLocatinon);
 
-        fields = new EditText[]{mEtStartLocation, mEtMaxPeople, etMCarName, etMCarColor};
+        fields = new EditText[]{mEtStartLocation, mEtPickUpLocation, mEtMaxPeople, etMCarName, etMCarColor};
 
         for (EditText editText: fields)
             editText.addTextChangedListener(this);
 
 
-
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager() .findFragmentById(R.id.rideMapFragment);
+       mapFragment.getMapAsync(this);
 
     }
-
 
 
 
@@ -137,7 +176,10 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
 
 
             case R.id.bRideCreateRide:
-                sendDataToServer();
+                if(mRole.equals("get")) {
+                    sendPassengerDataToServer("passenger");
+                }else if (mRole.equals("give"))
+                    sendDriverDataToServer("driver");
 
                 break;
 
@@ -148,28 +190,58 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
 
     }
 
-    private void sendDataToServer() {
-        Boolean emptyFields = userValidation.emptyFields(fields,"please fill in this field");
-        int maxSize = Integer.parseInt(mAfterMaxPeople);
-        int carSize = Integer.parseInt(mAfterCarSize);
-        if (carSize > maxSize){
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(true);
-            builder.setTitle("error");
-            builder.setMessage("maximum people cannot be bigger than car size");
-            builder.setPositiveButton("okay",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
+    private void sendPassengerDataToServer(String passenger) {
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.i("ResponseRide",response.toString());
+                    JSONObject jsonResponseSuccess = new JSONObject(response);
+                    boolean success = jsonResponseSuccess.getBoolean("success");
 
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-       else if (emptyFields){
+                    if (success) {
+                        progressDialog.hide();
+                        Toast.makeText(InputRideDetailsActivity.this,"Joining ride done  successfully", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(InputRideDetailsActivity.this, MainAppScreenActivity.class));
+                    }
+                    else {
+                        progressDialog.hide();
+                            setAlertBuilder("error", "error occurred while trying to join this ride");
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    progressDialog.hide();
+                    e.printStackTrace();
+                }
+            }
+        };
+        String Location = checkRideLocation(mUserLocatinon, mafterUserLocation);
+        Location = Location.replace("<b>","").replace("</b>", "");
+        Log.i("mUserID", String.valueOf(mUserID));
+        Log.i("mEventID", String.valueOf(mEventID));
+        getRideRequest  getRideRequest = new getRideRequest( mUserID, mEventID,0, Location,responseListener);
+        RequestQueue queue = Volley.newRequestQueue(InputRideDetailsActivity.this);
+        queue.add(getRideRequest);
+    }
+
+
+    private void sendDriverDataToServer(String drive) {
+
+            Boolean  emptyFields = userValidation.emptyFields(fields,"please fill in this field");
+
+            int maxSize = Integer.parseInt(mAfterMaxPeople);
+            int carSize = Integer.parseInt(mAfterCarSize);
+            if (maxSize > carSize) {
+
+                setAlertBuilder("error", "maximum people cannot be bigger than car size");
+            }
+
+
+        if (emptyFields){
             setProgressDialogText("Creating ride...","");
             progressDialog.show();
             Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -184,6 +256,11 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
                             Toast.makeText(InputRideDetailsActivity.this,"A new ride created successfully", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(InputRideDetailsActivity.this, MainAppScreenActivity.class));
                         }
+                        else{
+                            progressDialog.hide();
+                            setAlertBuilder("error","you already a driver in this event");
+                        }
+
 
                     } catch (JSONException e) {
                         progressDialog.hide();
@@ -191,12 +268,39 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
                     }
                 }
             };
-
-            RideRequest rideRequest = new RideRequest( mUserID, mEventID,"driver", mAfterStartLocation,mAfterMaxPeople,
+            String Location = checkRideLocation(mUserLocatinon, mafterUserLocation);
+            Location = Location.replace("<b>","").replace("</b>", "");
+            giveRideRequest giveRideRequest = new giveRideRequest( mUserID, mEventID, Location ,mAfterMaxPeople,
                     mAfterCarModel, mAfetrCarColor,mAfterCarSize, responseListener);
             RequestQueue queue = Volley.newRequestQueue(InputRideDetailsActivity.this);
-            queue.add(rideRequest);
+            queue.add(giveRideRequest);
         }
+    }
+
+    private String checkRideLocation(String before, String after) {
+
+        if  (after == null || TextUtils.isEmpty(after))
+           return before ;
+        else
+            return after ;
+
+    }
+
+    private void setAlertBuilder(String title,String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setPositiveButton("okay",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void pickColor() {
@@ -283,8 +387,8 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
         if(requestCode ==  PLACE_PICKER_REQUEST){
             if(requestCode == 1){
                 Place place = PlacePicker.getPlace(this,data);
-                String address = String.format("%s",place.getAddress());
-                mEtStartLocation.setText(address);
+                String address = String.format("%s",place.getName());
+                mEtPickUpLocation.setText(address);
             }
         }
     }
@@ -323,6 +427,7 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
         mAfterMaxPeople = mEtMaxPeople.getText().toString();
         mAfterCarModel = etMCarName.getText().toString();
         mAfetrCarColor = etMCarColor.getText().toString();
+        mafterUserLocation  = mEtPickUpLocation.getText().toString();
 
 
       /*  for(EditText editText: fields){
@@ -334,5 +439,79 @@ public class InputRideDetailsActivity extends AppCompatActivity implements View.
 
         }*/
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        LatLng userLocation = getLocationFromAddress(this,mUserLocatinon);
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("you location"));
+
+        LatLng eventLocation = getLocationFromAddress(this,startingEventLocation);
+        mMap.addMarker(new MarkerOptions().position(eventLocation).title("event location"));
+
+        PolylineOptions line = new PolylineOptions().add(userLocation,eventLocation);
+        mMap.addPolyline(line);
+        List<LatLng> myList = Arrays.asList(userLocation,eventLocation);
+        LatLng middle  = computeCentroid(myList);
+        float distance = calculateDistance(myList);
+        if (distance > 500)
+             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,3));
+        else if (distance > 250)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,6));
+        else if (distance > 100)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,10));
+        else
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,13));
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
+    }
+
+    private LatLng computeCentroid(List<LatLng> points) {
+        double latitude = 0;
+        double longitude = 0;
+        int n = points.size();
+
+        for (LatLng point : points) {
+            latitude += point.latitude;
+            longitude += point.longitude;
+        }
+
+        return new LatLng(latitude/n, longitude/n);
+    }
+
+    private float calculateDistance(List<LatLng> points){
+        Location loc1 = new Location("");
+        loc1.setLatitude(points.get(0).latitude);
+        loc1.setLongitude(points.get(0).longitude);
+
+        Location loc2 = new Location("");
+        loc2.setLatitude(points.get(1).latitude);
+        loc2.setLongitude(points.get(1).longitude);
+
+        return loc1.distanceTo(loc2);
     }
 }
