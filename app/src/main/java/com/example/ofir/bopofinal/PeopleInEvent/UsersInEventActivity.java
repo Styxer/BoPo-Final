@@ -147,7 +147,6 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
                         .build();
                 try {
                     Response response = client.newCall(request).execute();
-                    Log.i("are you okay?", String.valueOf(response));
                     JSONArray array = new JSONArray(response.body().string());
 
                     for (int i=0; i<array.length(); i++){
@@ -169,8 +168,7 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
                            return myDataA.getmRole().compareToIgnoreCase(myDataB.getmRole());
                         }
                     });
-
-
+                    response.body().close();
 
                 } catch (IOException e) {
                     e.printStackTrace();

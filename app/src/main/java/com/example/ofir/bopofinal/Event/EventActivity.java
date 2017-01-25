@@ -31,6 +31,7 @@ import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.PeopleInEvent.UsersInEventActivity;
 import com.example.ofir.bopofinal.R;
 import com.example.ofir.bopofinal.Rides.InputRideDetailsActivity;
+import com.example.ofir.bopofinal.Rides.getRideActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +44,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private static Button mBedeleteEvent,mBeditEvent, mbJoinEvent;
     Button[] mButtons;
 
-    private String title ,description, time, date, location, category, ACK, role, maxPeople, currentPeople;
+    private String title ,description, time, date, location, category, ACK, role, maxPeople, currentPeople, userLocation;
     Bundle bundle;
     String eventId;
     int userId;
@@ -127,25 +128,33 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        String type;
         switch (item.getItemId()){
             case R.id.action_give_ride:
-               String userId = String.valueOf(LoggedInUserService.getInstance().getM_id());
-                Intent intent = new Intent(EventActivity.this, InputRideDetailsActivity.class);
-                intent.putExtra("userID",userId);
-                intent.putExtra("eventID",eventId);
-                intent.putExtra("eventName",title);
-                intent.putExtra("eventLocation",location);
-                startActivity(intent);
-            //    Toast.makeText(this,"dgsdgsdgsd",Toast.LENGTH_LONG).show();
+                type = "give";
+                sendData(type);
+
                 break;
             case R.id.action_get_ride:
+                type = "get";
+                sendData(type);
 
-             //   Toast.makeText(this,"dgsdgsdgsd",Toast.LENGTH_LONG).show();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendData(String type) {
+        String userId = String.valueOf(LoggedInUserService.getInstance().getM_id());
+        Intent intent = new Intent(EventActivity.this, InputRideDetailsActivity.class);
+        intent.putExtra("userID",userId);
+        intent.putExtra("eventID",eventId);
+        intent.putExtra("eventName",title);
+        intent.putExtra("eventLocation",location);
+        intent.putExtra("type",type);
+        intent.putExtra("user_address",userLocation);
+        startActivity(intent);
     }
 
     @Override
@@ -185,6 +194,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                         role = "<b>" + jsonResponse.getString("role") + "</b>";
                         maxPeople = "<b>" + jsonResponse.getString("max_members") + "</b>";
                         currentPeople  = "<b>" + jsonResponse.getString("currentPeople") + "</b>";
+                        userLocation = jsonResponse.getString("user_address");
 
                         setButton(View.INVISIBLE, mButtons);
 
@@ -263,7 +273,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 openDialog("to join this event?",JOIN_EVENT);
                 break;
             case  R.id.fabEvent:
-                startActivity(new Intent(EventActivity.this, DisplayEventsActivity.class));
+                startActivity(new Intent(EventActivity.this, MainAppScreenActivity.class));
                 break;
         }
 

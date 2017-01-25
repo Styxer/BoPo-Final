@@ -100,7 +100,6 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         etLocation = (EditText) findViewById(R.id.etLocation);
         etMaxParticipants = (EditText) findViewById(R.id.etMaxParticipants);
 
-      //  etCategory = (EditText) findViewById(R.uerId.etCategorey);
         categories_selector = (Spinner)  findViewById(R.id.spinner);
 
         mTvCreateRole = (TextView) findViewById(R.id.tvCreateRole);
@@ -110,7 +109,6 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         approveSwitch.setText("no");
 
         bCreate = (Button) findViewById(R.id.bCreate);
-       // bBack = (Button) findViewById(R.uerId.bBack);
 
         loggedInUserService = LoggedInUserService.getInstance();
 
@@ -126,10 +124,6 @@ public class CreateNewEventActivity extends AppCompatActivity implements
 
         relativeLayout = (RelativeLayout) findViewById(R.id.rel);
 
-
-
-
-
     }
 
     @Override
@@ -137,7 +131,6 @@ public class CreateNewEventActivity extends AppCompatActivity implements
         super.onStart();
         fetch_categories fetch = new fetch_categories();
         fetch.getData(CreateNewEventActivity.this,categories,categories_selector,"");
-
 
 
 
@@ -230,15 +223,8 @@ public class CreateNewEventActivity extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-          /*  case R.uerId.bBack:
-
-                CreateNewEventActivity.this.startActivity(backToMainIntent);
-                break;*/
 
             case R.id.bCreate:
-
-
-
 
                   title = etTitle.getText().toString().trim();
                   description  = etDescription.getText().toString().trim();
