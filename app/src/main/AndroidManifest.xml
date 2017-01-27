@@ -68,6 +68,15 @@
         <activity android:name=".CreateNewEvent.CreateNewEventActivity" />
         <activity android:name=".Rides.InputRideDetailsActivity" />
         <activity android:name=".Search.ShowUserProfileActivity" />
+        <activity
+            android:name=".myRides.myRidesActivity"
+            android:label="@string/title_activity_my_rides"
+            android:parentActivityName=".MainAppScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ofir.bopofinal.MainAppScreenActivity" />
+        </activity>
     </application>
 
 </manifest>

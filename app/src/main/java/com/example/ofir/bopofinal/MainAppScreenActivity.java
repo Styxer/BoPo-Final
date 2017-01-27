@@ -21,6 +21,8 @@ import com.example.ofir.bopofinal.Messages.ShowMessages;
 import com.example.ofir.bopofinal.Profile.ProfileActivity;
 import com.example.ofir.bopofinal.Search.SearchActivity;
 import com.example.ofir.bopofinal.Settings.SettingsActivity;
+import com.example.ofir.bopofinal.myRides.myRidesActivity;
+
 public class MainAppScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView m_Messages;
@@ -117,6 +119,8 @@ public class MainAppScreenActivity extends AppCompatActivity implements View.OnC
                 MainAppScreenActivity.this.startActivity(m_intent);
                 break;
             case R.id.ibMyRides:
+                m_intent = new Intent(MainAppScreenActivity.this, myRidesActivity.class);
+                MainAppScreenActivity.this.startActivity(m_intent);
                 break;
             case R.id.ibLogout:
                 Toast.makeText(MainAppScreenActivity.this, "bye bye" +" "+ LoggedInUserService.getInstance().getM_name(),
