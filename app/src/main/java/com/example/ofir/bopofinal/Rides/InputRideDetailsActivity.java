@@ -454,15 +454,12 @@ public class InputRideDetailsActivity extends FragmentActivity implements View.O
         mMap.addPolyline(line);
         List<LatLng> myList = Arrays.asList(userLocation,eventLocation);
         LatLng middle  = computeCentroid(myList);
-        float distance = calculateDistance(myList);
-        if (distance > 500)
-             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,3));
-        else if (distance > 250)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,6));
-        else if (distance > 100)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,10));
+        double distance = calculateDistance(myList);
+        if (distance > 250)
+         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,6));
         else
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,13));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,11));
+
     }
 
     public LatLng getLocationFromAddress(Context context, String strAddress) {
@@ -503,7 +500,7 @@ public class InputRideDetailsActivity extends FragmentActivity implements View.O
         return new LatLng(latitude/n, longitude/n);
     }
 
-    private float calculateDistance(List<LatLng> points){
+    private double calculateDistance(List<LatLng> points){
         Location loc1 = new Location("");
         loc1.setLatitude(points.get(0).latitude);
         loc1.setLongitude(points.get(0).longitude);
@@ -512,6 +509,34 @@ public class InputRideDetailsActivity extends FragmentActivity implements View.O
         loc2.setLatitude(points.get(1).latitude);
         loc2.setLongitude(points.get(1).longitude);
 
-        return loc1.distanceTo(loc2);
+       return distance_between(loc1.getLatitude(),loc1.getLongitude(),loc2.getLatitude(),loc2.getLongitude());
+    }
+
+    double distance_between(double lat1 , double lon1, double lat2, double lon2)
+    {
+        //float results[] = new float[1];
+    /* Doesn't work. returns inconsistent results
+    Location.distanceBetween(
+            l1.getLatitude(),
+            l1.getLongitude(),
+            l2.getLatitude(),
+            l2.getLongitude(),
+            results);
+            */
+
+        double R = 6371; // km
+        double dLat = (lat2-lat1)*Math.PI/180;
+        double dLon = (lon2-lon1)*Math.PI/180;
+        lat1 = lat1*Math.PI/180;
+        lat2 = lat2*Math.PI/180;
+
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c * 1000;
+
+
+
+        return d;
     }
 }
