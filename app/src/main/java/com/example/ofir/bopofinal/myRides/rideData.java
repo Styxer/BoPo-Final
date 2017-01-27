@@ -21,6 +21,9 @@ public class rideData {
         this.driver_name = driver_name;
     }
 
+    public rideData(int ride_id, int user_id, int event_id, String start_location, String car_model, String car_color, String car_size) {
+    }
+
     public void setRide_id(int ride_id) {
         this.ride_id = ride_id;
     }

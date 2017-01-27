@@ -1,7 +1,7 @@
 package com.example.ofir.bopofinal.myRides;
 
 /**
- * Created by ofir on 1/25/2017.
+ * Created by ofir on 1/27/2017.
  */
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +21,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView mCardView;
         public TextView mTextView;
-
         public MyViewHolder(View v) {
             super(v);
 

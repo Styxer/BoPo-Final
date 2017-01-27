@@ -39,3 +39,4 @@ public class BlankFragment extends Fragment {
     }
 
 }
+
