@@ -456,9 +456,9 @@ public class InputRideDetailsActivity extends FragmentActivity implements View.O
         LatLng middle  = computeCentroid(myList);
         double distance = calculateDistance(myList);
         if (distance > 250)
-         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,6));
+         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,11));
         else
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,11));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(middle,13));
 
     }
 
