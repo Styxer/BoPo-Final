@@ -1,27 +1,69 @@
 package com.example.ofir.bopofinal.myRides;
 
+import java.util.ArrayList;
+
 /**
  * Created by ofir on 1/25/2017.
  */
 public class rideData {
-    int ride_id, user_id, event_id;
-    String start_location, max_people, car_model, car_color, car_size, event_name, event_location, driver_name;
 
-    public rideData(int ride_id, int user_id, int event_id, String start_location, String max_people, String car_model, String car_color, String car_size, String event_name, String event_location, String driver_name) {
+
+
+    int ride_id, user_id, event_id;
+    String start_location, max_people, car_model, car_color, car_size, event_name;
+    private int mType;
+    private rideData rideData;
+    private ArrayList<String> event_location;
+
+
+    public rideData(int ride_id, int user_id, int event_id, String start_location, String max_people, String car_model, String car_color, String car_size) {
         this.ride_id = ride_id;
         this.user_id = user_id;
         this.event_id = event_id;
         this.start_location = start_location;
         this.max_people = max_people;
         this.car_model = car_model;
-       this.car_color = car_color;
+        this.car_color = car_color;
         this.car_size = car_size;
-        this.event_name = event_name;
-        this.event_location = event_location;
-        this.driver_name = driver_name;
+       // this.event_location = event_location;
+
+
     }
 
-    public rideData(int ride_id, int user_id, int event_id, String start_location, String car_model, String car_color, String car_size) {
+
+
+
+
+    public rideData(rideData rideData, ArrayList<String> event_location) {
+        this.event_location = event_location;
+        this.rideData = rideData;
+
+    }
+
+    public com.example.ofir.bopofinal.myRides.rideData getRideData() {
+        return rideData;
+    }
+
+    public void setRideData(com.example.ofir.bopofinal.myRides.rideData rideData) {
+        this.rideData = rideData;
+    }
+
+    public ArrayList<String> getEvent_location() {
+        return event_location;
+    }
+
+    public void setEvent_location(ArrayList<String> event_location) {
+        this.event_location = event_location;
+    }
+
+    public void setmType(int mType) {
+        this.mType = mType;
+    }
+
+
+
+    public int getmType() {
+        return mType;
     }
 
     public void setRide_id(int ride_id) {
@@ -60,13 +102,8 @@ public class rideData {
         this.event_name = event_name;
     }
 
-    public void setEvent_location(String event_location) {
-        this.event_location = event_location;
-    }
 
-    public void setDriver_name(String driver_name) {
-        this.driver_name = driver_name;
-    }
+
 
     public int getRide_id() {
         return ride_id;
@@ -104,11 +141,6 @@ public class rideData {
         return event_name;
     }
 
-    public String getEvent_location() {
-        return event_location;
-    }
 
-    public String getDriver_name() {
-        return driver_name;
-    }
+
 }

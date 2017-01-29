@@ -1,6 +1,7 @@
 package com.example.ofir.bopofinal.myRides;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,9 +21,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
-public class myRidesActivity extends AppCompatActivity {
+public class myRidesActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -33,6 +35,7 @@ public class myRidesActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private PagerAdapter mSectionsPagerAdapter;
+    private FloatingActionButton mActionButton;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -59,6 +62,9 @@ public class myRidesActivity extends AppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
+        mActionButton  = (FloatingActionButton) findViewById(R.id.fabFragment);
+        mActionButton.setOnClickListener(this);
 
         // Iterate over all tabs and set the custom view
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -93,6 +99,11 @@ public class myRidesActivity extends AppCompatActivity {
         }*/
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(myRidesActivity.this, MainAppScreenActivity.class));
     }
 
 
