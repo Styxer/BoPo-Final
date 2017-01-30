@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by ofir on 1/20/2017.
+ * Created by ofir on 1/22/2017.
  */
-public class RideRequest extends StringRequest {
+public class giveRideRequest extends StringRequest {
 
     private static final String RIDE_REQUEST_URL = "http://tower.site88.net/Ride.php";
     public static final String EVENT_ID = "user_id";
@@ -22,13 +22,12 @@ public class RideRequest extends StringRequest {
     public static final String CAR_SIZE = "car_size";
     private Map<String, String> params;
 
-    public RideRequest(int userID, int EventID, String role , String startLocation, String maxPeople,
-                       String carModel, String carColor, String carSize, Response.Listener<String> listener) {
+    public giveRideRequest(int userID, int EventID , String startLocation, String maxPeople,
+                          String carModel, String carColor, String carSize, Response.Listener<String> listener) {
         super(Method.POST, RIDE_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put(USER_ID, userID+"");
         params.put(EVENT_ID, EventID+"");
-        params.put(ROLE, role);
         params.put(START_LOCATION, startLocation);
         params.put(MAX_PEOPLE, maxPeople);
         params.put(CAR_MODEL, carModel);
@@ -45,4 +44,3 @@ public class RideRequest extends StringRequest {
         return params;
     }
 }
-
