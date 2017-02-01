@@ -1,15 +1,12 @@
-package com.example.ofir.bopofinal.myRides;
+package com.example.ofir.bopofinal.myRides.DriverTab;
 
 /**
  * Created by ofir on 1/27/2017.
  */
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,42 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
 import com.example.ofir.bopofinal.R;
-import com.example.ofir.bopofinal.User.UserActivity;
 import com.example.ofir.bopofinal.myRides.Passengers.PassengersActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>  {
+public class driverAdapter extends RecyclerView.Adapter<driverAdapter.MyViewHolder>  {
 
     private static Context context;
-    private List<rideData> my_data;
-    private rideData rideData;
+    private List<com.example.ofir.bopofinal.myRides.DriverTab.rideData> my_data;
+    private com.example.ofir.bopofinal.myRides.DriverTab.rideData rideData;
 
 
 
-    public MyAdapter(Context context, List<rideData> my_data) {
+    public driverAdapter(Context context, List<com.example.ofir.bopofinal.myRides.DriverTab.rideData> my_data) {
         this.context = context;
         this.my_data = my_data;
 
@@ -98,9 +80,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>  {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, PassengersActivity.class);
-                rideData = my_data.get(position);
-                i.putExtra("rideID",String.valueOf(rideData.getRide_id()));
+                rideData = my_data.get(position).getRideData();
                 Log.i("ridID", String.valueOf(rideData.getRide_id()));
+                i.putExtra("rideID",String.valueOf(rideData.getRide_id()));
                 context.startActivity(i);
             }
         });
@@ -121,7 +103,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>  {
     @Override
     public int getItemViewType(int position) {
         if (my_data != null) {
-            rideData object = my_data.get(position);
+            com.example.ofir.bopofinal.myRides.DriverTab.rideData object = my_data.get(position);
             if (object != null) {
                 return object.getmType();
             }

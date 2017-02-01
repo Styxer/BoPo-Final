@@ -71,15 +71,14 @@ public class UsersInEventActivity extends AppCompatActivity implements View.OnCl
 
     String EventID;
 
-
-
-
     private static ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_in_event);
+
+        getSupportActionBar().setTitle("people in event");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mCardView = (CardView) findViewById(R.id.card_view);

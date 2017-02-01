@@ -124,15 +124,17 @@ public class InputRideDetailsActivity extends FragmentActivity implements View.O
             etMCarColor.setVisibility(View.INVISIBLE);
           //  mTvStartLocation.setVisibility(View.VISIBLE);
         }
-      //  if(mRole.equals("give")){
+          //  if(mRole.equals("give")){
             mTvEventName.setText(Html.fromHtml(intent.getStringExtra("eventName")));
       //  }
 
         startingEventLocation = intent.getStringExtra("eventLocation");
+        startingEventLocation = startingEventLocation.replace("\\","");
         mEtStartLocation.setText(Html.fromHtml(startingEventLocation));
         mUserID = Integer.parseInt(intent.getStringExtra("userID"));
         mEventID = Integer.parseInt(intent.getStringExtra("eventID"));
         mUserLocatinon  = intent.getStringExtra("user_address");
+        mUserLocatinon = mUserLocatinon.replace("\\","");
         mEtPickUpLocation.setText(mUserLocatinon);
 
         fields = new EditText[]{mEtStartLocation, mEtPickUpLocation, mEtMaxPeople, etMCarName, etMCarColor};

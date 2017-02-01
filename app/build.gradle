@@ -35,4 +35,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.turki-alkhateeb:materialcolorpicker:1.0.7'
+    compile 'com.github.jd-alexander:library:1.1.0'
 }

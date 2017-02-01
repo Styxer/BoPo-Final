@@ -40,4 +40,59 @@
                 />
         </android.support.design.widget.CoordinatorLayout>
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="event name: "
+        android:id="@+id/h"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="name"
+        android:id="@+id/tvPassengerEventName"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/h" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="distance from event:  "
+        android:layout_below="@+id/h"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView15" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="km"
+        android:id="@+id/tvPassengerDistanceFromEvent"
+        android:layout_alignTop="@+id/textView15"
+        android:layout_toEndOf="@+id/textView15" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="distance from driver:  "
+        android:id="@+id/textView13"
+        android:layout_below="@+id/textView15"
+        android:layout_alignEnd="@+id/textView15" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="km"
+        android:id="@+id/tvPassengerDistanceFromDriver"
+        android:layout_below="@+id/tvPassengerDistanceFromEvent"
+        android:layout_toEndOf="@+id/textView13" />
+
 </RelativeLayout>
