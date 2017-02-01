@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.telephony.SmsManager;
 import android.widget.Toast;
 
 import com.directions.route.Route;
@@ -112,7 +113,9 @@ public class computerRouteUtility implements RoutingListener {
         myList.add(end);
         LatLng middle = utility.computeCentroid(myList);
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(middle,9));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(middle,6));
+
+
 
     }
 

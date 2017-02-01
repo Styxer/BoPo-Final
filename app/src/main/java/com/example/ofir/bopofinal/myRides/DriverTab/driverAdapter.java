@@ -67,7 +67,7 @@ public class driverAdapter extends RecyclerView.Adapter<driverAdapter.MyViewHold
 
         holder.pickUpLocation.setText(my_data.get(position).getRideData().getStart_location());
         holder.carModel.setText(my_data.get(position).getRideData().getCar_model());
-        holder.carColor.setText(my_data.get(position).getRideData().getCar_model());
+        holder.carColor.setText(my_data.get(position).getRideData().getCar_color());
         holder.carSize.setText(my_data.get(position).getRideData().getCar_size());
        // LoggedInUserService loggedInUserService = LoggedInUserService.getInstance();
        // holder.load_data_from_server(loggedInUserService.getM_id(),"http://tower.site88.net/getRideListEventName.php?user_id=",0);
