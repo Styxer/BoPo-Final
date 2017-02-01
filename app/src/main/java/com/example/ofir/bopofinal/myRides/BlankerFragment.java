@@ -107,8 +107,8 @@ public class BlankerFragment extends Fragment implements OnMapReadyCallback {
         }
         computerRouteUtility computerRouteUtility = new computerRouteUtility(mMap,getContext(),polylines,pick_up_locations.get(0),event_locations.get(0));
 
-        for (int i = 0 ;i<pick_up_location.size() - 1 ; i++)
-          utility.route(pick_up_locations.get(i), event_locations.get(i),computerRouteUtility);
+      //  for (int i = 0 ;i<pick_up_location.size() - 1 ; i++)
+          utility.route(pick_up_locations.get(0), event_locations.get(0),computerRouteUtility);
 
 
     }
