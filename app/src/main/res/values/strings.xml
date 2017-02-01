@@ -77,5 +77,11 @@
 
     <string name="spinner_title">select category</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_my_ride">myRideActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_my_rides">myRidesActivity</string>
+
+
 
 </resources>
