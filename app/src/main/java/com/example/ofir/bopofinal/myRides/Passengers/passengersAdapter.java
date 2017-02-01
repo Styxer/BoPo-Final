@@ -86,8 +86,9 @@ public class passengersAdapter extends RecyclerView.Adapter<passengersAdapter.My
         holder.latLangStartLocation = utility.getLocationFromAddress(context,my_data.get(position).getStartLocation());
 
         Random r = new Random();
-        fromDriver = r.nextInt(50 - 14 + 1) + 14;
-        fromEvent = r.nextInt(65 - 14 + 1) + 14;
+        Random k = new Random();
+        fromDriver = k.nextInt(50 - 14 + 1) + 14;
+        fromEvent = r.nextInt(435 - 400) + 400;
         holder.distanceFromDriver.setText(fromDriver+ " km");
         holder.distanceFromEvent.setText(fromEvent + "km");
 
