@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.ofir.bopofinal.R;
+import com.example.ofir.bopofinal.myRides.rideData;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +15,6 @@ import android.view.View;
 
 import com.example.ofir.bopofinal.PeopleInEvent.CustomAdapter;
 import com.example.ofir.bopofinal.PeopleInEvent.MyData;
-import com.example.ofir.bopofinal.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +49,7 @@ public class getRideActivity extends AppCompatActivity implements View.OnClickLi
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.ride_recycler_view);
-        mCardView = (CardView) findViewById(R.id.ride_card_view);
+    /*    mCardView = (CardView) findViewById(R.id.ride_card_view);*/
         m_data_list = new ArrayList<>();
 
 
@@ -94,25 +95,25 @@ public class getRideActivity extends AppCompatActivity implements View.OnClickLi
 
                         JSONObject object = array.getJSONObject(i);
 
-                        data = new rideData(object.getInt("user_id"),object.getInt("event_id"),object.getString("role")
+                  /*      data = new rideData(object.getInt("user_id"),object.getInt("event_id"),object.getString("role")
                                 ,object.getString("start_location"), object.getString("max_people")
                                 ,object.getString("car_model"),object.getString("car_color"), object.getString("car_size")
                                 ,object.getString("driver_name"),object.getString("event_name") );
 
 
 
-                        m_data_list.add(data);
+                        m_data_list.add(data);*/
 
                     }
 
-                    Collections.sort(m_data_list, new Comparator<rideData>() {
+                /*    Collections.sort(m_data_list, new Comparator<rideData>() {
                         @Override
                         public int compare(rideData rideDataA, rideData rideDataB) {
                             return rideDataA.getEventName().compareToIgnoreCase(rideDataB.getEventName());
                         }
 
 
-                    });
+                    });*/
 
                     response.body().close();
 

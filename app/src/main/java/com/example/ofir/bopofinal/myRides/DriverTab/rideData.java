@@ -1,4 +1,4 @@
-package com.example.ofir.bopofinal.myRides;
+package com.example.ofir.bopofinal.myRides.DriverTab;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,9 @@ public class rideData {
 
 
     int ride_id, user_id, event_id;
-    String start_location, max_people, car_model, car_color, car_size, event_name;
+    String start_location, max_people, car_model, car_color, car_size, event_name, pick_up_location, event_locationer;
     private int mType;
-    private rideData rideData;
+    private com.example.ofir.bopofinal.myRides.DriverTab.rideData rideData;
     private ArrayList<String> event_location;
 
 
@@ -31,22 +31,34 @@ public class rideData {
     }
 
 
+    public String getPick_up_location() {
+        return pick_up_location;
+    }
 
+    public void setPick_up_location(String pick_up_location) {
+        this.pick_up_location = pick_up_location;
+    }
 
-
-    public rideData(rideData rideData, ArrayList<String> event_location) {
+    public rideData(com.example.ofir.bopofinal.myRides.DriverTab.rideData rideData, ArrayList<String> event_location) {
         this.event_location = event_location;
         this.rideData = rideData;
 
     }
 
+    public rideData(int ride_id, int user_id, int event_id, String pick_up_location, String event_locationer) {
+        this.ride_id = ride_id;
+        this.user_id = user_id;
+        this.event_id = event_id;
+        this.pick_up_location = pick_up_location;
+        this.event_locationer  = event_locationer;
+    }
 
 
-    public com.example.ofir.bopofinal.myRides.rideData getRideData() {
+    public com.example.ofir.bopofinal.myRides.DriverTab.rideData getRideData() {
         return rideData;
     }
 
-    public void setRideData(com.example.ofir.bopofinal.myRides.rideData rideData) {
+    public void setRideData(com.example.ofir.bopofinal.myRides.DriverTab.rideData rideData) {
         this.rideData = rideData;
     }
 
@@ -62,7 +74,13 @@ public class rideData {
         this.mType = mType;
     }
 
+    public String getEvent_locationer() {
+        return event_locationer;
+    }
 
+    public void setEvent_locationer(String event_locationer) {
+        this.event_locationer = event_locationer;
+    }
 
     public int getmType() {
         return mType;

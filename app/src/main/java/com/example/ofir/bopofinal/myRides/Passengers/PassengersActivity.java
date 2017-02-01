@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.PeopleInEvent.CustomAdapter;
@@ -69,6 +70,8 @@ public class PassengersActivity extends AppCompatActivity implements View.OnClic
         mActionButton.setOnClickListener(this);
     }
 
+
+
     @Override
     public void onClick(View view) {
         startActivity(new Intent(PassengersActivity.this, MainAppScreenActivity.class));
@@ -81,8 +84,9 @@ public class PassengersActivity extends AppCompatActivity implements View.OnClic
         Intent intent = getIntent();
 
         String ride_id = intent.getStringExtra("rideID");
-       //load_data_from_server(Integer.parseInt(ride_id));
-        load_data_from_server(48);
+
+       load_data_from_server(Integer.parseInt(ride_id));
+
         mRecyclerView.setAlpha(0);
         progressDialog.setMessage("Loading users info ...");
         progressDialog.show();
