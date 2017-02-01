@@ -77,6 +77,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ofir.bopofinal.MainAppScreenActivity" />
         </activity>
+        <activity android:name=".myRides.Passengers.PassengersActivity" />
+        <activity android:name=".myRides.Passenger.passengerActivity"></activity>
     </application>
 
 </manifest>

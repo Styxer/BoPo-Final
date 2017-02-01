@@ -1,30 +1,20 @@
-package com.example.ofir.bopofinal.myRides;
+package com.example.ofir.bopofinal.myRides.DriverTab;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
-import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
-import com.example.ofir.bopofinal.MainAppScreenActivity;
-import com.example.ofir.bopofinal.PeopleInEvent.MyData;
 import com.example.ofir.bopofinal.R;
-import com.example.ofir.bopofinal.myRides.Passengers.PassengersActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,11 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -46,7 +32,7 @@ public class BlankFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private GridLayoutManager mGridLayoutManager;
-    private MyAdapter mMyAdapter;
+    private driverAdapter mDriverAdapter;
     private List<rideData> m_data_list;
     private CardView mCardView;
     private rideData mRideData;
@@ -62,6 +48,7 @@ public class BlankFragment extends Fragment {
         // Required empty public constructor
 
     }
+
 
 
 
@@ -86,17 +73,9 @@ public class BlankFragment extends Fragment {
         mGridLayoutManager = new GridLayoutManager(getActivity(),2);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mMyAdapter = new MyAdapter(getActivity(),m_data_list);
+        mDriverAdapter = new driverAdapter(getActivity(),m_data_list);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mMyAdapter);
-
-
-
-
-
-
-
-
+        mRecyclerView.setAdapter(mDriverAdapter);
 
 
 
@@ -192,7 +171,7 @@ public class BlankFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                mMyAdapter.notifyDataSetChanged();
+                mDriverAdapter.notifyDataSetChanged();
                 loadin.dismiss();
                 loadin.hide();
             }

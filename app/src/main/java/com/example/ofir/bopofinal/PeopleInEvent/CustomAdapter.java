@@ -75,10 +75,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         int myCurrentPosition =  holder.getAdapterPosition();
         LoggedInUserService loggedInUserService = LoggedInUserService.getInstance();
 
+        String address = my_data.get(position).getmAddress();
+        address = address.replace("\\","");
         holder.name.setText(my_data.get(position).getmName());
         holder.role.setText(my_data.get(position).getmRole());
         holder.birthDay.setText(my_data.get(position).getmBirthday());
-        holder.address.setText(my_data.get(position).getmAddress());
+        holder.address.setText(address);
 
         holder.toggleACK.setVisibility(View.GONE);
         holder.toggleACK.setText("no decision");

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -13,16 +12,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.TextView;
 
 import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
+import com.example.ofir.bopofinal.myRides.DriverTab.BlankFragment;
+
 
 public class myRidesActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,7 +51,7 @@ public class myRidesActivity extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("my events");
+        getSupportActionBar().setTitle("my rides");
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -124,14 +125,14 @@ public class myRidesActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public Fragment getItem(int position) {
-
+            Log.i("poistion", String.valueOf(position));
             switch (position) {
                 case 0:
                     return new BlankFragment();
                 case 1:
-                    return new BlankFragment();
-                case 2:
-                    return new BlankFragment();
+                    return new BlankerFragment();
+
+
             }
 
             return null;
