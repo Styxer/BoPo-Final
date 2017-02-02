@@ -1,0 +1,1 @@
+Unknown column 'role' in 'field list'

@@ -149,14 +149,17 @@ public class PassengersActivity extends AppCompatActivity implements View.OnClic
 
                     }
                     ArrayList<String> tempNames = new ArrayList<>();
-                    tempNames.add("Just me");
+                    tempNames.add("Jennifer Davis");
                     tempNames.add("Alex Baker");
 
-                    for (int i=0; i<picUpLocation.size(); i++) {
-                        data = new passengersData(getApplicationContext(),tempNames.get(i),eventName, eventLocation,picUpLocation.get(i),startLocation);
+                   // for (int i=0; i<picUpLocation.size(); i++) {
+                        data = new passengersData(getApplicationContext(),tempNames.get(0),eventName, eventLocation,picUpLocation.get(0),startLocation);
+
                         m_data_list.add(data);
 
-                    }
+                    data = new passengersData(getApplicationContext(),tempNames.get(1),eventName, eventLocation,picUpLocation.get(1),startLocation);
+                    m_data_list.add(data);
+                  //  }
 
                    /* Collections.sort(m_data_list, new Comparator<passengersData>() {
                         @Override

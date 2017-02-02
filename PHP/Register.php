@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("localhost", "cellular_offir", "offirbraude123", "cellular_offir");   
+    $con = mysqli_connect("mysql1.000webhost.com", "a4238731_BoPo", "123qwe", "a4238731_BoPo") or die("cannot connect");  
 	$role = $_POST["role"];
     $name = $_POST["name"];
 	 $email = $_POST["email"];
