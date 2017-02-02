@@ -277,6 +277,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void openDialog(String text,final int choice) {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want "  +text)
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -289,7 +290,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                         else if(choice == EDIT_EVENT){
                            Intent intent = new Intent(EventActivity.this,CreateNewEventActivity.class);
 
-                            intent.putExtra("title",title.replace("<b>","").replace("</b>","").trim());
+                            intent.putExtra("title",title.replace("<b>","").replace("</b>","").replace("\\","").trim());
                             intent.putExtra("description",description.replace("<b>","").replace("</b>","").trim());
                             intent.putExtra("time",time.replace("<b>","").replace("</b>","").trim());
                             intent.putExtra("date",date.replace("<b>","").replace("</b>","").trim());
@@ -303,7 +304,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
                         }
                         if(choice == JOIN_EVENT){
-                            getOnResponse(JOIN_EVENT, title + "joined the event", MainAppScreenActivity.class);
+
+                            getOnResponse(JOIN_EVENT, title.replace("<b>","").replace("</b>","").replace("\\","").trim() +  ": moderator approval is needed", MainAppScreenActivity.class);
                         }
 
 
