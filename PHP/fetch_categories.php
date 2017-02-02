@@ -1,9 +1,9 @@
 <?php
 
 
-$sql = "SELECT category_name FROM category_request";
-  $con = mysqli_connect("localhost", "cellular_offir", "offirbraude123", "cellular_offir")
-  or die(mysqli_error($con));
+$sql = "SELECT category_name FROM category";
+  $con = mysqli_connect("mysql1.000webhost.com", "a4238731_BoPo", "123qwe", "a4238731_BoPo") 
+  or die("cannot connect");  
   
   $res = mysqli_query($con,$sql);
   $result = array();

@@ -1,0 +1,1 @@
+Column 'user_id' cannot be null

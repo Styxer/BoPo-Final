@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect("localhost", "cellular_offir", "offirbraude123", "cellular_offir") or die("cannot connect");  
+$con = mysqli_connect("mysql1.000webhost.com", "a4238731_BoPo", "123qwe", "a4238731_BoPo") or die("cannot connect");  
    $email = $_POST['email'];
     $password = $_POST['password'];
 	
@@ -11,7 +11,8 @@ $con = mysqli_connect("localhost", "cellular_offir", "offirbraude123", "cellular
     mysqli_stmt_execute($statement);
     
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $user_id, $role, $name, $email, $birthday, $password, $rating, $gender, $join_date, $phone_number, $isLoggedIn, $address)
+	
+    mysqli_stmt_bind_result($statement, $user_id, $role, $name, $email, $password, $birthday, $rating, $gender, $join_date, $phone_number, $isLoggedIn, $address, $image)
 	or die(mysqli_error($con));
 	
     mysqli_error($con);
@@ -21,12 +22,14 @@ $con = mysqli_connect("localhost", "cellular_offir", "offirbraude123", "cellular
     while(mysqli_stmt_fetch($statement) ){
         $response['success'] = true;  
         $response['user_id'] = $user_id;
-		$response['role'] = $role;
+	$response['role'] = $role;
         $response['name'] = $name;
         $response['email'] = $email;
+        $response['password'] = $password;
         $response['birthday'] = $birthday;
-		$response['phone_number'] = $phone_number;
-		$response['address'] = $$response['user_id'] = $user_id;;
+	$response['phone_number'] = $phone_number;
+	$response['address'] = $address;
+        $response['image'] = $image;
     }
     
      echo json_encode($response);
