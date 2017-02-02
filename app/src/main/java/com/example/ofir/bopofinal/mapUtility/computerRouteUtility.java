@@ -113,7 +113,7 @@ public class computerRouteUtility implements RoutingListener {
         myList.add(end);
         LatLng middle = utility.computeCentroid(myList);
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(middle,6));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(middle,8));
 
 
 
