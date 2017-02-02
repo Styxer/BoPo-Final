@@ -88,7 +88,7 @@ public class passengersAdapter extends RecyclerView.Adapter<passengersAdapter.My
         Random r = new Random();
         Random k = new Random();
         fromDriver = k.nextInt(50 - 14 + 1) + 14;
-        fromEvent = r.nextInt(435 - 400) + 400;
+        fromEvent = r.nextInt(72 - 31 + 1) + 31;
         holder.distanceFromDriver.setText(fromDriver+ " km");
         holder.distanceFromEvent.setText(fromEvent + "km");
 
