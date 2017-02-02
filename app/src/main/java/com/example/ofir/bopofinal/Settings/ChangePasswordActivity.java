@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.ofir.bopofinal.LoginRegister.LoggedInUserService;
+import com.example.ofir.bopofinal.MainAppScreenActivity;
 import com.example.ofir.bopofinal.R;
 
 import org.json.JSONException;
@@ -97,7 +98,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
                         LoggedInUserService.getInstance().setM_password(newPass);
                         Toast.makeText(ChangePasswordActivity.this, "password changed",
                                 Toast.LENGTH_LONG).show();
-                        intent = new Intent(ChangePasswordActivity.this, SettingsActivity.class);
+                        intent = new Intent(ChangePasswordActivity.this, MainAppScreenActivity.class);
                         ChangePasswordActivity.this.startActivity(intent);
 
                     } else {
